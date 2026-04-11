@@ -20,13 +20,17 @@ class Target:
         rcs: Radar cross section [m^2].  Required for skin return amplitude;
             unused by jammer return amplitude in physical mode.
         sv: Steering vector component for a single array element [dimensionless].
+            Used by RDM module to for array element specific responses.
             Defaults to 1 (isotropic / no array).
+        angle: Angle of arrival [degrees], 0 = broadside.  Used by the STAP
+            module for spatial steering.  Defaults to 0.
     """
 
     range: float
     range_rate: float
     rcs: float | None = None
     sv: complex = 1
+    angle: float = 0.0
 
 
 @dataclass
