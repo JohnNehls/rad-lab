@@ -8,3 +8,8 @@ dist
 /docs/mkdocs/site/
 /docs/ltximg/
 /docs/mkdocs/docs/gallery/
+
+# Emacs
+*~
+\#*\#
+.\#*

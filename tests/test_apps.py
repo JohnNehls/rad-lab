@@ -47,7 +47,9 @@ FIGURE_BASELINE_DIR = BASELINE_DIR / "figures"
 # matplotlib/freetype upgrade may require refreshing the image baselines.
 FIGURE_TOL = 10.0
 
-SCRIPTS = sorted(APPS_DIR.rglob("*.py"))
+# Skip editor artifacts (Emacs autosave ``#file#`` and lock ``.#file`` symlinks)
+# that can share the ``.py`` suffix while a script is open in an editor.
+SCRIPTS = sorted(p for p in APPS_DIR.rglob("*.py") if not p.name.startswith(("#", ".#")))
 
 
 def _script_id(script: Path) -> str:

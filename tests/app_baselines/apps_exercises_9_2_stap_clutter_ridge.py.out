@@ -1,0 +1,4 @@
+## STAP Clutter Ridge / SINR Loss ##
+  Array 8 elements, 16 pulses -> NM = 128 DoF
+  Platform velocity 100 m/s, CNR 16 dB
+  Minimum detectable velocity (SINR loss recovers to -3 dB): ~14.1 m/s
