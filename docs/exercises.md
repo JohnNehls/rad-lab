@@ -371,6 +371,78 @@ checks against true values (tolerance: 2 range bins / 2 Doppler bins).
 
 ---
 
+## 6 — Detection Theory
+
+### Exercise 6.1: Detection Theory Fundamentals
+
+Compute and plot detection probability as a function of SNR for
+non-fluctuating and fluctuating targets, ROC curves, and the effect
+of non-coherent integration on required per-pulse SNR.
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| $P_{fa}$           | $10^{-6}$     |
+| SNR sweep          | 0 to 25 dB, step 0.2 dB |
+
+**Figure 1 — $P_d$ vs SNR:** Three curves (Swerling 0, I, III) at
+$P_{fa} = 10^{-6}$.  Swerling 0 is steepest; Swerling I requires
+the most SNR due to deep fading.
+
+**Figure 2 — ROC curves:** $P_d$ vs $P_{fa}$ (log scale) for Swerling 0
+at SNR = 5, 8, 10, 13, 15 dB.
+
+**Figure 3 — Required SNR$_1$ vs $N$:** Exact numerical inversion and
+Albersheim's closed-form approximation for $P_d = 0.9$, $P_{fa} = 10^{-6}$,
+$N = 1$ to 64 non-coherently integrated pulses.
+
+**Figure 4 — Coherent vs Non-Coherent Integration:** Per-pulse SNR on
+the x-axis, comparing coherent single-look detection against NCI with
+$N$ = 5, 10, 20 pulses.
+
+**Output:** Printed table of required SNR for $P_d = 0.9$:
+
+| Model       | Post-integration SNR |
+|-------------|---------------------|
+| Swerling 0  | 13.2 dB             |
+| Swerling I  | 21.1 dB             |
+| Swerling III| 17.0 dB             |
+
+Required per-pulse SNR (Swerling 0, NCI): 13.2 dB ($N=1$), 7.5 dB
+($N=5$), 5.3 dB ($N=10$), 3.2 dB ($N=20$), 0.6 dB ($N=50$).
+
+### Exercise 6.2: MTI Cancellers
+
+Apply 2-pulse and 3-pulse MTI cancellers to a cluttered datacube and
+compare against conventional Doppler processing.
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| Bandwidth          | 5 MHz          |
+| Carrier frequency  | 10 GHz         |
+| Transmit power     | 1 kW           |
+| Tx/Rx gain         | 30 dB each     |
+| Temperature        | 290 K          |
+| Sample rate        | 10 MHz         |
+| Noise factor       | 5 dB           |
+| System losses      | 3 dB           |
+| PRF                | 10 kHz         |
+| Dwell time         | 6.4 ms (64 pulses) |
+| Waveform           | LFM, $T = 1\ \mu$s, up-chirp |
+| Clutter            | 40 dB CNR, zero Doppler, all range bins |
+| Target 1           | 5 km, $-300$ m/s, 20 dBsm |
+| Target 2           | 3 km, $-50$ m/s, 10 dBsm  |
+
+**Figure 1:** Three side-by-side RDMs — no MTI, 2-pulse MTI, 3-pulse MTI.
+The no-MTI map is dominated by the clutter ridge at zero Doppler.  After
+cancellation the clutter is suppressed and both targets become visible.
+
+**Figure 2:** Normalised frequency response of 2-pulse, 3-pulse, and
+4-pulse cancellers, showing the DC null depth and blind-speed notch widths.
+
+**Output:** Printed peak power for each case.
+
+---
+
 ## 7 — Linear Arrays
 
 ### Exercise 7.0: ULA Array Factor Studies
