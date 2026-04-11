@@ -24,6 +24,7 @@ from .sar_radar import SarRadar, SarTarget
 from . import ambiguity
 from . import detection
 from . import cfar
+from . import multiprf
 from . import rdm
 from . import sar
 from . import stap
@@ -45,6 +46,7 @@ __all__ = [
     "ambiguity",
     "detection",
     "cfar",
+    "multiprf",
     "rdm",
     "sar",
     "stap",
