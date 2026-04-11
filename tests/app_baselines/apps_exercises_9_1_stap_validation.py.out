@@ -1,0 +1,31 @@
+============================================================
+STAP Validation
+============================================================
+
+--- Test 1: No clutter (verify target placement) ---
+  Expected range:      7.0 km
+  Detected range:      7.0 km
+  Expected range-rate: -30.0 m/s
+  Detected range-rate: -28.1 m/s
+  Range error:  25.0 m (tolerance: 300.0 m) PASS
+  Rdot error:   1.9 m/s (tolerance: 18.8 m/s) PASS
+
+--- Test 2: With clutter (verify STAP suppression) ---
+  Pulse length: 21 samples -> using n_guard=26
+  Conventional clutter power: 53.9 dB
+  Adaptive clutter power:     12.1 dB
+  Clutter suppression:        41.8 dB PASS
+
+--- Test 3: Target preservation in the adaptive RDM ---
+  Adaptive peak range:      7.0 km (target 7.0 km)
+  Adaptive peak range-rate: -28.1 m/s (target -30.0 m/s)
+  Target prominence:        60.6 dB above the residual floor
+  Target is dominant peak:  PASS
+
+--- Test 4: Space-time steering vector ---
+  Spatial steering vector error: 0.00e+00 PASS
+  Temporal steering vector error: 0.00e+00 PASS
+
+============================================================
+Overall: ALL TESTS PASSED
+============================================================
