@@ -85,11 +85,11 @@ def gen(
         # - The SNR is calculated at the initial range and does not change in time
         noise_dc = unity_variance_complex_noise(signal_dc.shape) / np.sqrt(radar.n_pulses)
     else:
-        ### Determin scaling factors for max voltage ###
+        ### Scale complex Gaussian noise to the receiver noise voltage ###
         rxVolt_noise = np.sqrt(
             c.RADAR_LOAD * noise_power(waveform.bw, radar.noise_factor, radar.op_temp)
         )
-        noise_dc = np.random.uniform(low=-1, high=1, size=signal_dc.shape) * rxVolt_noise
+        noise_dc = unity_variance_complex_noise(signal_dc.shape) * rxVolt_noise
     add_returns(signal_dc, waveform, return_list, radar, snr=snr)
 
     total_dc = signal_dc + noise_dc  # adding after return keeps clean signal_dc for plotting
