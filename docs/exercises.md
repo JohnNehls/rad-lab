@@ -330,6 +330,45 @@ Apply CA-CFAR, GOCA-CFAR, and SOCA-CFAR to an RDM with three targets.
 **Figure 1:** CA-CFAR detections overlaid on RDM.
 **Figure 2:** 3 subplots comparing CA, GOCA, and SOCA detection counts.
 
+### Exercise 5.2: Multiple-PRF Ambiguity Resolution
+
+Generate RDMs at three different PRFs for a target whose true range and
+range-rate exceed the unambiguous window of each individual PRF.  Use the
+coincidence resolver to recover the true target parameters.
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| Bandwidth          | 5 MHz          |
+| Carrier frequency  | 10 GHz         |
+| Transmit power     | 1 kW           |
+| Tx/Rx gain         | 30 dB each     |
+| Temperature        | 290 K          |
+| Sample rate        | 10 MHz         |
+| Noise factor       | 5 dB           |
+| System losses      | 3 dB           |
+| Dwell time         | 1.6 ms         |
+| Waveform           | LFM, $T = 1\ \mu$s, up-chirp |
+| Target             | 10 km, $-200$ m/s, 30 dBsm |
+
+| PRF     | $R_{ua}$ | $\dot{r}_{ua}$ | Aliased range | Aliased $\dot{r}$ |
+|---------|----------|-----------------|---------------|--------------------|
+| 20 kHz  | 7.5 km   | $\pm 150$ m/s  | 2.5 km        | 100 m/s            |
+| 25 kHz  | 6.0 km   | $\pm 187.5$ m/s| 4.0 km        | 175 m/s            |
+| 50 kHz  | 3.0 km   | $\pm 375$ m/s  | 1.0 km        | $-200$ m/s         |
+
+Combined unambiguous range: 30 km.  Combined unambiguous range-rate:
+$\pm 750$ m/s.
+
+**Figure 1:** Three side-by-side RDMs (one per PRF) showing the target at
+different aliased range and range-rate positions.
+
+**Figure 2:** Resolution diagram — two subplots (range and range-rate).
+Each PRF's unambiguous interval is drawn as a shaded band with the observed
+detection marked.  A vertical dashed line shows the resolved true value.
+
+**Output:** Printed detections, resolved range and range-rate, and PASS/FAIL
+checks against true values (tolerance: 2 range bins / 2 Doppler bins).
+
 ---
 
 ## 7 — Linear Arrays
