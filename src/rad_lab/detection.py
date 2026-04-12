@@ -16,7 +16,9 @@ Model       RCS fluctuation                Decorrelation
 ==========  =============================  =============================
 0 (or V)    Non-fluctuating (constant)     —
 I           Chi-squared, 2 DOF (Rayleigh)  Scan-to-scan (slow)
+II          Chi-squared, 2 DOF (Rayleigh)  Pulse-to-pulse (fast)
 III         Chi-squared, 4 DOF (Rician)    Scan-to-scan (slow)
+IV          Chi-squared, 4 DOF (Rician)    Pulse-to-pulse (fast)
 ==========  =============================  =============================
 
 References
@@ -28,7 +30,9 @@ McGraw-Hill, 2014, Ch. 5–6.
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import chi2, ncx2
+from scipy.special import gammaincc, gammaln
 from scipy.optimize import brentq
+from scipy import integrate
 
 
 # ---------------------------------------------------------------------------
@@ -126,14 +130,16 @@ def pd_swerling3(snr, pfa):
     r"""Detection probability for a Swerling III target.
 
     The RCS follows a chi-squared distribution with 4 DOF (two dominant
-    scatterers), decorrelating scan-to-scan.  Closed-form result:
+    scatterers), decorrelating scan-to-scan.  The closed-form result is
+    obtained by averaging the Swerling 0 detection probability over the
+    :math:`\Gamma(2,\, \text{SNR}/2)` RCS distribution:
 
     .. math::
 
-        P_d = \left(1 + \frac{2\,V_T}{2 + \text{SNR}}\right)
-              \, P_{fa}^{2/(2 + \text{SNR})}
+        P_d = e^{-2 V_T / (S+2)}
+              \left(1 + \frac{2\,S\,V_T}{(S+2)^2}\right)
 
-    where :math:`V_T = -\ln P_{fa}`.
+    where :math:`V_T = -\ln P_{fa}` and :math:`S = \text{SNR}`.
 
     Args:
         snr: Average post-integration SNR (linear).
@@ -144,7 +150,8 @@ def pd_swerling3(snr, pfa):
     """
     snr = np.asarray(snr, dtype=float)
     vt = threshold_factor(pfa)
-    return (1 + 2 * vt / (2 + snr)) * pfa ** (2 / (2 + snr))
+    s2 = snr + 2
+    return np.exp(-2 * vt / s2) * (1 + 2 * snr * vt / s2**2)
 
 
 # ---------------------------------------------------------------------------
@@ -172,6 +179,173 @@ def pd_swerling0_nci(snr_per_pulse, pfa, n_pulses):
     thresh = chi2.isf(pfa, 2 * n_pulses)
     nc = np.maximum(2 * n_pulses * snr_per_pulse, 1e-30)
     return ncx2.sf(thresh, 2 * n_pulses, nc)
+
+
+def pd_swerling1_nci(snr_per_pulse, pfa, n_pulses):
+    r"""Detection probability for Swerling I with non-coherent integration.
+
+    Swerling I: RCS is constant within a dwell (scan-to-scan fluctuation)
+    with chi-squared 2 DOF (exponential) distribution.  All *N* pulses
+    see the same random RCS, so the conditional :math:`P_d` is the
+    Swerling 0 NCI result averaged over the exponential RCS:
+
+    .. math::
+
+        P_d = \int_0^\infty P_{d,\text{Sw0}}(\sigma,\, P_{fa},\, N)
+              \;\frac{1}{\overline{\text{SNR}}}
+              e^{-\sigma / \overline{\text{SNR}}} \, d\sigma
+
+    Args:
+        snr_per_pulse: Average single-pulse SNR (linear).
+        pfa: Probability of false alarm.
+        n_pulses: Number of non-coherently integrated pulses.
+
+    Returns:
+        Detection probability.
+    """
+    snr_per_pulse = np.asarray(snr_per_pulse, dtype=float)
+    scalar = snr_per_pulse.ndim == 0
+    snr_arr = np.atleast_1d(snr_per_pulse)
+
+    result = np.empty_like(snr_arr)
+    for i, snr_avg in enumerate(snr_arr):
+        if snr_avg < 1e-10:
+            result[i] = pfa
+            continue
+
+        # Substitution t = σ / SNR_avg normalises the weight to Exp(1)
+        def integrand(t, _snr=snr_avg):
+            return pd_swerling0_nci(t * _snr, pfa, n_pulses) * np.exp(-t)
+
+        result[i], _ = integrate.quad(integrand, 0, np.inf, limit=100)
+
+    return float(result[0]) if scalar else result
+
+
+def pd_swerling2(snr_per_pulse, pfa, n_pulses):
+    r"""Detection probability for Swerling II with non-coherent integration.
+
+    Swerling II: RCS fluctuates pulse-to-pulse with chi-squared 2 DOF
+    (exponential) distribution.  Each pulse sees an independent RCS, so
+    after square-law detection each output is independently
+    :math:`\text{Exp}(1 + \overline{\text{SNR}})`.  The NCI sum follows
+    a Gamma distribution and the detection probability is:
+
+    .. math::
+
+        P_d = Q\!\bigl(N,\; V_T / (1 + \overline{\text{SNR}})\bigr)
+
+    where :math:`Q(a, x) = \Gamma(a, x) / \Gamma(a)` is the regularised
+    upper incomplete gamma function.
+
+    For :math:`N = 1` this reduces to the Swerling I single-look result.
+
+    Args:
+        snr_per_pulse: Average single-pulse SNR (linear).
+        pfa: Probability of false alarm.
+        n_pulses: Number of non-coherently integrated pulses.
+
+    Returns:
+        Detection probability.
+    """
+    snr_per_pulse = np.asarray(snr_per_pulse, dtype=float)
+    vt = threshold_factor_nci(pfa, n_pulses)
+    return gammaincc(n_pulses, np.maximum(vt / (1 + snr_per_pulse), 0))
+
+
+def pd_swerling3_nci(snr_per_pulse, pfa, n_pulses):
+    r"""Detection probability for Swerling III with non-coherent integration.
+
+    Swerling III: RCS is constant within a dwell (scan-to-scan) with
+    chi-squared 4 DOF distribution.  Conditional :math:`P_d` is the
+    Swerling 0 NCI result averaged over the :math:`\Gamma(2,\,
+    \overline{\text{SNR}}/2)` RCS distribution:
+
+    .. math::
+
+        P_d = \int_0^\infty P_{d,\text{Sw0}}(\sigma,\, P_{fa},\, N)
+              \;\frac{4\,\sigma}{\overline{\text{SNR}}^2}
+              \,e^{-2\sigma / \overline{\text{SNR}}} \, d\sigma
+
+    Args:
+        snr_per_pulse: Average single-pulse SNR (linear).
+        pfa: Probability of false alarm.
+        n_pulses: Number of non-coherently integrated pulses.
+
+    Returns:
+        Detection probability.
+    """
+    snr_per_pulse = np.asarray(snr_per_pulse, dtype=float)
+    scalar = snr_per_pulse.ndim == 0
+    snr_arr = np.atleast_1d(snr_per_pulse)
+
+    result = np.empty_like(snr_arr)
+    for i, snr_avg in enumerate(snr_arr):
+        if snr_avg < 1e-10:
+            result[i] = pfa
+            continue
+        beta = snr_avg / 2
+
+        # Substitution t = σ / β normalises the weight to Gamma(2, 1)
+        def integrand(t, _beta=beta):
+            return pd_swerling0_nci(t * _beta, pfa, n_pulses) * t * np.exp(-t)
+
+        result[i], _ = integrate.quad(integrand, 0, np.inf, limit=100)
+
+    return float(result[0]) if scalar else result
+
+
+def pd_swerling4(snr_per_pulse, pfa, n_pulses):
+    r"""Detection probability for Swerling IV with non-coherent integration.
+
+    Swerling IV: RCS fluctuates pulse-to-pulse with chi-squared 4 DOF
+    distribution.  Each of the *N* pulses sees an independent RCS draw
+    :math:`\sigma_k \sim \Gamma(2,\, \overline{\text{SNR}}/2)`.  The NCI
+    sum of square-law outputs is non-central chi-squared with the total
+    non-centrality equal to :math:`2 \sum \sigma_k`.  Since the sum
+    :math:`S = \sum \sigma_k \sim \Gamma(2N,\, \overline{\text{SNR}}/2)`,
+    the detection probability is:
+
+    .. math::
+
+        P_d = \int_0^\infty P\bigl(\chi^2_{2N,\,2s} > T\bigr)
+              \; f_{\Gamma(2N,\,\beta)}(s) \, ds
+
+    For :math:`N = 1` this reduces to the Swerling III single-look result.
+
+    Args:
+        snr_per_pulse: Average single-pulse SNR (linear).
+        pfa: Probability of false alarm.
+        n_pulses: Number of non-coherently integrated pulses.
+
+    Returns:
+        Detection probability.
+    """
+    snr_per_pulse = np.asarray(snr_per_pulse, dtype=float)
+    scalar = snr_per_pulse.ndim == 0
+    snr_arr = np.atleast_1d(snr_per_pulse)
+
+    thresh = chi2.isf(pfa, 2 * n_pulses)
+    df = 2 * n_pulses
+
+    result = np.empty_like(snr_arr)
+    for i, snr_avg in enumerate(snr_arr):
+        if snr_avg < 1e-10:
+            result[i] = pfa
+            continue
+        beta = snr_avg / 2
+        shape = 2 * n_pulses  # Gamma shape for sum of N iid Gamma(2, β)
+
+        # Substitution t = s / β normalises the weight to Gamma(shape, 1)
+        def integrand(t, _shape=shape, _beta=beta):
+            nc = max(2 * t * _beta, 1e-30)
+            pd_cond = ncx2.sf(thresh, df, nc)
+            log_w = (_shape - 1) * np.log(max(t, 1e-300)) - t - gammaln(_shape)
+            return pd_cond * np.exp(log_w)
+
+        result[i], _ = integrate.quad(integrand, 0, np.inf, limit=200)
+
+    return float(result[0]) if scalar else result
 
 
 # ---------------------------------------------------------------------------
@@ -208,25 +382,35 @@ def required_snr(pd, pfa, model="swerling0"):
     return float(brentq(objective, -20, 60))
 
 
-def required_snr_nci(pd, pfa, n_pulses):
-    r"""Required single-pulse SNR for non-coherent integration (Swerling 0).
+def required_snr_nci(pd, pfa, n_pulses, model="swerling0"):
+    r"""Required single-pulse SNR for non-coherent integration.
 
-    Numerically inverts :func:`pd_swerling0_nci` to find the per-pulse
-    SNR that achieves the target :math:`P_d` after non-coherently
-    integrating *n_pulses* independent looks.
+    Numerically inverts the NCI detection probability function for the
+    specified Swerling model to find the per-pulse SNR that achieves
+    the target :math:`P_d`.
 
     Args:
         pd: Desired detection probability.
         pfa: Desired false-alarm probability.
         n_pulses: Number of non-coherently integrated pulses.
+        model: Swerling model — ``"swerling0"``, ``"swerling1"``,
+            ``"swerling2"``, ``"swerling3"``, or ``"swerling4"``.
 
     Returns:
         Required single-pulse SNR in **dB**.
     """
+    dispatch = {
+        "swerling0": lambda s: pd_swerling0_nci(s, pfa, n_pulses),
+        "swerling1": lambda s: pd_swerling1_nci(s, pfa, n_pulses),
+        "swerling2": lambda s: pd_swerling2(s, pfa, n_pulses),
+        "swerling3": lambda s: pd_swerling3_nci(s, pfa, n_pulses),
+        "swerling4": lambda s: pd_swerling4(s, pfa, n_pulses),
+    }
+    func = dispatch[model]
 
     def objective(snr_db):
         snr_lin = 10 ** (snr_db / 10)
-        return pd_swerling0_nci(snr_lin, pfa, n_pulses) - pd
+        return func(snr_lin) - pd
 
     return float(brentq(objective, -20, 60))
 

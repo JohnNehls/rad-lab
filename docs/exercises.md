@@ -405,7 +405,7 @@ $N$ = 5, 10, 20 pulses.
 |-------------|---------------------|
 | Swerling 0  | 13.2 dB             |
 | Swerling I  | 21.1 dB             |
-| Swerling III| 17.0 dB             |
+| Swerling III| 17.3 dB             |
 
 Required per-pulse SNR (Swerling 0, NCI): 13.2 dB ($N=1$), 7.5 dB
 ($N=5$), 5.3 dB ($N=10$), 3.2 dB ($N=20$), 0.6 dB ($N=50$).
@@ -440,6 +440,80 @@ cancellation the clutter is suppressed and both targets become visible.
 4-pulse cancellers, showing the DC null depth and blind-speed notch widths.
 
 **Output:** Printed peak power for each case.
+
+### Exercise 6.3: Swerling Fluctuation Models
+
+Compare all five Swerling target-fluctuation models under non-coherent
+integration (NCI) to show the effect of RCS decorrelation rate and
+degrees of freedom.
+
+| Model | DOF | Decorrelation  | Physical interpretation        |
+|-------|-----|----------------|--------------------------------|
+| 0 / V | --  | Non-fluctuating | Ideal / calibration target     |
+| I     | 2   | Scan-to-scan   | Single dominant scatterer      |
+| II    | 2   | Pulse-to-pulse | Single scatterer, fast fading  |
+| III   | 4   | Scan-to-scan   | Few comparable scatterers      |
+| IV    | 4   | Pulse-to-pulse | Few scatterers, fast fading    |
+
+$P_{fa} = 10^{-6}$ throughout.
+
+**Figure 1:** $P_d$ vs per-pulse SNR for all five models with $N = 10$.
+Ordering: Swerling 0 (best), IV, II, III, I (worst).  Pulse-to-pulse
+models outperform their scan-to-scan counterparts because NCI provides
+a diversity gain.
+
+**Figure 2:** Two subplots — Swerling I vs II (2 DOF) and III vs IV
+(4 DOF) at $N = 1, 5, 10, 30$.  At $N = 1$ the pairs overlap; as $N$
+grows the pulse-to-pulse model pulls ahead.
+
+**Figure 3:** Required per-pulse SNR vs $N$ for $P_d = 0.9$, all models.
+
+**Output:** Table of required per-pulse SNR ($N = 10$, $P_d = 0.9$):
+
+| Model       | Req. SNR/pulse |
+|-------------|---------------|
+| Swerling 0  | 5.3 dB        |
+| Swerling I  | 13.5 dB       |
+| Swerling II | 6.3 dB        |
+| Swerling III| 9.6 dB        |
+| Swerling IV | 5.8 dB        |
+
+### Exercise 6.4: Swerling RCS Fluctuation in the RDM
+
+Demonstrate how Swerling target-fluctuation models affect the range-Doppler
+map when RCS fluctuation is applied during datacube generation.
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| Bandwidth          | 5 MHz          |
+| Carrier frequency  | 10 GHz         |
+| Transmit power     | 1 kW           |
+| Tx/Rx gain         | 30 dB each     |
+| Temperature        | 290 K          |
+| Sample rate        | 10 MHz         |
+| Noise factor       | 5 dB           |
+| System losses      | 3 dB           |
+| PRF                | 10 kHz         |
+| Dwell time         | 6.4 ms (64 pulses) |
+| Waveform           | LFM, $T = 1\ \mu$s, up-chirp |
+| Average RCS        | 10 m$^2$       |
+| Range rate         | $-200$ m/s     |
+
+Three targets at 3, 5, and 7 km with different Swerling models share the
+same average RCS and range rate so the only difference is the fluctuation.
+
+**Figure 1 — Pulse-to-pulse models:** RDM with Swerling 0 (3 km),
+II (5 km), and IV (7 km).  The pulse-to-pulse amplitude modulation from
+models II and IV spreads energy into Doppler sidelobes.
+
+**Figure 2 — Scan-to-scan models:** Two independent dwells side by side
+with Swerling 0 (3 km), I (5 km), and III (7 km).  The Doppler response
+is clean within each dwell, but the peak amplitude of I and III targets
+changes between dwells.
+
+**Figure 3 — Doppler cuts:** Left: pulse-to-pulse models showing sidelobe
+spreading.  Right: scan-to-scan models overlaying two dwells, showing
+amplitude variation.
 
 ---
 
