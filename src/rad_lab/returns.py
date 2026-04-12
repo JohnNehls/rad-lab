@@ -19,6 +19,22 @@ class Target:
         range_rate: Radial velocity (positive = receding) [m/s].
         rcs: Radar cross section [m^2].  Required for skin return amplitude;
             unused by jammer return amplitude in physical mode.
+            For Swerling models I–IV this is the *average* RCS; the actual
+            per-pulse RCS is drawn from the appropriate chi-squared
+            distribution during datacube generation.
+        swerling: Swerling fluctuation model (0–4).  Defaults to 0
+            (non-fluctuating).
+
+            =======  ====  ============================
+            Model    DOF   Decorrelation
+            =======  ====  ============================
+            0        --    Non-fluctuating (constant)
+            I        2     Scan-to-scan (slow)
+            II       2     Pulse-to-pulse (fast)
+            III      4     Scan-to-scan (slow)
+            IV       4     Pulse-to-pulse (fast)
+            =======  ====  ============================
+
         sv: Steering vector component for a single array element [dimensionless].
             Used by RDM module to for array element specific responses.
             Defaults to 1 (isotropic / no array).
@@ -29,6 +45,7 @@ class Target:
     range: float
     range_rate: float
     rcs: float | None = None
+    swerling: int = 0
     sv: complex = 1
     angle: float = 0.0
 
