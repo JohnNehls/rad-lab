@@ -515,6 +515,89 @@ changes between dwells.
 spreading.  Right: scan-to-scan models overlaying two dwells, showing
 amplitude variation.
 
+### Exercise 6.5: Monte Carlo Validation of Swerling NCI Detection Theory
+
+Validate the theoretical detection probability functions
+(`pd_swerling{0,1,2,3,4}_nci`) against a Monte Carlo simulation that
+performs the exact processing the theory models: square-law detection of
+individual pulses followed by non-coherent summation.
+
+**Why not RDMs?** The Doppler FFT is coherent integration — a
+fundamentally different processing chain from square-law NCI.  The
+theoretical $P_d$ functions model square-law-then-sum, so the Monte Carlo
+must match that processing to get an apples-to-apples comparison.
+
+**Signal model per pulse:**
+
+$$s_i = \sqrt{\text{SNR} \cdot \sigma_i / \bar\sigma} \; e^{j\theta_i}$$
+$$x_i = s_i + n_i, \qquad n_i \sim \mathcal{CN}(0, 1)$$
+$$y_i = |x_i|^2 \qquad \text{(square-law detection)}$$
+
+where $\theta_i$ is a uniform random phase and $n_i$ is unit-variance
+complex Gaussian noise.
+
+**NCI test statistic:** $T = \sum_{i=1}^{N} y_i$
+
+**Threshold:** $V_T = \chi^2_{2N,\,\text{isf}}(P_{fa}) \,/\, 2$ via
+`detection.threshold_factor_nci`.
+
+**Detection:** $T > V_T$
+
+**RCS draws per Swerling model:**
+
+| Model | DOF | Draw rule |
+|-------|-----|-----------|
+| 0     | --  | $\sigma_i = \bar\sigma$ (constant) |
+| I     | 2   | One $\sigma \sim \text{Exp}(\bar\sigma)$, same for all $N$ pulses |
+| II    | 2   | Independent $\sigma_i \sim \text{Exp}(\bar\sigma)$ per pulse |
+| III   | 4   | One $\sigma \sim \Gamma(2, \bar\sigma/2)$, same for all $N$ pulses |
+| IV    | 4   | Independent $\sigma_i \sim \Gamma(2, \bar\sigma/2)$ per pulse |
+
+| Parameter              | Value |
+|------------------------|-------|
+| $P_{fa}$               | $10^{-6}$ |
+| SNR sweep              | $-5$ to 25 dB, 31 points |
+| $N$ (Figure 1)         | 10 |
+| $N$ (Figure 2)         | 1, 5, 10, 30 |
+| Trials per SNR point   | 50,000 |
+| Trials for $H_0$ check | 200,000 |
+
+**Figure 1 — All five models, $N = 10$:** $P_d$ vs per-pulse SNR.
+Theoretical curves (solid lines) from the detection module.  Empirical
+points (markers) from Monte Carlo.  Markers track curves within
+statistical noise for all five models.
+
+**Figure 2 — Convergence with $N$:** Two subplots (Swerling I and III).
+Each shows $N = 1, 5, 10, 30$ with theory and Monte Carlo overlaid.
+Demonstrates NCI diversity gain for scan-to-scan models as $N$ grows.
+
+**Figure 3 — False-alarm histogram:** Distribution of the NCI test
+statistic under $H_0$ (signal absent) overlaid with the theoretical
+$\chi^2(2N)/2$ PDF.  Threshold $V_T$ marked with a vertical line.
+Confirms the noise model and threshold calibration.
+
+**Output:** Comparison table at SNR = 10 dB, $N = 10$:
+
+| Model       | Theory | Empirical |   Δ    |
+|-------------|--------|-----------|--------|
+| Swerling 0  | 1.0000 |    1.0000 | +0.000 |
+| Swerling II | 0.9990 |    0.9991 | +0.000 |
+| Swerling IV | 1.0000 |    1.0000 | +0.000 |
+| Swerling III| 0.9139 |    0.9143 | +0.000 |
+| Swerling I  | 0.7911 |    0.7933 | +0.002 |
+
+**Key takeaways:**
+- Empirical $P_d$ matches theory to within statistical noise ($|\Delta|
+  < 0.003$) for all five Swerling models, validating the closed-form and
+  quadrature implementations in the detection module.
+- NCI is square-law-then-sum — distinct from the coherent Doppler FFT
+  used in RDM generation.
+- Scan-to-scan models (I, III) draw one RCS per trial; all $N$ pulses
+  share the same amplitude.  Pulse-to-pulse models (II, IV) draw
+  independently per pulse.
+- The $H_0$ histogram confirms the $\chi^2(2N)/2$ noise model and
+  validates the threshold computation.
+
 ---
 
 ## 7 — Linear Arrays
