@@ -73,6 +73,53 @@ def _inject_pulses(
                 add_waveform_at_index(flat, pulse, sample_indices[i])
 
 
+def swerling_rcs(avg_rcs: float, swerling: int, n_pulses: int) -> np.ndarray:
+    """Draw per-pulse RCS values for a given Swerling fluctuation model.
+
+    Args:
+        avg_rcs: Mean RCS [m^2].
+        swerling: Swerling model number (0–4).
+        n_pulses: Number of pulses in the dwell.
+
+    Returns:
+        1-D array of length *n_pulses* containing the RCS for each pulse.
+        For Swerling 0 every element equals *avg_rcs*.
+
+    The chi-squared RCS distributions are parameterised so that the mean
+    equals *avg_rcs*:
+
+    - **2 DOF** (Swerling I/II): ``Exponential(avg_rcs)`` — equivalent to
+      ``chi2(2) * avg_rcs / 2``.
+    - **4 DOF** (Swerling III/IV): ``Gamma(2, avg_rcs/2)`` — equivalent to
+      ``chi2(4) * avg_rcs / 4``.
+
+    Scan-to-scan models (I, III) draw *one* value and replicate it across
+    all pulses. Pulse-to-pulse models (II, IV) draw independently for each
+    pulse.
+    """
+    if swerling == 0:
+        return np.full(n_pulses, avg_rcs)
+
+    if swerling in (1, 2):
+        # 2 DOF: Exponential with mean = avg_rcs
+        scale = avg_rcs
+        shape = 1  # scipy Gamma shape parameter (k); Exp = Gamma(1, scale)
+    elif swerling in (3, 4):
+        # 4 DOF: Gamma(shape=2, scale=avg_rcs/2) → mean = 2*(avg_rcs/2) = avg_rcs
+        scale = avg_rcs / 2
+        shape = 2
+    else:
+        raise ValueError(f"Unknown Swerling model {swerling}; must be 0–4.")
+
+    if swerling in (1, 3):
+        # Scan-to-scan: one draw for the whole dwell
+        rcs_draw = np.random.gamma(shape, scale)
+        return np.full(n_pulses, rcs_draw)
+    else:
+        # Pulse-to-pulse: independent draw per pulse
+        return np.random.gamma(shape, scale, size=n_pulses)
+
+
 def add_skin(
     datacube: np.ndarray,
     waveform: WaveformSample,
@@ -92,12 +139,17 @@ def add_skin(
     drives both the round-trip delay and the carrier phase. The target is
     treated as stationary during the pulse and only "hops" between PRIs.
 
+    When the target has a non-zero Swerling model, the per-pulse amplitude is
+    scaled by ``sqrt(rcs_draw / avg_rcs)`` so that each pulse's received power
+    reflects the instantaneous RCS realisation.
+
     Args:
         datacube: 2D complex array to which the return is added.
         waveform: WaveformSample containing pulse data and parameters.
         tgt_info: Target kinematics and scattering parameters.
         radar: Radar system parameters.
-        return_magnitude: The voltage or SNR amplitude of the return for a single pulse.
+        return_magnitude: The voltage or SNR amplitude of the return for a
+            single pulse, computed from the *average* RCS.
     """
     pulse_tx_times = np.arange(radar.n_pulses) / radar.prf
     target_range_per_pulse = tgt_info.range + tgt_info.range_rate * pulse_tx_times
@@ -106,12 +158,20 @@ def add_skin(
     two_way_doppler_phases = _propagation_phase(two_way_delays, radar.fcar)
     return_sample_indices = _return_sample_indices(pulse_return_times, waveform, radar.sample_rate)
 
+    # Per-pulse amplitude: scale by sqrt(rcs_i / avg_rcs) for Swerling models
+    if tgt_info.swerling != 0 and tgt_info.rcs is not None and tgt_info.rcs > 0:
+        rcs_draws = swerling_rcs(tgt_info.rcs, tgt_info.swerling, radar.n_pulses)
+        rcs_scale = np.sqrt(rcs_draws / tgt_info.rcs)
+        amplitude = return_magnitude * rcs_scale * tgt_info.sv
+    else:
+        amplitude = return_magnitude * tgt_info.sv
+
     _inject_pulses(
         datacube,
         waveform.pulse_sample,
         return_sample_indices,
         two_way_doppler_phases,
-        amplitude=return_magnitude * tgt_info.sv,
+        amplitude=amplitude,
     )
 
 
