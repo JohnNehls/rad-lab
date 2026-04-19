@@ -72,21 +72,21 @@ targets = [
 
 # -- Run with default Gaussian --
 print("Running spotlight with Gaussian beam pattern ...")
-cr_g, sr_g, _, sig_g = sar.gen(sar_radar, waveform, targets, seed=0, plot=False)
+cr_g, sr_g, img_g = sar.gen(sar_radar, waveform, targets, seed=0, plot=False)
 
 # -- Run with ULA pattern --
 print("Running spotlight with ULA beam pattern ...")
-cr_u, sr_u, _, sig_u = sar.gen(
+cr_u, sr_u, img_u = sar.gen(
     sar_radar, waveform, targets, seed=0, plot=False, beam_pattern=pattern_fn
 )
 
 # -- Compare focused images --
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-for ax, cr, sr_ax, sig, title in [
-    (axes[0], cr_g, sr_g, sig_g, "Gaussian beam"),
-    (axes[1], cr_u, sr_u, sig_u, "ULA beam (20 el)"),
+for ax, cr, sr_ax, img, title in [
+    (axes[0], cr_g, sr_g, img_g, "Gaussian beam"),
+    (axes[1], cr_u, sr_u, img_u, "ULA beam (20 el)"),
 ]:
-    mag = np.abs(sig)
+    mag = np.abs(img)
     mag_db = 20 * np.log10(mag / mag.max() + 1e-30)
     mesh = ax.pcolormesh(cr, sr_ax / 1e3, mag_db, vmin=-40, vmax=0)
     ax.set_title(title)

@@ -39,7 +39,7 @@ targets = [
     SarTarget(position=[5, 5e3, 0], rcs=10),
 ]
 
-cross_range, slant_range, total_dc, signal_dc = sar.gen(
+cross_range, slant_range, total_dc = sar.gen(
     sar_radar, waveform, targets, seed=0, plot=False, window="none"
 )
 
@@ -47,7 +47,7 @@ cross_range, slant_range, total_dc, signal_dc = sar.gen(
 fig, ax = sar.plot_sar_image(cross_range, slant_range, total_dc, "Focused SAR Image")
 
 # -- 2) Zoomed PSF around each target --
-mag = np.abs(signal_dc)
+mag = np.abs(total_dc)
 
 fig, axes = plt.subplots(1, 3, figsize=(15, 5))
 for i, (tgt, ax) in enumerate(zip(targets, axes)):
@@ -69,7 +69,7 @@ for i, (tgt, ax) in enumerate(zip(targets, axes)):
 fig.tight_layout()
 
 # -- 3) cross-range cuts around each target --
-mag = np.abs(signal_dc)
+mag = np.abs(total_dc)
 
 fig, axes = plt.subplots(1, 3, figsize=(18, 5))
 for i, (tgt, ax) in enumerate(zip(targets, axes)):

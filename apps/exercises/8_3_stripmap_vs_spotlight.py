@@ -52,10 +52,10 @@ spot_radar = SarRadar(
 
 # -- Run both modes --
 print("Running stripmap SAR ...")
-cr_s, sr_s, _, sig_s = sar.gen(strip_radar, waveform, targets, seed=0, plot=False)
+cr_s, sr_s, sig_s = sar.gen(strip_radar, waveform, targets, seed=0, plot=False)
 
 print("Running spotlight SAR ...")
-cr_p, sr_p, _, sig_p = sar.gen(spot_radar, waveform, targets, seed=0, plot=False)
+cr_p, sr_p, sig_p = sar.gen(spot_radar, waveform, targets, seed=0, plot=False)
 
 # -- Analyse centre target (index 1) --
 centre_tgt = targets[1]

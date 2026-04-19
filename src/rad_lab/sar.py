@@ -36,7 +36,7 @@ def gen(
     window: str = "chebyshev",
     window_kwargs: dict | None = None,
     beam_pattern: Callable[[np.ndarray], np.ndarray] | None = None,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate a focused SAR image from point-target returns.
 
     Simulates a SAR collection over a straight, level flight path.  For each
@@ -75,12 +75,11 @@ def gen(
             convenient way to build one from a ULA specification.
 
     Returns:
-        tuple: ``(cross_range_axis, r_axis, focused_dc, signal_dc)``:
+        tuple: ``(cross_range_axis, r_axis, focused_dc)``:
 
             - **cross_range_axis** (*np.ndarray*): 1-D cross-range axis [m].
             - **r_axis** (*np.ndarray*): 1-D slant-range axis [m].
             - **focused_dc** (*np.ndarray*): 2-D focused SAR image (signal + noise).
-            - **signal_dc** (*np.ndarray*): 2-D signal-only focused image.
     """
     np.random.seed(seed)
 
@@ -96,7 +95,7 @@ def gen(
     n_range_bins = number_range_bins(sar_radar.sample_rate, sar_radar.prf)
     r_axis = range_axis(sar_radar.sample_rate, n_range_bins)
 
-    signal_dc = data_cube(sar_radar.sample_rate, sar_radar.prf, sar_radar.n_pulses)
+    datacube = data_cube(sar_radar.sample_rate, sar_radar.prf, sar_radar.n_pulses)
 
     ########## Populate with target returns ########################################################
     beam_weights_fn = None
@@ -126,46 +125,39 @@ def gen(
         beam_weights_fn = _stripmap_beam_fn
 
     add_sar_returns(
-        signal_dc, waveform, sar_radar, target_list, platform_positions, beam_weights_fn
+        datacube, waveform, sar_radar, target_list, platform_positions, beam_weights_fn
     )
 
     ########## Add noise ##########################################################################
     rx_noise_volt = np.sqrt(
         c.RADAR_LOAD * noise_power(waveform.bw, sar_radar.noise_factor, sar_radar.op_temp)
     )
-    noise_dc = np.random.uniform(low=-1, high=1, size=signal_dc.shape) * rx_noise_volt
+    noise_dc = np.random.uniform(low=-1, high=1, size=datacube.shape) * rx_noise_volt
 
-    total_dc = signal_dc + noise_dc
+    datacube += noise_dc
+    del noise_dc
 
     if debug:
-        _plot_raw(r_axis, signal_dc, "Raw SAR data (noiseless)")
-
-    # Process both signal-only and total datacubes
-    dc_list = [signal_dc, total_dc]
+        _plot_raw(r_axis, datacube.real, "Raw SAR data (real)")
 
     ########## Range compression ##################################################################
-    for dc in dc_list:
-        matchfilter(dc, waveform.pulse_sample, pedantic=False)
+    matchfilter(datacube, waveform.pulse_sample, pedantic=False)
 
     if debug:
-        _plot_raw(r_axis, signal_dc, "Range-compressed (noiseless)")
+        _plot_raw(r_axis, datacube, "Range-compressed")
 
     ########## Azimuth windowing ##################################################################
-    win_mat = create_window(
-        signal_dc.shape, window=window, window_kwargs=window_kwargs, plot=False
-    )
-    for dc in dc_list:
-        dc *= win_mat
+    win_mat = create_window(datacube.shape, window=window, window_kwargs=window_kwargs, plot=False)
+    datacube *= win_mat
 
     ########## Azimuth compression (focusing) #####################################################
-    for dc in dc_list:
-        cross_range_axis = azimuth_matched_filter(dc, sar_radar, r_axis)
+    cross_range_axis = azimuth_matched_filter(datacube, sar_radar, r_axis)
 
     ########## Plot ###############################################################################
     if plot or debug:
-        plot_sar_image(cross_range_axis, r_axis, total_dc, "Focused SAR Image")
+        plot_sar_image(cross_range_axis, r_axis, datacube, "Focused SAR Image")
 
-    return cross_range_axis, r_axis, total_dc, signal_dc
+    return cross_range_axis, r_axis, datacube
 
 
 def plot_sar_image(

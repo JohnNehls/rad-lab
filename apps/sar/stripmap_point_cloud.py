@@ -96,7 +96,7 @@ targets = text_targets(
 )
 
 # -- Generate the focused SAR image --
-cross_range, slant_range, total_image, signal_image = sar.gen(
+cross_range, slant_range, total_image = sar.gen(
     sar_radar,
     waveform,
     targets,

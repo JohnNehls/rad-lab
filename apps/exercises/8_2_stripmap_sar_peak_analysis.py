@@ -34,11 +34,9 @@ targets = [
     SarTarget(position=[5, 5e3, 0], rcs=10),
 ]
 
-cross_range, slant_range, total_dc, signal_dc = sar.gen(
-    sar_radar, waveform, targets, seed=0, plot=False
-)
+cross_range, slant_range, total_dc = sar.gen(sar_radar, waveform, targets, seed=0, plot=False)
 
-mag = np.abs(signal_dc)
+mag = np.abs(total_dc)
 mag_db = 20 * np.log10(mag / mag.max() + 1e-30)
 
 print("=== Peak analysis ===")
