@@ -44,6 +44,11 @@ class WaveformSample:
         pulse_func: Callable that generates ``(time_array, pulse_array)`` when
             called with a sample rate [Hz].
         pulse_sample: Discrete complex pulse array at the radar sample rate.
+            Unit-amplitude (``|pulse_sample[n]| = 1`` over the pulse) — i.e.
+            a physical 1-Volt transmit envelope, with no DSP normalisation
+            applied.  The TB pulse-compression gain emerges from
+            :func:`rad_lab.rf_datacube.matchfilter` (which integrates with
+            ``Δt = 1/sample_rate``), not from rescaling stored here.
             Populated by :meth:`set_sample`; not set at construction time.
     """
 
@@ -291,7 +296,7 @@ def uncoded_waveform(bw: float) -> WaveformSample:
         bw=bw,
         time_bw_product=1,
         pulse_width=1 / bw,
-        pulse_func=partial(uncoded_pulse, bw=bw),
+        pulse_func=partial(uncoded_pulse, bw=bw, normalize=False),
     )
 
 
@@ -311,7 +316,7 @@ def barker_coded_waveform(bw: float, nchips: int) -> WaveformSample:
         bw=bw,
         time_bw_product=nchips,
         pulse_width=nchips / bw,
-        pulse_func=partial(barker_coded_pulse, bw=bw, nchips=nchips),
+        pulse_func=partial(barker_coded_pulse, bw=bw, nchips=nchips, normalize=False),
     )
 
 
@@ -330,7 +335,7 @@ def random_coded_waveform(bw: float, nchips: int) -> WaveformSample:
         bw=bw,
         time_bw_product=nchips,
         pulse_width=nchips / bw,
-        pulse_func=partial(random_coded_pulse, bw=bw, nchips=nchips),
+        pulse_func=partial(random_coded_pulse, bw=bw, nchips=nchips, normalize=False),
     )
 
 
@@ -351,5 +356,5 @@ def lfm_waveform(bw: float, T: float, chirp_up_down: int) -> WaveformSample:
         bw=bw,
         time_bw_product=bw * T,
         pulse_width=T,
-        pulse_func=partial(lfm_pulse, bw=bw, T=T, chirp_up_down=chirp_up_down),
+        pulse_func=partial(lfm_pulse, bw=bw, T=T, chirp_up_down=chirp_up_down, normalize=False),
     )

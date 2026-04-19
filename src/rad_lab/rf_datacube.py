@@ -96,12 +96,18 @@ def doppler_process(datacube: np.ndarray, fs: float) -> tuple[np.ndarray, np.nda
     return f_axis, R_axis
 
 
-def matchfilter(datacube: np.ndarray, pulse_wvf: np.ndarray, pedantic: bool = True) -> None:
+def matchfilter(
+    datacube: np.ndarray, pulse_wvf: np.ndarray, sample_rate: float, pedantic: bool = True
+) -> None:
     """Applies a matched filter to a datacube for pulse compression.
 
-    This function processes each pulse (column) in the datacube with a matched
-    filter to perform pulse compression, which improves signal-to-noise ratio
-    and range resolution. The operation is performed in-place.
+    This is a discrete approximation of the continuous-time correlator
+    ``y(t) = ∫ s(τ) p*(τ-t) dτ``: each output sample is the discrete sum
+    scaled by ``Δt = 1 / sample_rate``.  With a unit-amplitude transmit
+    pulse (``|p|=1`` over duration ``T``) this gives a peak output voltage
+    of ``V_rx · T`` and an output noise variance of ``R · N₀ · T``, so the
+    range-equation TB gain emerges from the SNR ratio without any explicit
+    rescaling of the pulse template.
 
     Two implementations are available:
     - Pedantic (True): Iteratively applies the matched filter to each pulse
@@ -112,24 +118,24 @@ def matchfilter(datacube: np.ndarray, pulse_wvf: np.ndarray, pedantic: bool = Tr
       waveform kernel and is generally faster for large datacubes.
 
     Args:
-        datacube (np.ndarray): The 2D time-domain datacube to be processed, with
-                               shape (N_range_bins, N_pulses). This array is
-                               modified in-place.
-        pulse_wvf (np.ndarray): A 1D array representing the transmitted pulse
-                                waveform samples.
-        pedantic (bool, optional): If True, uses the iterative, time-domain
-                                   filtering approach. If False, uses the
-                                   faster frequency-domain convolution.
-                                   Defaults to True.
+        datacube: 2D time-domain datacube with shape (N_range_bins, N_pulses),
+            modified in-place.
+        pulse_wvf: 1D transmitted pulse template (unit-amplitude convention,
+            see :class:`rad_lab.waveform.WaveformSample`).
+        sample_rate: ADC sample rate [Hz].  Used to scale the output by
+            ``Δt = 1/sample_rate``.
+        pedantic: If True, use the iterative time-domain helper; if False,
+            use FFT-based convolution.  Defaults to True.
 
     Returns:
         None: The `datacube` is modified in-place.
     """
+    dt = 1.0 / sample_rate
     if pedantic:
         for j in range(datacube.shape[1]):
             _, mf = matchfilter_with_waveform(datacube[:, j], pulse_wvf)
-            datacube[:, j] = mf
+            datacube[:, j] = mf * dt
     else:
-        # FFT-based matched filter applied to all pulses at once
         kernel = np.conj(pulse_wvf)[::-1]
         datacube[:] = signal.fftconvolve(datacube, kernel.reshape(-1, 1), mode="same", axes=0)
+        datacube *= dt

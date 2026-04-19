@@ -70,7 +70,9 @@ r_axis = range_axis(radar.sample_rate, number_range_bins(radar.sample_rate, rada
 signal_dc = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
 
 # Compute noise voltage for scaling
-rxVolt_noise = np.sqrt(c.RADAR_LOAD * noise_power(waveform.bw, radar.noise_factor, radar.op_temp))
+rxVolt_noise = np.sqrt(
+    c.RADAR_LOAD * noise_power(radar.sample_rate, radar.noise_factor, radar.op_temp)
+)
 noise_dc = np.random.uniform(low=-1, high=1, size=signal_dc.shape) * rxVolt_noise
 add_returns(signal_dc, waveform, return_list, radar)
 
@@ -110,7 +112,7 @@ rdm_list = signal_dc_ula_list + signal_dc_ula_list_timeshift
 
 # Apply matched filter to each datacube
 for dc in rdm_list:
-    matchfilter(dc, waveform.pulse_sample, pedantic=True)
+    matchfilter(dc, waveform.pulse_sample, radar.sample_rate, pedantic=True)
 
 # Apply Chebyshev window in slow time to suppress Doppler sidelobes
 chwin_norm_mat = create_window(signal_dc.shape, plot=False)

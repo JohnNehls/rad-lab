@@ -129,8 +129,10 @@ def gen(
     )
 
     ########## Add noise ##########################################################################
+    # PSD-based: σ² = R · N₀ · fs, so a B-wide band has variance R · N₀ · B.
     rx_noise_volt = np.sqrt(
-        c.RADAR_LOAD * noise_power(waveform.bw, sar_radar.noise_factor, sar_radar.op_temp)
+        c.RADAR_LOAD
+        * noise_power(sar_radar.sample_rate, sar_radar.noise_factor, sar_radar.op_temp)
     )
     noise_dc = np.random.uniform(low=-1, high=1, size=datacube.shape) * rx_noise_volt
 
@@ -141,7 +143,7 @@ def gen(
         _plot_raw(r_axis, datacube.real, "Raw SAR data (real)")
 
     ########## Range compression ##################################################################
-    matchfilter(datacube, waveform.pulse_sample, pedantic=False)
+    matchfilter(datacube, waveform.pulse_sample, sar_radar.sample_rate, pedantic=False)
 
     if debug:
         _plot_raw(r_axis, datacube, "Range-compressed")
