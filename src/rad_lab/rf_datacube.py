@@ -96,18 +96,14 @@ def doppler_process(datacube: np.ndarray, fs: float) -> tuple[np.ndarray, np.nda
     return f_axis, R_axis
 
 
-def matchfilter(
-    datacube: np.ndarray, pulse_wvf: np.ndarray, sample_rate: float, pedantic: bool = True
-) -> None:
+def matchfilter(datacube: np.ndarray, pulse_wvf: np.ndarray, pedantic: bool = True) -> None:
     """Applies a matched filter to a datacube for pulse compression.
 
-    This is a discrete approximation of the continuous-time correlator
-    ``y(t) = ∫ s(τ) p*(τ-t) dτ``: each output sample is the discrete sum
-    scaled by ``Δt = 1 / sample_rate``.  With a unit-amplitude transmit
-    pulse (``|p|=1`` over duration ``T``) this gives a peak output voltage
-    of ``V_rx · T`` and an output noise variance of ``R · N₀ · T``, so the
-    range-equation TB gain emerges from the SNR ratio without any explicit
-    rescaling of the pulse template.
+    Mirrors a real-time hardware matched filter (FIR with coefficients
+    ``p*[-n]``): output is the raw discrete correlation with no additional
+    scaling.  For a unit-amplitude transmit pulse of ``N_taps`` samples the
+    peak output is ``V_rx · N_taps`` where ``N_taps = T · fs ≈ T · B`` is
+    the pulse-compression (TB) gain.
 
     Two implementations are available:
     - Pedantic (True): Iteratively applies the matched filter to each pulse
@@ -122,20 +118,16 @@ def matchfilter(
             modified in-place.
         pulse_wvf: 1D transmitted pulse template (unit-amplitude convention,
             see :class:`rad_lab.waveform.WaveformSample`).
-        sample_rate: ADC sample rate [Hz].  Used to scale the output by
-            ``Δt = 1/sample_rate``.
         pedantic: If True, use the iterative time-domain helper; if False,
             use FFT-based convolution.  Defaults to True.
 
     Returns:
         None: The `datacube` is modified in-place.
     """
-    dt = 1.0 / sample_rate
     if pedantic:
         for j in range(datacube.shape[1]):
             _, mf = matchfilter_with_waveform(datacube[:, j], pulse_wvf)
-            datacube[:, j] = mf * dt
+            datacube[:, j] = mf
     else:
         kernel = np.conj(pulse_wvf)[::-1]
         datacube[:] = signal.fftconvolve(datacube, kernel.reshape(-1, 1), mode="same", axes=0)
-        datacube *= dt

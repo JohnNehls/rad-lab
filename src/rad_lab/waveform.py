@@ -46,9 +46,9 @@ class WaveformSample:
         pulse_sample: Discrete complex pulse array at the radar sample rate.
             Unit-amplitude (``|pulse_sample[n]| = 1`` over the pulse) — i.e.
             a physical 1-Volt transmit envelope, with no DSP normalisation
-            applied.  The TB pulse-compression gain emerges from
-            :func:`rad_lab.rf_datacube.matchfilter` (which integrates with
-            ``Δt = 1/sample_rate``), not from rescaling stored here.
+            applied.  The TB pulse-compression gain (``N_taps = T · fs``)
+            emerges naturally from :func:`rad_lab.rf_datacube.matchfilter`
+            as the coherent sum of ``N_taps`` unit-amplitude samples.
             Populated by :meth:`set_sample`; not set at construction time.
     """
 

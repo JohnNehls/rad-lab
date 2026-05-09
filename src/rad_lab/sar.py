@@ -143,7 +143,7 @@ def gen(
         _plot_raw(r_axis, datacube.real, "Raw SAR data (real)")
 
     ########## Range compression ##################################################################
-    matchfilter(datacube, waveform.pulse_sample, sar_radar.sample_rate, pedantic=False)
+    matchfilter(datacube, waveform.pulse_sample, pedantic=False)
 
     if debug:
         _plot_raw(r_axis, datacube, "Range-compressed")

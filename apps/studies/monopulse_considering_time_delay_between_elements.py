@@ -112,7 +112,7 @@ rdm_list = signal_dc_ula_list + signal_dc_ula_list_timeshift
 
 # Apply matched filter to each datacube
 for dc in rdm_list:
-    matchfilter(dc, waveform.pulse_sample, radar.sample_rate, pedantic=True)
+    matchfilter(dc, waveform.pulse_sample, pedantic=True)
 
 # Apply Chebyshev window in slow time to suppress Doppler sidelobes
 chwin_norm_mat = create_window(signal_dc.shape, plot=False)

@@ -94,7 +94,7 @@ def gen(
         del noise_dc  # free the cube-sized buffer before heavy processing
 
     ########## Match filter ########################################################################
-    matchfilter(datacube, waveform.pulse_sample, radar.sample_rate, pedantic=False)
+    matchfilter(datacube, waveform.pulse_sample, pedantic=False)
 
     if debug:
         plot_rtm(r_axis, datacube, "RTM: match filtered")
@@ -127,14 +127,15 @@ def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.n
     :func:`~rad_lab._rdm_extras.verify_snr` to verify against theory.
 
     Derivation, with unit-amplitude pulse template (``|p|=1`` over duration
-    ``T``) and Δt-scaled matched filter:
+    ``T``, ``N_taps = T·fs`` samples) and raw (unscaled) matched filter:
 
-    - Per range cell after MF: peak signal voltage = ``V_rx · T``, noise
-      variance = ``R · N₀ · T`` (independent of sample rate).
+    - Per ADC sample: noise variance ``σ² = R·N₀·fs``.
+    - After MF (raw sum over ``N_taps`` unit-amplitude taps):
+      noise variance = ``N_taps · σ² = R·N₀·T·fs²``.
     - After coherent integration of ``N`` pulses by the slow-time FFT:
-      peak voltage = ``N · V_rx · T``, noise variance = ``N · R · N₀ · T``.
+      noise variance = ``N · R·N₀·T·fs²``.
 
-    So dividing by ``sqrt(N · R · N₀ · T)`` yields the SNR voltage ratio.
+    So dividing by ``fs · sqrt(N · R·N₀·T)`` yields the SNR voltage ratio.
 
     Args:
         datacube: Processed RDM returned by :func:`gen`, in Volts.
@@ -146,7 +147,7 @@ def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.n
     """
     # noise_power(B=1, F, T) = k·T·F is the one-sided PSD N₀ [W/Hz].
     n0_R = c.RADAR_LOAD * noise_power(1.0, radar.noise_factor, radar.op_temp)
-    noise_v_out = np.sqrt(radar.n_pulses * n0_R * waveform.pulse_width)
+    noise_v_out = radar.sample_rate * np.sqrt(radar.n_pulses * n0_R * waveform.pulse_width)
     return datacube / noise_v_out
 
 
