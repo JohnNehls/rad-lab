@@ -1293,9 +1293,11 @@ datacube. It also generates the corresponding Doppler frequency and range axes.<
     <div class="doc doc-contents ">
 
         <p>Applies a matched filter to a datacube for pulse compression.</p>
-<p>This function processes each pulse (column) in the datacube with a matched
-filter to perform pulse compression, which improves signal-to-noise ratio
-and range resolution. The operation is performed in-place.</p>
+<p>Mirrors a real-time hardware matched filter (FIR with coefficients
+<code>p*[-n]</code>): output is the raw discrete correlation with no additional
+scaling.  For a unit-amplitude transmit pulse of <code>N_taps</code> samples the
+peak output is <code>V_rx · N_taps</code> where <code>N_taps = T · fs ≈ T · B</code> is
+the pulse-compression (TB) gain.</p>
 <p>Two implementations are available:
 - Pedantic (True): Iteratively applies the matched filter to each pulse
   using a time-domain helper function. This is typically slower but can
@@ -1325,9 +1327,8 @@ and range resolution. The operation is performed in-place.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The 2D time-domain datacube to be processed, with
-                   shape (N_range_bins, N_pulses). This array is
-                   modified in-place.</p>
+                <p>2D time-domain datacube with shape (N_range_bins, N_pulses),
+modified in-place.</p>
               </div>
             </td>
             <td>
@@ -1343,8 +1344,8 @@ and range resolution. The operation is performed in-place.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>A 1D array representing the transmitted pulse
-                    waveform samples.</p>
+                <p>1D transmitted pulse template (unit-amplitude convention,
+see :class:<code>rad_lab.waveform.WaveformSample</code>).</p>
               </div>
             </td>
             <td>
@@ -1360,10 +1361,8 @@ and range resolution. The operation is performed in-place.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If True, uses the iterative, time-domain
-                       filtering approach. If False, uses the
-                       faster frequency-domain convolution.
-                       Defaults to True.</p>
+                <p>If True, use the iterative time-domain helper; if False,
+use FFT-based convolution.  Defaults to True.</p>
               </div>
             </td>
             <td>
@@ -1433,14 +1432,14 @@ and range resolution. The operation is performed in-place.</p>
 <span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">matchfilter</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pulse_wvf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pedantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">matchfilter</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pulse_wvf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pedantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies a matched filter to a datacube for pulse compression.</span>
 
-<span class="sd">    This function processes each pulse (column) in the datacube with a matched</span>
-<span class="sd">    filter to perform pulse compression, which improves signal-to-noise ratio</span>
-<span class="sd">    and range resolution. The operation is performed in-place.</span>
+<span class="sd">    Mirrors a real-time hardware matched filter (FIR with coefficients</span>
+<span class="sd">    ``p*[-n]``): output is the raw discrete correlation with no additional</span>
+<span class="sd">    scaling.  For a unit-amplitude transmit pulse of ``N_taps`` samples the</span>
+<span class="sd">    peak output is ``V_rx · N_taps`` where ``N_taps = T · fs ≈ T · B`` is</span>
+<span class="sd">    the pulse-compression (TB) gain.</span>
 
 <span class="sd">    Two implementations are available:</span>
 <span class="sd">    - Pedantic (True): Iteratively applies the matched filter to each pulse</span>
@@ -1451,15 +1450,12 @@ and range resolution. The operation is performed in-place.</p>
 <span class="sd">      waveform kernel and is generally faster for large datacubes.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        datacube (np.ndarray): The 2D time-domain datacube to be processed, with</span>
-<span class="sd">                               shape (N_range_bins, N_pulses). This array is</span>
-<span class="sd">                               modified in-place.</span>
-<span class="sd">        pulse_wvf (np.ndarray): A 1D array representing the transmitted pulse</span>
-<span class="sd">                                waveform samples.</span>
-<span class="sd">        pedantic (bool, optional): If True, uses the iterative, time-domain</span>
-<span class="sd">                                   filtering approach. If False, uses the</span>
-<span class="sd">                                   faster frequency-domain convolution.</span>
-<span class="sd">                                   Defaults to True.</span>
+<span class="sd">        datacube: 2D time-domain datacube with shape (N_range_bins, N_pulses),</span>
+<span class="sd">            modified in-place.</span>
+<span class="sd">        pulse_wvf: 1D transmitted pulse template (unit-amplitude convention,</span>
+<span class="sd">            see :class:`rad_lab.waveform.WaveformSample`).</span>
+<span class="sd">        pedantic: If True, use the iterative time-domain helper; if False,</span>
+<span class="sd">            use FFT-based convolution.  Defaults to True.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        None: The `datacube` is modified in-place.</span>
@@ -1469,7 +1465,6 @@ and range resolution. The operation is performed in-place.</p>
             <span class="n">_</span><span class="p">,</span> <span class="n">mf</span> <span class="o">=</span> <span class="n">matchfilter_with_waveform</span><span class="p">(</span><span class="n">datacube</span><span class="p">[:,</span> <span class="n">j</span><span class="p">],</span> <span class="n">pulse_wvf</span><span class="p">)</span>
             <span class="n">datacube</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">mf</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># FFT-based matched filter applied to all pulses at once</span>
         <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">conj</span><span class="p">(</span><span class="n">pulse_wvf</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">datacube</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">fftconvolve</span><span class="p">(</span><span class="n">datacube</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;same&quot;</span><span class="p">,</span> <span class="n">axes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
