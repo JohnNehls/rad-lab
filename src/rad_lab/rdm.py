@@ -15,7 +15,7 @@ from .range_equation import noise_power
 from .noise import unity_variance_complex_noise
 from .utilities import zero_to_smallest_float
 from ._rdm_internals import add_returns, create_window
-from ._rdm_extras import noise_checks, check_expected_snr
+from ._rdm_extras import noise_checks
 from .pulse_doppler_radar import Radar
 from .waveform import WaveformSample
 
@@ -27,15 +27,19 @@ def gen(
     seed: int = 0,
     plot: bool = True,
     debug: bool = False,
-    snr: bool = False,
     window: str = "chebyshev",
     window_kwargs: dict | None = None,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate a Range-Doppler Map (RDM) for a single Coherent Processing Interval (CPI).
 
     Simulates received radar data for one or more targets moving at constant
     range rates and processes it to produce an RDM, accounting for radar system
     parameters, waveform characteristics, and noise.
+
+    Output amplitudes are in Volts (at the receiver load).  To view the RDM
+    in SNR voltage ratio, pass the returned datacube through :func:`to_snr`.
+    To get a noiseless RDM for peak-finding or PSF inspection, set
+    ``radar.op_temp = 0`` (thermal noise scales with temperature).
 
     Args:
         radar: Radar system parameters. See
@@ -48,8 +52,6 @@ def gen(
         plot: If True, plots the final RDM. Defaults to True.
         debug: If True, plots intermediate processing steps and prints
             diagnostic statistics. Defaults to False.
-        snr: If True, output amplitudes are normalised to SNR (voltage ratio).
-            If False, output amplitudes are in Volts. Defaults to False.
         window: Doppler window function applied before the slow-time FFT.
             One of ``"chebyshev"`` (default), ``"blackman-harris"``,
             ``"taylor"``, or ``"none"`` (rectangular, no windowing).
@@ -60,14 +62,11 @@ def gen(
             Taylor window. See :func:`._rdm_internals.create_window`.
 
     Returns:
-        tuple: A four-element tuple ``(rdot_axis, r_axis, total_dc, signal_dc)``:
+        tuple: ``(rdot_axis, r_axis, datacube)``:
 
             - **rdot_axis** (*np.ndarray*): 1D range-rate (Doppler) axis [m/s].
             - **r_axis** (*np.ndarray*): 1D range axis [m].
-            - **total_dc** (*np.ndarray*): 2D RDM including signal and noise,
-              amplitude in Volts or SNR.
-            - **signal_dc** (*np.ndarray*): 2D signal-only RDM, amplitude in
-              Volts or SNR.
+            - **datacube** (*np.ndarray*): 2D RDM (signal + noise), amplitude in Volts.
     """
     np.random.seed(seed)
 
@@ -77,69 +76,70 @@ def gen(
     ########## Create range axis for plotting ######################################################
     r_axis = range_axis(radar.sample_rate, number_range_bins(radar.sample_rate, radar.prf))
 
-    ########## Return ##############################################################################
-    signal_dc = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
+    ########## Returns + noise #####################################################################
+    datacube = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
+    add_returns(datacube, waveform, return_list, radar)
 
-    if snr:
-        ### Direclty plot the RDM in SNR by way of the range equation ###
-        # - The SNR is calculated at the initial range and does not change in time
-        noise_dc = unity_variance_complex_noise(signal_dc.shape) / np.sqrt(radar.n_pulses)
+    rxVolt_noise = np.sqrt(
+        c.RADAR_LOAD * noise_power(waveform.bw, radar.noise_factor, radar.op_temp)
+    )
+    noise_dc = unity_variance_complex_noise(datacube.shape) * rxVolt_noise
+    datacube += noise_dc
+
+    if debug:
+        plot_rtm(r_axis, datacube, "RTM: unprocessed")
     else:
-        ### Scale complex Gaussian noise to the receiver noise voltage ###
-        rxVolt_noise = np.sqrt(
-            c.RADAR_LOAD * noise_power(waveform.bw, radar.noise_factor, radar.op_temp)
-        )
-        noise_dc = unity_variance_complex_noise(signal_dc.shape) * rxVolt_noise
-    add_returns(signal_dc, waveform, return_list, radar, snr=snr)
+        del noise_dc  # free the cube-sized buffer before heavy processing
 
-    total_dc = signal_dc + noise_dc  # adding after return keeps clean signal_dc for plotting
+    ########## Match filter ########################################################################
+    matchfilter(datacube, waveform.pulse_sample, pedantic=False)
 
     if debug:
-        plot_rtm(r_axis, signal_dc, "Noiseless RTM: unprocessed")
-
-    # list of datacubes to process in the following steps
-    rdm_list = [signal_dc, total_dc]
-
-    ########## Apply the match filter ##############################################################
-    for dc in rdm_list:
-        matchfilter(dc, waveform.pulse_sample, pedantic=False)
-
-    if debug:
-        plot_rtm(r_axis, signal_dc, "Noiseless RTM: match filtered")
+        plot_rtm(r_axis, datacube, "RTM: match filtered")
 
     ########### Doppler process ####################################################################
-    # First create filter window and apply it
     chwin_norm_mat = create_window(
-        signal_dc.shape, window=window, window_kwargs=window_kwargs, plot=False
+        datacube.shape, window=window, window_kwargs=window_kwargs, plot=False
     )
-    for dc in rdm_list:
-        dc *= chwin_norm_mat
+    datacube *= chwin_norm_mat
 
-    # Doppler process datacubes
-    for dc in rdm_list:
-        f_axis, r_axis = doppler_process(dc, radar.sample_rate)
+    f_axis, r_axis = doppler_process(datacube, radar.sample_rate)
 
-    ########## Plots and checks ####################################################################
-    # calc rangeRate axis  #f = -2* fc/c Rdot -> Rdot = -c+f/ (2+fc)
+    # f = -2 fc/c * Rdot -> Rdot = -c f / (2 fc)
     rdot_axis = -c.C * f_axis / (2 * radar.fcar)
 
+    ########## Plots and checks ####################################################################
     if debug:
-        if snr:
-            plot_rdm_snr(rdot_axis, r_axis, signal_dc, "Noiseless RDM", cbar_min=0)
-            noise_checks(signal_dc, noise_dc, total_dc)
-        else:
-            plot_rdm(rdot_axis, r_axis, signal_dc, "Noiseless RDM")
+        noise_checks(noise_dc, datacube)
     if plot or debug:
-        if snr:
-            plot_rdm_snr(
-                rdot_axis, r_axis, total_dc, f"Total SNR RDM for {waveform.type}", cbar_min=0
-            )
-            # if debug:
-            check_expected_snr(radar, return_list[0].target, waveform)  # first return item
-        else:
-            plot_rdm(rdot_axis, r_axis, total_dc, f"Total RDM for {waveform.type}")
+        plot_rdm(rdot_axis, r_axis, datacube, f"RDM for {waveform.type}")
 
-    return rdot_axis, r_axis, total_dc, signal_dc
+    return rdot_axis, r_axis, datacube
+
+
+def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.ndarray:
+    """Convert a Volt-domain RDM to SNR voltage ratio.
+
+    Normalises so the peak magnitude equals the range-equation SNR and
+    the off-peak noise floor has voltage standard deviation of 1.  Use
+    :func:`~rad_lab._rdm_extras.verify_snr` to verify against theory.
+
+    Args:
+        datacube: Processed RDM returned by :func:`gen`, in Volts.
+        radar: Same radar used to generate the RDM.
+        waveform: Same waveform used to generate the RDM.
+
+    Returns:
+        np.ndarray: RDM normalised to SNR voltage ratio.
+    """
+    # Matched filter delivers variance gain TB (pulse is scaled to sum|p|^2 = TB);
+    # slow-time FFT adds a further factor of N in variance.  So the output noise
+    # voltage std is rx_v_in * sqrt(N * TB).
+    noise_v_in = np.sqrt(
+        c.RADAR_LOAD * noise_power(waveform.bw, radar.noise_factor, radar.op_temp)
+    )
+    noise_v_out = noise_v_in * np.sqrt(radar.n_pulses * waveform.time_bw_product)
+    return datacube / noise_v_out
 
 
 def plot_rtm(r_axis: np.ndarray, data: np.ndarray, title: str) -> None:

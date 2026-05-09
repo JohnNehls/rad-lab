@@ -56,10 +56,10 @@ dc_list = []
 for sv in steer_vec:
     rseed = np.random.randint(1000)
     return_list = [Return(target=Target(range=2.4e3, range_rate=0.2e3, rcs=10, sv=sv))]
-    rdot_axis, r_axis, total_dc, signal_dc = rdm.gen(
-        radar, waveform, return_list, snr=True, debug=False, plot=False, seed=rseed
+    rdot_axis, r_axis, datacube = rdm.gen(
+        radar, waveform, return_list, debug=False, plot=False, seed=rseed
     )
-    dc_list.append(total_dc)
+    dc_list.append(datacube)
 
 # -- Display each element's RDM --
 for i in range(len(steer_vec)):

@@ -11,7 +11,7 @@ RADAR = Radar(
     tx_power=1e3,
     tx_gain=10 ** (30 / 10),
     rx_gain=10 ** (30 / 10),
-    op_temp=290,
+    op_temp=0,  # noiseless: argmax finds the target peak unambiguously
     sample_rate=2 * BW,
     noise_factor=10 ** (8 / 10),
     total_losses=10 ** (8 / 10),
@@ -42,7 +42,7 @@ WAVEFORMS = [
 
 
 def check_max_in_expected_bin(waveform):
-    rdot_axis, r_axis, _total_dc, signal_dc = rdm.gen(RADAR, waveform, [RETURN], plot=False)
+    rdot_axis, r_axis, datacube = rdm.gen(RADAR, waveform, [RETURN], plot=False)
 
     range_expected = pdr.range_aliased(RETURN.target.range, RADAR.prf)
     rangeRate_expected = pdr.range_rate_aliased_prf_f0(
@@ -51,8 +51,8 @@ def check_max_in_expected_bin(waveform):
     i = np.argmin(abs(r_axis - range_expected))
     j = np.argmin(abs(rdot_axis - rangeRate_expected))
 
-    max_index_flat = np.argmax(abs(signal_dc))
-    max_range_index, max_rdot_index = np.unravel_index(max_index_flat, signal_dc.shape)
+    max_index_flat = np.argmax(abs(datacube))
+    max_range_index, max_rdot_index = np.unravel_index(max_index_flat, datacube.shape)
 
     assert max_range_index == i, f"Range bin mismatch: got {max_range_index}, expected {i}"
     assert max_rdot_index == j, f"Doppler bin mismatch: got {max_rdot_index}, expected {j}"

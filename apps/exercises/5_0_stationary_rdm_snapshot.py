@@ -12,6 +12,7 @@ Notes:
 
 import matplotlib.pyplot as plt
 from rad_lab import rdm
+from rad_lab._rdm_extras import verify_snr
 from rad_lab.pulse_doppler_radar import Radar
 from rad_lab.waveform import lfm_waveform
 from rad_lab.returns import Target, Return
@@ -39,7 +40,10 @@ waveform = lfm_waveform(bw, T=1.0e-6, chirp_up_down=1)  # 1 us up-chirp
 # -- Define the target: stationary at 3.5 km, 10 dBsm RCS --
 return_list = [Return(target=Target(range=3.5e3, range_rate=0.0e3, rcs=10))]
 
-# -- Generate the RDM with SNR calculation and debug output --
-rdm.gen(radar, waveform, return_list, snr=True, debug=True)
+# -- Generate the RDM, view in SNR, and verify against the range equation --
+rdot_axis, r_axis, datacube = rdm.gen(radar, waveform, return_list, plot=False)
+snr_dc = rdm.to_snr(datacube, radar, waveform)
+rdm.plot_rdm_snr(rdot_axis, r_axis, snr_dc, f"SNR RDM for {waveform.type}", cbar_min=0)
+verify_snr(snr_dc, radar, return_list[0].target, waveform)
 
 plt.show()

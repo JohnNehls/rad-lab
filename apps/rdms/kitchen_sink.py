@@ -69,8 +69,6 @@ return_list = [skin_return, jammer_on_target]
 # rdm.gen(radar, waveform, return_list, window="none")                              # rectangular (no window)
 
 # seed=0: reproducible noise; debug=True: show intermediate steps
-rdot_axis, r_axis, total_dc, signal_dc = rdm.gen(
-    radar, waveform, return_list, seed=0, plot=True, debug=True, snr=False
-)
+rdot_axis, r_axis, datacube = rdm.gen(radar, waveform, return_list, seed=0, plot=True, debug=True)
 
 plt.show()

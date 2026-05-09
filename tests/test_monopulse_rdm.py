@@ -30,10 +30,8 @@ def test_monopulse_rdm_angle_error_within_threshold():
     dc_list = []
     for i, sv in enumerate(steer_vec):
         return_list = [Return(target=Target(range=2.4e3, range_rate=0.2e3, rcs=10, sv=sv))]
-        _, _, total_dc, _ = rdm.gen(
-            RADAR, WAVEFORM, return_list, snr=True, debug=False, plot=False, seed=i
-        )
-        dc_list.append(total_dc)
+        _, _, datacube = rdm.gen(RADAR, WAVEFORM, return_list, debug=False, plot=False, seed=i)
+        dc_list.append(datacube)
 
     measured_theta = mp.monopulse_angle_at_peak_deg(dc_list[0], dc_list[1], DX)
     error = abs(measured_theta - TGT_ANGLE)

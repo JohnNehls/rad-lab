@@ -361,7 +361,6 @@ def add_returns(
     waveform: WaveformSample,
     return_list: list,
     radar: Radar,
-    snr: bool = False,
 ) -> None:
     """Adds multiple returns to a datacube.
 
@@ -370,16 +369,14 @@ def add_returns(
     - A jammer return is added when ``platform is not None``.
     Both can fire for the same Return, modelling a co-located jammer on the target.
 
-    The datacube is modified in place.
+    Amplitudes are physically-based voltages at the receiver load.  The
+    datacube is modified in place.
 
     Args:
         datacube: The 2D complex datacube to modify.
         waveform: WaveformSample containing pulse data and parameters.
         return_list: A list of Return objects.
         radar: Radar system parameters.
-        snr: If True, amplitudes are normalised to SNR voltage ratio using the
-            radar range equation.  If False (default), physically-based voltage
-            amplitudes are used.
     """
     for item in return_list:
         if not isinstance(item, Return):
@@ -387,17 +384,9 @@ def add_returns(
             continue
 
         if item.target.rcs is not None:
-            amp = (
-                skin_snr_amplitude(radar, item.target, waveform)
-                if snr
-                else skin_voltage_amplitude(radar, item.target)
-            )
+            amp = skin_voltage_amplitude(radar, item.target)
             add_skin(datacube, waveform, item.target, radar, amp)
 
         if item.platform is not None:
-            if snr:
-                print("Note: Using notional SNR for jammer return amplitude.")
-                amp = skin_snr_amplitude(radar, item.target, waveform)
-            else:
-                amp = jammer_voltage_amplitude(item.platform, radar, item.target)
+            amp = jammer_voltage_amplitude(item.platform, radar, item.target)
             add_jammer(datacube, waveform, radar, item, amp)
