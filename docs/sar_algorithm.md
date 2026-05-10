@@ -104,17 +104,83 @@ $$
 Range compression concentrates each target's energy into a peak whose width
 is set by the waveform's range resolution $\delta_r = c / (2B_w)$.
 
-### 5. Azimuth Windowing
+### 5. Range Cell Migration Correction
+
+After range compression each target's energy lives at the range bin
+corresponding to its instantaneous slant range $R_n^{(t)}$. Because $R$
+varies hyperbolically with slow-time across the aperture, the target's
+energy traces a curve in the $(R,\, x_n)$ plane rather than sitting in a
+single range row. When the total migration
+
+$$
+\Delta R_{\max} \approx \frac{L_{\text{sa}}^2}{8\, R_0}
+$$
+
+exceeds a fraction of a range cell, the azimuth matched filter at any
+single bin collects only part of the target's energy and the focused peak
+defocuses [1, Ch. 6]. **Range Cell Migration Correction (RCMC)** realigns
+the trajectory to a constant range $R_0$ before azimuth focusing.
+
+**Migration in the range-Doppler domain.** RCMC operates after an azimuth
+FFT, in the range-Doppler domain $(R,\, f_\eta)$. By the principle of
+stationary phase, a target at closest-approach range $R_0$ contributes to
+azimuth-Doppler bin $f_\eta$ only at the slow-time $\eta^\ast$ where its
+instantaneous Doppler matches $f_\eta$ [1, Ch. 6]:
+
+$$
+f_\eta
+= -\frac{2}{\lambda}\,\frac{\mathrm{d}R}{\mathrm{d}\eta}
+= -\frac{2\, v_p^2\, \eta^\ast}{\lambda\, R(\eta^\ast)}
+$$
+
+Solving for $R$ as a function of $f_\eta$ gives the closed-form migration
+
+$$
+R(f_\eta;\, R_0)
+= \frac{R_0}{\sqrt{1 - \left(\dfrac{\lambda\, f_\eta}{2\, v_p}\right)^{\!2}}},
+\qquad
+\Delta R(f_\eta;\, R_0)
+= R_0\!\left[\frac{1}{\sqrt{1 - (\lambda f_\eta / 2 v_p)^2}} - 1\right].
+$$
+
+The familiar parabolic approximation
+$\Delta R \approx \lambda^{2}\, R_0\, f_\eta^{2}\,/\,(8\, v_p^{2})$
+follows from Taylor-expanding to second order in $\lambda f_\eta/(2 v_p)$.
+
+**Correction.** For each range bin $k$ with $R_0 = R_{\text{axis}}[k]$,
+the value at azimuth-Doppler bin $m$ is replaced by the sample at the
+migrated row:
+
+$$
+d_{\text{rcmc}}[k,\, m]
+= d_{\text{rd}}\!\left[\,k + \frac{\Delta R(f_{\eta,m};\, R_0)}{\delta_r},\; m\,\right]
+$$
+
+where $\delta_r = c / (2 f_s)$ is the range-bin spacing. The fractional row
+index calls for interpolation; the implementation uses an 8-tap
+Hann-windowed sinc kernel, a standard choice for the RDA accurate to
+roughly $-40$ dB for sub-cell shifts [1, §6.3]. An inverse azimuth FFT
+then returns the data to slow-time for the windowing and azimuth-focusing
+steps that follow.
+
+**Aliasing and small-squint regime.** The formula assumes the target's
+Doppler bandwidth $B_d = 2 v_p L_{\text{sa}} / (R_0 \lambda)$ fits below
+the PRF; otherwise the parabolic trajectory wraps around in $f_\eta$ and
+RCMC corrects the wrong row. Likewise the stationary-phase derivation
+assumes $L_{\text{sa}} / R_0 \ll 1$, so very short ranges or very long
+apertures need an exact range-migration algorithm (e.g.\ omega-K) instead.
+
+### 6. Azimuth Windowing
 
 A window function $w[n]$ (default: Chebyshev, 60 dB sidelobes) is applied
 along the slow-time axis before azimuth compression to reduce cross-range
 sidelobes at the cost of slightly wider mainlobe width:
 
 $$
-d_{\text{win}}[k, n] = d_{\text{rc}}[k, n] \cdot w[n]
+d_{\text{win}}[k, n] = d_{\text{rcmc}}[k, n] \cdot w[n]
 $$
 
-### 6. Azimuth Compression (Focusing)
+### 7. Azimuth Compression (Focusing)
 
 The azimuth matched filter exploits the hyperbolic range history of a point
 target. For a target at broadside range $R_0$ (the closest-approach slant
@@ -146,7 +212,7 @@ $$
 After an `fftshift` to centre the zero-Doppler bin, the result is the focused
 SAR image in range $\times$ cross-range coordinates.
 
-### 7. Cross-Range Axis
+### 8. Cross-Range Axis
 
 The cross-range axis maps directly to the along-track aperture positions:
 

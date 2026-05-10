@@ -171,3 +171,111 @@ def azimuth_matched_filter(
     cross_range_axis = along_track.copy()
 
     return cross_range_axis
+
+
+def rcmc(
+    datacube: np.ndarray,
+    sar_radar: SarRadar,
+    range_axis: np.ndarray,
+    debug: bool = False,
+) -> None:
+    """Range Cell Migration Correction (RCMC) for the Range-Doppler Algorithm.
+
+    A target at closest-approach range ``R0`` traces a hyperbolic trajectory
+    in slant range across the synthetic aperture: ``R(eta) = sqrt(R0^2 +
+    v^2 eta^2)``.  After range compression the target's energy is therefore
+    spread across several range bins as a function of slow-time, which
+    smears the azimuth-compressed peak unless the trajectory is realigned
+    to a constant range first.
+
+    In the range-Doppler domain (azimuth FFT applied), migration as a
+    function of azimuth Doppler frequency ``f_eta`` collapses to a closed
+    form per range bin::
+
+        dR(f_eta, R0) = R0 * (1 / sqrt(1 - (lambda f_eta / (2 v))^2) - 1)
+
+    This function shifts each range column by ``-dR / dR_grid`` bins
+    (sub-bin precision via 8-tap Hann-windowed sinc interpolation), in
+    place.  After RCMC, :func:`azimuth_matched_filter` correlates with
+    its exact hyperbolic reference and produces a sharp PSF.
+
+    Args:
+        datacube: 2-D complex array ``(n_range_bins, n_pulses)``, already
+            range-compressed.  Modified in place.
+        sar_radar: SAR system parameters.  Provides ``wavelength``,
+            ``platform_velocity``, ``prf``, and ``sample_rate``.
+        range_axis: 1-D range axis [m] with length ``n_range_bins``.
+        debug: If True, plot the range-Doppler map (RDM) before and
+            after the correction.  The "before" panel shows curved
+            migration trajectories; the "after" panel shows them
+            collapsed to horizontal lines at each target's R0.
+
+    Returns:
+        None.  ``datacube`` is modified in place.
+    """
+    n_range_bins, n_pulses = datacube.shape
+
+    # Range bin spacing [m]: two-way travel between adjacent fast-time samples
+    dR_grid = c.C / (2 * sar_radar.sample_rate)
+
+    # Azimuth Doppler frequency axis [Hz], in unshifted fft order so it
+    # aligns with the result of fft.fft along slow-time without an fftshift.
+    f_eta = fft.fftfreq(n_pulses, d=1.0 / sar_radar.prf)
+
+    # Doppler argument lambda * f_eta / (2 v).  Clipped defensively to keep
+    # sqrt() real near the 2v/lambda divergence (unreachable for sane SAR
+    # configs, but a student running unusual parameters won't get NaNs).
+    doppler_arg = sar_radar.wavelength * f_eta / (2.0 * sar_radar.platform_velocity)
+    safe_arg = np.clip(doppler_arg, -0.999, 0.999)
+    inv_cos_factor = 1.0 / np.sqrt(1.0 - safe_arg**2) - 1.0  # (n_pulses,)
+
+    # 8-tap kernel offsets t = -3..4.  The desired sub-bin location after
+    # base_idx + frac falls between taps 0 and 1, so the kernel midpoint
+    # in tap-value coordinates is 0.5 (not the array index midpoint).
+    kernel_taps = np.arange(-3, 5)
+    # Hann window over the 8-tap support, symmetric about kernel midpoint 0.5
+    kernel_window = 0.5 * (1.0 + np.cos(np.pi * (kernel_taps - 0.5) / 4.0))  # (8,)
+
+    # Transform once into the range-Doppler domain
+    datacube[:] = fft.fft(datacube, axis=1)
+
+    if debug:
+        # Lazy import: keeps matplotlib off the import path of
+        # _sar_internals when not plotting.
+        from .sar import _plot_rdm
+
+        _plot_rdm(range_axis, f_eta, datacube, "RDM before RCMC")
+
+    col_indices = np.arange(n_pulses)[np.newaxis, :]
+    for k in range(n_range_bins):
+        R0 = range_axis[k]
+
+        # Per-Doppler shift in range bins; positive => trajectory at this
+        # Doppler is farther than R0, so we pull data from a larger row.
+        delta_bins = R0 * inv_cos_factor / dR_grid  # (n_pulses,)
+        base_idx = np.floor(delta_bins).astype(np.int64)  # (n_pulses,)
+        frac = delta_bins - base_idx  # (n_pulses,) in [0, 1)
+
+        # Source rows for the 8 taps: shape (8, n_pulses)
+        src_rows = k + base_idx[np.newaxis, :] + kernel_taps[:, np.newaxis]
+        in_bounds = (src_rows >= 0) & (src_rows < n_range_bins)
+        clipped_rows = np.where(in_bounds, src_rows, 0)
+
+        gathered = datacube[clipped_rows, col_indices]  # (8, n_pulses)
+        gathered = np.where(in_bounds, gathered, 0.0)
+
+        # Hann-windowed sinc weights at sub-bin offset, normalised so a
+        # constant input is reproduced (DC gain = 1 for any sub-bin shift).
+        t_minus_frac = kernel_taps[:, np.newaxis] - frac[np.newaxis, :]  # (8, n_pulses)
+        weights = np.sinc(t_minus_frac) * kernel_window[:, np.newaxis]
+        weights /= np.sum(weights, axis=0, keepdims=True)
+
+        datacube[k, :] = np.sum(weights * gathered, axis=0)
+
+    if debug:
+        from .sar import _plot_rdm
+
+        _plot_rdm(range_axis, f_eta, datacube, "RDM after RCMC")
+
+    # Back to slow-time so downstream stages see the expected domain
+    datacube[:] = fft.ifft(datacube, axis=1)

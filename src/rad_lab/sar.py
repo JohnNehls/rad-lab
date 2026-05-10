@@ -20,7 +20,12 @@ from .rf_datacube import number_range_bins, range_axis, data_cube, matchfilter
 from .range_equation import noise_power
 from .utilities import zero_to_smallest_float
 from ._rdm_internals import create_window
-from ._sar_internals import add_sar_returns, azimuth_matched_filter, _beam_weights
+from ._sar_internals import (
+    add_sar_returns,
+    azimuth_matched_filter,
+    rcmc as apply_rcmc,
+    _beam_weights,
+)
 from .geometry import flight_path
 from .sar_radar import SarRadar, SarTarget
 from .waveform import WaveformSample
@@ -35,6 +40,7 @@ def gen(
     debug: bool = False,
     window: str = "chebyshev",
     window_kwargs: dict | None = None,
+    rcmc: bool = True,
     beam_pattern: Callable[[np.ndarray], np.ndarray] | None = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate a focused SAR image from point-target returns.
@@ -68,6 +74,11 @@ def gen(
             ``"blackman-harris"``, ``"taylor"``, or ``"none"``.
         window_kwargs: Optional dict forwarded to the window function.
             See :func:`._rdm_internals.create_window`.
+        rcmc: If True (default), apply Range Cell Migration Correction
+            after range compression and before azimuth focusing.  Disable
+            to study the effect of uncorrected range migration on the
+            focused PSF (azimuth peak position will tilt across range
+            bins, especially at long aperture or large slant range).
         beam_pattern: Optional callable that maps off-boresight angles
             [rad] to amplitude weights.  Overrides the default Gaussian
             in spotlight mode.  See
@@ -148,6 +159,13 @@ def gen(
     if debug:
         _plot_raw(r_axis, datacube, "Range-compressed")
 
+    ########## Range Cell Migration Correction ####################################################
+    if rcmc:
+        apply_rcmc(datacube, sar_radar, r_axis, debug=debug)
+
+        if debug:
+            _plot_raw(r_axis, datacube, "After RCMC (slow-time)")
+
     ########## Azimuth windowing ##################################################################
     win_mat = create_window(datacube.shape, window=window, window_kwargs=window_kwargs, plot=False)
     datacube *= win_mat
@@ -208,4 +226,48 @@ def _plot_raw(r_axis: np.ndarray, data: np.ndarray, title: str) -> None:
     ax.set_xlabel("Pulse Index (along-track)")
     ax.set_ylabel("Slant Range [km]")
     fig.colorbar(mesh, label="Magnitude")
+    fig.tight_layout()
+
+
+def _plot_rdm(
+    r_axis: np.ndarray,
+    f_eta: np.ndarray,
+    rd_data: np.ndarray,
+    title: str,
+) -> None:
+    """Plots the magnitude of a range × azimuth-Doppler matrix (debug helper).
+
+    Args:
+        r_axis: 1-D slant-range axis [m].
+        f_eta: 1-D azimuth Doppler frequency axis [Hz], in unshifted
+            fft order.  ``fftshift`` is applied internally for display.
+        rd_data: 2-D complex array in the range-Doppler domain
+            ``(n_range_bins, n_pulses)``.
+        title: Plot title.
+    """
+    from scipy import fft as _fft
+
+    f_disp = _fft.fftshift(f_eta)
+    mag = np.abs(_fft.fftshift(rd_data, axes=1))
+
+    # Auto-zoom to the rows that hold most of the energy, so sub-cell
+    # migration trajectories stay visible even when the full range axis
+    # spans many kilometres.
+    row_max = mag.max(axis=1)
+    threshold = mag.max() * 10 ** (-30 / 20)
+    bright_rows = np.where(row_max > threshold)[0]
+    if len(bright_rows) > 0:
+        k_lo = max(0, bright_rows[0] - 5)
+        k_hi = min(mag.shape[0], bright_rows[-1] + 6)
+    else:
+        k_lo, k_hi = 0, mag.shape[0]
+    mag_zoom = mag[k_lo:k_hi]
+    db = 20 * np.log10(mag_zoom / mag.max() + 1e-30)
+
+    fig, ax = plt.subplots(1, 1)
+    fig.suptitle(title)
+    mesh = ax.pcolormesh(f_disp, r_axis[k_lo:k_hi] / 1e3, db, vmin=-30, vmax=0)
+    ax.set_xlabel("Azimuth Doppler frequency [Hz]")
+    ax.set_ylabel("Slant Range [km]")
+    fig.colorbar(mesh, label="Magnitude [dB]")
     fig.tight_layout()
