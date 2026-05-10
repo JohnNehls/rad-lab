@@ -26,6 +26,8 @@ pip install -e ./rad-lab
 
 ## Usage
 
+### RDM Generation
+
 ```python
 from rad_lab import rdm, Radar, Target, Return, barker_coded_waveform
 
@@ -52,10 +54,10 @@ rdm.gen(radar, waveform, return_list)
 <!-- ![image](docs/figs/rdm_readme_example.png) -->
 
 Other available waveforms: `uncoded_waveform`, `random_coded_waveform`, `lfm_waveform`.
-For additional RDM examples see [apps/rdms](apps/rdms) and [apps/exercises](apps/exercises),
+For additional RDM examples see [apps/rdms](apps/rdms),
 or the [API docs](https://johnnehls.github.io/rad-lab/).
 
-## SAR Image Generation
+### SAR Image Generation
 
 rad-lab also supports stripmap and spotlight SAR image formation from
 point-target scenes:
@@ -63,7 +65,22 @@ point-target scenes:
 <img src="docs/figs/sar_radlab_point_cloud.png" width="600">
 <!-- ![image](docs/figs/sar_radlab_point_cloud.png) -->
 
-For SAR examples see [apps/sar](apps/sar).
+For more SAR examples see [apps/sar](apps/sar).
+
+### Exercises
+
+Many radar subsystems are demonstrated as standalone
+scripts in [apps/exercises](apps/exercises). Each file builds intuition for one concept and can be run directly. Topics covered include:
+
+- Range equation
+- Pulse-Doppler processing
+- Waveforms and cross-correlation
+- Ambiguity function
+- Datacube processing and windowing
+- Keystone formatting
+- Detection theory
+- Linear arrays and monopulse
+- Stripmap and spotlight SAR
 
 ## Contributing
 
@@ -73,7 +90,7 @@ To run the test suite:
 
 ```shell
 python -m pytest tests/ -v
-./apps/run_apps.sh   # runs all apps with a headless backend
+./apps/run_apps.sh  # smoke test: run all apps with a headless backend 
 ```
 
 ## License
