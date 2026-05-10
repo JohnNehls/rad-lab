@@ -921,7 +921,7 @@ on the :class:<code>~rad_lab.sar_radar.SarRadar</code> instance.</p>
 
 
 <h2 id="rad_lab.sar.gen" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">gen</span><span class="p">(</span><span class="n">sar_radar</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">,</span> <span class="n">window_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">beam_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">gen</span><span class="p">(</span><span class="n">sar_radar</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">&#39;chebyshev&#39;</span><span class="p">,</span> <span class="n">window_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rcmc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">beam_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1104,6 +1104,26 @@ See :func:<code>._rdm_internals.create_window</code>.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
+                <code>rcmc</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If True (default), apply Range Cell Migration Correction
+after range compression and before azimuth focusing.  Disable
+to study the effect of uncorrected range migration on the
+focused PSF (azimuth peak position will tilt across range
+bins, especially at long aperture or large slant range).</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                 <code>beam_pattern</code>
             </td>
             <td>
@@ -1156,12 +1176,7 @@ convenient way to build one from a ULA specification.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/sar.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 29</span>
-<span class="normal"> 30</span>
-<span class="normal"> 31</span>
-<span class="normal"> 32</span>
-<span class="normal"> 33</span>
-<span class="normal"> 34</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 34</span>
 <span class="normal"> 35</span>
 <span class="normal"> 36</span>
 <span class="normal"> 37</span>
@@ -1289,7 +1304,25 @@ convenient way to build one from a ULA specification.</p>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
-<span class="normal">162</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">gen</span><span class="p">(</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">gen</span><span class="p">(</span>
     <span class="n">sar_radar</span><span class="p">:</span> <span class="n">SarRadar</span><span class="p">,</span>
     <span class="n">waveform</span><span class="p">:</span> <span class="n">WaveformSample</span><span class="p">,</span>
     <span class="n">target_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SarTarget</span><span class="p">],</span>
@@ -1298,6 +1331,7 @@ convenient way to build one from a ULA specification.</p>
     <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;chebyshev&quot;</span><span class="p">,</span>
     <span class="n">window_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rcmc</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">beam_pattern</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a focused SAR image from point-target returns.</span>
@@ -1331,6 +1365,11 @@ convenient way to build one from a ULA specification.</p>
 <span class="sd">            ``&quot;blackman-harris&quot;``, ``&quot;taylor&quot;``, or ``&quot;none&quot;``.</span>
 <span class="sd">        window_kwargs: Optional dict forwarded to the window function.</span>
 <span class="sd">            See :func:`._rdm_internals.create_window`.</span>
+<span class="sd">        rcmc: If True (default), apply Range Cell Migration Correction</span>
+<span class="sd">            after range compression and before azimuth focusing.  Disable</span>
+<span class="sd">            to study the effect of uncorrected range migration on the</span>
+<span class="sd">            focused PSF (azimuth peak position will tilt across range</span>
+<span class="sd">            bins, especially at long aperture or large slant range).</span>
 <span class="sd">        beam_pattern: Optional callable that maps off-boresight angles</span>
 <span class="sd">            [rad] to amplitude weights.  Overrides the default Gaussian</span>
 <span class="sd">            in spotlight mode.  See</span>
@@ -1410,6 +1449,13 @@ convenient way to build one from a ULA specification.</p>
 
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
         <span class="n">_plot_raw</span><span class="p">(</span><span class="n">r_axis</span><span class="p">,</span> <span class="n">datacube</span><span class="p">,</span> <span class="s2">&quot;Range-compressed&quot;</span><span class="p">)</span>
+
+    <span class="c1">########## Range Cell Migration Correction ####################################################</span>
+    <span class="k">if</span> <span class="n">rcmc</span><span class="p">:</span>
+        <span class="n">apply_rcmc</span><span class="p">(</span><span class="n">datacube</span><span class="p">,</span> <span class="n">sar_radar</span><span class="p">,</span> <span class="n">r_axis</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">_plot_raw</span><span class="p">(</span><span class="n">r_axis</span><span class="p">,</span> <span class="n">datacube</span><span class="p">,</span> <span class="s2">&quot;After RCMC (slow-time)&quot;</span><span class="p">)</span>
 
     <span class="c1">########## Azimuth windowing ##################################################################</span>
     <span class="n">win_mat</span> <span class="o">=</span> <span class="n">create_window</span><span class="p">(</span><span class="n">datacube</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="n">window</span><span class="p">,</span> <span class="n">window_kwargs</span><span class="o">=</span><span class="n">window_kwargs</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -1563,25 +1609,7 @@ convenient way to build one from a ULA specification.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/sar.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
-<span class="normal">172</span>
-<span class="normal">173</span>
-<span class="normal">174</span>
-<span class="normal">175</span>
-<span class="normal">176</span>
-<span class="normal">177</span>
-<span class="normal">178</span>
-<span class="normal">179</span>
-<span class="normal">180</span>
-<span class="normal">181</span>
-<span class="normal">182</span>
-<span class="normal">183</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
 <span class="normal">186</span>
@@ -1597,7 +1625,25 @@ convenient way to build one from a ULA specification.</p>
 <span class="normal">196</span>
 <span class="normal">197</span>
 <span class="normal">198</span>
-<span class="normal">199</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_sar_image</span><span class="p">(</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_sar_image</span><span class="p">(</span>
     <span class="n">cross_range_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">r_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
