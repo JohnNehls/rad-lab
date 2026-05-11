@@ -86,6 +86,12 @@ def add_sar_returns(
     waveform at the corresponding range bin.  The datacube is modified
     in place.
 
+    Uses the stop-and-hop assumption: slant range is evaluated once per
+    aperture position (at the pulse-transmit instant), and that single
+    value drives both the round-trip delay and the carrier phase. The
+    platform is treated as stationary during the pulse and only moves
+    between PRIs.
+
     In spotlight mode, ``beam_weights_fn`` supplies per-pulse amplitude
     weights that model the steered antenna beam pattern.
 

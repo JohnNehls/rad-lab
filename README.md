@@ -82,6 +82,28 @@ scripts in [apps/exercises](apps/exercises). Each file builds intuition for one 
 - Linear arrays and monopulse
 - Stripmap and spotlight SAR
 
+## Modeling assumptions
+
+The RDM and SAR simulators in `rad_lab` use a few standard simplifications.
+They are noted here so it is clear which physical effects the simulator
+deliberately omits.
+
+- **Stop-and-hop (start-stop) propagation.** Within a single pulse the
+  radar and target are treated as stationary; motion happens only between
+  pulses. Round-trip delay and carrier phase are evaluated once per pulse,
+  at the pulse-transmit instant, and the matched-filter template is a
+  perfect replica of the transmitted pulse. This is the standard
+  pulse-Doppler / SAR signal model (e.g. Richards, *Fundamentals of Radar
+  Signal Processing*, §8). Consequences: no intra-pulse range walk and
+  no Doppler time-scaling of the echo — all target motion appears as the
+  pulse-to-pulse phase progression `-4π f_c R(t_m)/c`.
+- **Point scatterers.** Targets are ideal points with a scalar RCS; no
+  glint, no extended-target spread.
+- **No propagation medium effects.** No atmospheric attenuation, no
+  ionospheric dispersion, no multipath.
+- **Ideal receiver chain.** Linear, time-invariant, with thermal noise
+  modeled from the receiver noise figure and operating temperature.
+
 ## Contributing
 
 Contributions are welcome. Please fork the repository and submit a pull request.

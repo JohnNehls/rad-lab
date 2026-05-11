@@ -87,6 +87,11 @@ def add_skin(
     pulse and adds the appropriately modified waveform to the datacube.
     The datacube is modified in place.
 
+    Uses the stop-and-hop assumption: target range is evaluated once per pulse,
+    at the pulse-transmit instant (`pulse_tx_times`), and that single value
+    drives both the round-trip delay and the carrier phase. The target is
+    treated as stationary during the pulse and only "hops" between PRIs.
+
     Args:
         datacube: 2D complex array to which the return is added.
         waveform: WaveformSample containing pulse data and parameters.
