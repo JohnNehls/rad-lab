@@ -99,10 +99,10 @@ def plot_ambiguity(
 
     fig, ax = plt.subplots(1, 1)
     fig.suptitle(title)
-    mesh = ax.pcolormesh(tau * 1e6, fd, plot_data, shading="auto")
+    mesh = ax.pcolormesh(tau * 1e6, fd * 1e-3, plot_data, shading="auto")
     mesh.set_clim(vmin, vmax)
     ax.set_xlabel("Delay [µs]")
-    ax.set_ylabel("Doppler Frequency [Hz]")
+    ax.set_ylabel("Doppler Frequency [kHz]")
     cbar = fig.colorbar(mesh)
     cbar.set_label(cbar_label)
     fig.tight_layout()
@@ -146,20 +146,20 @@ def plot_zero_cuts(
         ax_tau.plot(tau * 1e6, zero_doppler_db)
         ax_tau.set_ylabel("Normalised Power [dB]")
         ax_tau.set_ylim(db_floor, 3)
-        ax_fd.plot(fd, zero_delay_db)
+        ax_fd.plot(fd * 1e-3, zero_delay_db)
         ax_fd.set_ylabel("Normalised Power [dB]")
         ax_fd.set_ylim(db_floor, 3)
     else:
         ax_tau.plot(tau * 1e6, zero_doppler_cut)
         ax_tau.set_ylabel("Normalised Power")
-        ax_fd.plot(fd, zero_delay_cut)
+        ax_fd.plot(fd * 1e-3, zero_delay_cut)
         ax_fd.set_ylabel("Normalised Power")
 
     ax_tau.set_xlabel("Delay [µs]")
     ax_tau.set_title("Zero-Doppler Cut (Autocorrelation)")
     ax_tau.grid(True)
 
-    ax_fd.set_xlabel("Doppler Frequency [Hz]")
+    ax_fd.set_xlabel("Doppler Frequency [kHz]")
     ax_fd.set_title("Zero-Delay Cut (Doppler Response)")
     ax_fd.grid(True)
 

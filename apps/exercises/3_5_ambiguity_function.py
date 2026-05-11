@@ -23,27 +23,46 @@ from rad_lab.ambiguity import ambiguity_function, plot_ambiguity, plot_zero_cuts
 # -- Common parameters --
 sample_rate = 100e3  # Hz
 bw = 10e3  # Hz
+fd_max = 20e3  # Hz — Doppler axis extent (±20 kHz)
+tau_lim_us = (-1500, 1500)  # delay-axis view limits [µs] — fits Barker-13 envelope
+fd_lim_khz = (-20, 20)  # Doppler-axis view limits [kHz]
+
+
+def _apply_limits(fig_ax_ambig, fig_ax_cuts):
+    _, ax = fig_ax_ambig
+    ax.set_xlim(*tau_lim_us)
+    ax.set_ylim(*fd_lim_khz)
+    _, (ax_tau, ax_fd) = fig_ax_cuts
+    ax_tau.set_xlim(*tau_lim_us)
+    ax_fd.set_xlim(*fd_lim_khz)
+
 
 # -- Uncoded pulse --
 print("## Uncoded pulse ##")
 _, pulse_uncoded = uncoded_pulse(sample_rate, bw, normalize=False)
-tau, fd, af = ambiguity_function(pulse_uncoded, sample_rate, fd_max=bw)
-plot_ambiguity(tau, fd, af, title="Ambiguity Function — Uncoded Pulse")
-plot_zero_cuts(tau, fd, af, title="Zero Cuts — Uncoded Pulse")
+tau, fd, af = ambiguity_function(pulse_uncoded, sample_rate, fd_max=fd_max)
+_apply_limits(
+    plot_ambiguity(tau, fd, af, title="Ambiguity Function — Uncoded Pulse"),
+    plot_zero_cuts(tau, fd, af, title="Zero Cuts — Uncoded Pulse"),
+)
 
 # -- Barker-13 coded pulse --
 print("## Barker-13 coded pulse ##")
 _, pulse_barker = barker_coded_pulse(sample_rate, bw, nchips=13, normalize=False)
-tau, fd, af = ambiguity_function(pulse_barker, sample_rate, fd_max=bw)
-plot_ambiguity(tau, fd, af, title="Ambiguity Function — Barker-13")
-plot_zero_cuts(tau, fd, af, title="Zero Cuts — Barker-13")
+tau, fd, af = ambiguity_function(pulse_barker, sample_rate, fd_max=fd_max)
+_apply_limits(
+    plot_ambiguity(tau, fd, af, title="Ambiguity Function — Barker-13"),
+    plot_zero_cuts(tau, fd, af, title="Zero Cuts — Barker-13"),
+)
 
 # -- LFM pulse (time-bandwidth product = 100) --
 print("## LFM pulse ##")
 T_lfm = 1e-3  # 1 ms pulse → TBP = bw * T = 10
 _, pulse_lfm = lfm_pulse(sample_rate, bw, T_lfm, chirp_up_down=1, normalize=False)
-tau, fd, af = ambiguity_function(pulse_lfm, sample_rate, fd_max=bw)
-plot_ambiguity(tau, fd, af, title="Ambiguity Function — LFM (up-chirp)")
-plot_zero_cuts(tau, fd, af, title="Zero Cuts — LFM (up-chirp)")
+tau, fd, af = ambiguity_function(pulse_lfm, sample_rate, fd_max=fd_max)
+_apply_limits(
+    plot_ambiguity(tau, fd, af, title="Ambiguity Function — LFM (up-chirp)"),
+    plot_zero_cuts(tau, fd, af, title="Zero Cuts — LFM (up-chirp)"),
+)
 
 plt.show()
