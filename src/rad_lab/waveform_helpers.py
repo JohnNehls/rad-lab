@@ -317,14 +317,10 @@ def add_waveform_at_index(ar: np.ndarray, waveform: np.ndarray, index: int) -> n
     Nar = ar.size
     Nwv = waveform.size
 
-    if index >= Nar:
-        logger.info("add_waveform_at_index: wave form not added")
-    elif index + Nwv >= Nar:
-        ar[index:-1] = ar[index:-1] + waveform[: int(Nar - index - 1)]
-        logger.info(f"add_waveform_at_index: add eclipsed waveform \n\t{index}\n\t{Nar}\n\t{Nwv}")
-    else:
-        ar[index : index + Nwv] = ar[index : index + Nwv] + waveform
-        logger.info(f"add_waveform_at_index: add waveform \n\t{index}\n\t{Nar}\n\t{Nwv}")
+    n_add = min(Nwv, max(0, Nar - index))
+    ar[index : index + n_add] += waveform[:n_add]
+    if n_add < Nwv:
+        logger.info(f"add_waveform_at_index: waveform truncated \n\t{index}\n\t{Nar}\n\t{Nwv}")
     return ar
 
 
@@ -350,9 +346,6 @@ def matchfilter_with_waveform(
     Nar = ar.size
     kernel = np.conj(waveform)[::-1]
     conv = signal.convolve(ar, kernel, mode="same", method="direct")
-    if Nar % 2 == 0:
-        index_shift = np.arange(-int(Nar / 2), int(Nar / 2))
-    else:
-        index_shift = np.arange(-int(Nar / 2), int(Nar / 2) + 1)
+    index_shift = np.arange(Nar) - Nar // 2
 
     return index_shift, conv

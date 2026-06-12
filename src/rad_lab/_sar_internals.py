@@ -279,8 +279,6 @@ def rcmc(
         datacube[k, :] = np.sum(weights * gathered, axis=0)
 
     if debug:
-        from .sar import _plot_rdm
-
         _plot_rdm(range_axis, f_eta, datacube, "RDM after RCMC")
 
     # Back to slow-time so downstream stages see the expected domain

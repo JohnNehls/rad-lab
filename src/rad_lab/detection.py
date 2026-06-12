@@ -147,6 +147,14 @@ def pd_swerling3(snr, pfa):
     return (1 + 2 * vt / (2 + snr)) * pfa ** (2 / (2 + snr))
 
 
+# Swerling model registry: name -> (plot label, detection probability function).
+_SWERLING_MODELS = {
+    "swerling0": ("Swerling 0", pd_swerling0),
+    "swerling1": ("Swerling I", pd_swerling1),
+    "swerling3": ("Swerling III", pd_swerling3),
+}
+
+
 # ---------------------------------------------------------------------------
 # Detection probability — non-coherent integration (Swerling 0)
 # ---------------------------------------------------------------------------
@@ -169,7 +177,7 @@ def pd_swerling0_nci(snr_per_pulse, pfa, n_pulses):
         Detection probability.
     """
     snr_per_pulse = np.asarray(snr_per_pulse, dtype=float)
-    thresh = chi2.isf(pfa, 2 * n_pulses)
+    thresh = 2 * threshold_factor_nci(pfa, n_pulses)
     nc = np.maximum(2 * n_pulses * snr_per_pulse, 1e-30)
     return ncx2.sf(thresh, 2 * n_pulses, nc)
 
@@ -194,12 +202,7 @@ def required_snr(pd, pfa, model="swerling0"):
     Returns:
         Required post-integration SNR in **dB**.
     """
-    dispatch = {
-        "swerling0": pd_swerling0,
-        "swerling1": pd_swerling1,
-        "swerling3": pd_swerling3,
-    }
-    func = dispatch[model]
+    _, func = _SWERLING_MODELS[model]
 
     def objective(snr_db):
         snr_lin = 10 ** (snr_db / 10)
@@ -306,16 +309,10 @@ def plot_pd_vs_snr(
     snr_db = np.asarray(snr_db, dtype=float)
     snr_lin = 10 ** (snr_db / 10)
 
-    dispatch = {
-        "swerling0": ("Swerling 0", pd_swerling0),
-        "swerling1": ("Swerling I", pd_swerling1),
-        "swerling3": ("Swerling III", pd_swerling3),
-    }
-
     fig, ax = plt.subplots(figsize=(8, 5))
 
     for key in models:
-        label, func = dispatch[key]
+        label, func = _SWERLING_MODELS[key]
         ax.plot(snr_db, func(snr_lin, pfa), label=label)
 
     if n_nci is not None:
@@ -355,20 +352,10 @@ def plot_roc(
     """
     if pfa_range is None:
         pfa_range = np.logspace(-8, -1, 200)
-    if title is None:
-        model_labels = {
-            "swerling0": "Swerling 0",
-            "swerling1": "Swerling I",
-            "swerling3": "Swerling III",
-        }
-        title = f"ROC Curves — {model_labels.get(model, model)}"
 
-    dispatch = {
-        "swerling0": pd_swerling0,
-        "swerling1": pd_swerling1,
-        "swerling3": pd_swerling3,
-    }
-    func = dispatch[model]
+    label, func = _SWERLING_MODELS[model]
+    if title is None:
+        title = f"ROC Curves — {label}"
 
     fig, ax = plt.subplots(figsize=(8, 5))
 

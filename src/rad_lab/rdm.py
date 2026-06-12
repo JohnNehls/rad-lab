@@ -105,7 +105,7 @@ def gen(
     )
     datacube *= chwin_norm_mat
 
-    f_axis, r_axis = doppler_process(datacube, radar.sample_rate)
+    f_axis, _ = doppler_process(datacube, radar.sample_rate)  # r_axis is unchanged
 
     # f = -2 fc/c * Rdot -> Rdot = -c f / (2 fc)
     rdot_axis = -c.C * f_axis / (2 * radar.fcar)

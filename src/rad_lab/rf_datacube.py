@@ -88,9 +88,8 @@ def doppler_process(datacube: np.ndarray, fs: float) -> tuple[np.ndarray, np.nda
             - R_axis (np.ndarray): The range axis [delta_r, R_ambigious] [m].
     """
     N_r, N_p = datacube.shape
-    dR_grid = c.C / (2 * fs)
-    prf = fs / datacube.shape[0]
-    R_axis = np.arange(1, N_r + 1) * dR_grid  # Process fast time
+    prf = fs / N_r
+    R_axis = range_axis(fs, N_r)
     f_axis = fft.fftshift(fft.fftfreq(N_p, 1 / prf))  # process slow time
     datacube[:] = fft.fftshift(fft.fft(datacube, axis=1), axes=1)
     return f_axis, R_axis

@@ -9,6 +9,17 @@ from scipy import fft
 from . import constants as c
 
 
+def _unit_magnitude(noise: np.ndarray) -> np.ndarray:
+    """Normalizes a complex signal to pointwise magnitude one (zeros stay zero)."""
+    magnitude = np.abs(noise)
+    return np.divide(
+        noise,
+        magnitude,
+        out=np.zeros_like(noise, dtype=np.complex64),
+        where=(magnitude != 0),
+    )
+
+
 def unity_variance_complex_noise(in_size: tuple | int) -> np.ndarray:
     """
     Generates complex Gaussian noise with unity variance.
@@ -64,14 +75,7 @@ def band_limited_complex_noise(
     noise = fft.ifft(spectrum)
 
     if normalize:
-        magnitude = np.abs(noise)
-        # Avoid division by zero for elements with zero magnitude
-        return np.divide(
-            noise,
-            magnitude,
-            out=np.zeros_like(noise, dtype=np.complex64),
-            where=(magnitude != 0),
-        )
+        return _unit_magnitude(noise)
 
     return noise
 
@@ -121,13 +125,6 @@ def gaussian_complex_noise(
     noise = fft.ifft(spectrum) * np.sqrt(N_samples)
 
     if normalize:
-        magnitude = np.abs(noise)
-        # Avoid division by zero for elements with zero magnitude
-        return np.divide(
-            noise,
-            magnitude,
-            out=np.zeros_like(noise, dtype=np.complex64),
-            where=(magnitude != 0),
-        )
+        return _unit_magnitude(noise)
 
     return noise

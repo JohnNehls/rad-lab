@@ -63,7 +63,7 @@ def linear_antenna_gain(
             - gain_vec (np.ndarray): The complex voltage gain at each angle in `theta_vec`.
     """
     if weight_vec is None:
-        weight_vec = np.ones(len(el_pos)).T
+        weight_vec = np.ones(len(el_pos))
 
     theta_grid = np.linspace(-np.pi / 2, np.pi / 2, N_theta)
 

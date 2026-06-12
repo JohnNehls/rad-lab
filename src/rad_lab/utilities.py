@@ -110,5 +110,4 @@ def zero_to_smallest_float(array: np.ndarray, value: float = 1e-16) -> None:
     Returns:
         None: The array is modified in-place.
     """
-    indxs = np.where(array == 0)
-    array[indxs] = value
+    array[array == 0] = value

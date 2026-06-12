@@ -65,11 +65,11 @@ def _inject_pulses(
             every pulse; a 1-D array of length ``n_pulses`` provides
             per-pulse weighting (e.g. beam-pattern gains in spotlight SAR).
     """
+    amplitudes = np.broadcast_to(amplitude, len(sample_indices))
     with _flat_datacube(datacube) as flat:
         for i in range(len(sample_indices)):
             if sample_indices[i] < datacube.size:
-                amp_i = amplitude[i] if np.ndim(amplitude) > 0 else amplitude
-                pulse = amp_i * waveform_samples * np.exp(1j * phases[i])
+                pulse = amplitudes[i] * waveform_samples * np.exp(1j * phases[i])
                 add_waveform_at_index(flat, pulse, sample_indices[i])
 
 
