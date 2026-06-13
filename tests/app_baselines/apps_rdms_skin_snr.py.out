@@ -1,0 +1,5 @@
+SNR verification:
+  Measured peak:   48.23 dB   (RDM)
+  Range equation:  48.80 dB   (theory)
+  Difference:      -0.57 dB
+  Noise RMS:       1.293      (voltage ratio, expect ~1)

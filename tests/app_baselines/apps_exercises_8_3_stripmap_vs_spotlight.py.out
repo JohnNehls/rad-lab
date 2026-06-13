@@ -1,0 +1,7 @@
+Running stripmap SAR ...
+Running spotlight SAR ...
+
+Centre target cross-range -3 dB width:
+  Stripmap:  2.53 m  (theory 1.75 m)
+  Spotlight: 0.62 m  (theory 0.44 m)
+  Ratio:     4.0×

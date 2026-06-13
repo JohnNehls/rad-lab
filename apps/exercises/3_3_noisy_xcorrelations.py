@@ -21,6 +21,7 @@ from rad_lab.waveform_helpers import (
 from rad_lab.noise import unity_variance_complex_noise
 from rad_lab.waveform import uncoded_pulse, barker_coded_pulse, lfm_pulse
 
+np.random.seed(0)  # reproducible noise realizations
 
 print("##############################")
 print("Problem 3: noisy xcorrelations")

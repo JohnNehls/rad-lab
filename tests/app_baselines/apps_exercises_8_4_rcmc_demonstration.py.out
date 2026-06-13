@@ -1,0 +1,43 @@
+Predicted peak migration: 21.21 m (2.83 range cells)
+
+======================================================================
+  WITHOUT RCMC  (rcmc=False)
+======================================================================
+Cross-range axis: -300.0 to 300.0 m, 16000 pts
+Slant-range axis: 7.5 to 9375.0 m, 1250 pts
+Range resolution: 7.50 m
+Cross-range spacing: 0.0375 m
+
+Target 0: pos=[0, 1500, 0], expected slant range=2121.3 m
+  Peak at slant_range=2122.5 m, cross_range=0.000 m
+  Peak magnitude (dB): 0.0
+  Azimuth peak position vs range bin offset:
+    range bin -3 (R=2100.0m): az peak at cr=0.000m, -25.1 dB
+    range bin -2 (R=2107.5m): az peak at cr=1.162m, -33.1 dB
+    range bin -1 (R=2115.0m): az peak at cr=-0.112m, -10.5 dB
+    range bin +0 (R=2122.5m): az peak at cr=0.000m, 0.0 dB
+    range bin +1 (R=2130.0m): az peak at cr=0.112m, -11.8 dB
+    range bin +2 (R=2137.5m): az peak at cr=1.500m, -24.1 dB
+    range bin +3 (R=2145.0m): az peak at cr=0.037m, -25.8 dB
+
+======================================================================
+  WITH RCMC + debug RDM panels  (rcmc=True)
+======================================================================
+Cross-range axis: -300.0 to 300.0 m, 16000 pts
+Slant-range axis: 7.5 to 9375.0 m, 1250 pts
+Range resolution: 7.50 m
+Cross-range spacing: 0.0375 m
+
+Target 0: pos=[0, 1500, 0], expected slant range=2121.3 m
+  Peak at slant_range=2122.5 m, cross_range=0.000 m
+  Peak magnitude (dB): 0.0
+  Azimuth peak position vs range bin offset:
+    range bin -3 (R=2100.0m): az peak at cr=-0.112m, -25.1 dB
+    range bin -2 (R=2107.5m): az peak at cr=-0.562m, -26.3 dB
+    range bin -1 (R=2115.0m): az peak at cr=0.112m, -9.8 dB
+    range bin +0 (R=2122.5m): az peak at cr=0.000m, 0.0 dB
+    range bin +1 (R=2130.0m): az peak at cr=0.075m, -11.3 dB
+    range bin +2 (R=2137.5m): az peak at cr=0.675m, -30.2 dB
+    range bin +3 (R=2145.0m): az peak at cr=-0.075m, -25.5 dB
+
+Rendering figures (close all windows to exit)...

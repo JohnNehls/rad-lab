@@ -1,0 +1,13 @@
+##############################
+Problem 3: noisy xcorrelations
+##############################
+## Case 1: add uncoded pulse ######
+	create noise
+verify uncoded pulse BW
+	bandwidth:
+	PW=4.9e+06 f_start=-2.4e+06 f_end=2.4e+06
+verify noise is at ~ 0dB
+	10*np.log10(np.var(noise_1))=np.float64(0.28576956694622674)
+## Case 2: three uncoded pulse ####
+## Case 3: LFM and BPSK pulses ####
+10*np.log10(np.var(noise_3))=np.float64(-0.08072568424683528)

@@ -1,0 +1,12 @@
+
+5.3.2 noise check: np.var(fft.fft(noise_dc, axis=1))= 0.0000
+
+noise check:
+	np.mean(noise_var)= 0.0001
+	np.var(noise_var)= 0.0000
+	np.mean(20*np.log10(noise_var))=-116.6100
+	np.var(20*np.log10(noise_var))= 270.5785
+
+Peak magnitude:
+	20*np.log10(np.max(abs(noise_dc)))=-85.24
+	20*np.log10(np.max(abs(total_dc)))=-11.68

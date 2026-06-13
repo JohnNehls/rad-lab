@@ -33,6 +33,15 @@ Documentation = "https://johnnehls.github.io/rad-lab/"
 [tool.setuptools_scm]
 version_file = "src/rad_lab/_version.py"
 
+[tool.pytest.ini_options]
+# Apps regression tests are slow (~minutes), so plain `pytest` skips them.
+# Run them with: pytest -m apps
+testpaths = ["tests"]
+addopts = '-m "not apps"'
+markers = [
+    "apps: regression-run every script under apps/ headless (slow; deselected by default)",
+]
+
 [tool.ruff]
 # Same as Black.
 line-length = 99

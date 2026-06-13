@@ -1,0 +1,3 @@
+n_pulses=25000, n_range_bins=500, dR=15.00 m
+Doppler bandwidth = 13333 Hz, PRF = 20000 Hz
+Predicted peak migration: 31.25 m (2.08 range cells)

@@ -22,6 +22,7 @@ from rad_lab.pulse_doppler_radar import Radar
 from rad_lab.waveform import uncoded_waveform, barker_coded_waveform, lfm_waveform
 from rad_lab.returns import Target, Return
 
+np.random.seed(0)  # reproducible rseed draw below
 
 bw = 10e6  # waveform bandwidth [Hz]
 

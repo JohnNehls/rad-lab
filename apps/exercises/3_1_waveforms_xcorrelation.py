@@ -9,10 +9,12 @@ pulse), but the PSDs become noisier with more chips. LFM spreads energy
 uniformly across the bandwidth.
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab.waveform_helpers import plot_pulse_and_spectrum, plot_pulse_and_xcorrelation
 from rad_lab.waveform import uncoded_pulse, barker_coded_pulse, random_coded_pulse, lfm_pulse
 
+np.random.seed(0)  # reproducible random-coded pulse
 
 # -- Common waveform parameters (normalized units) --
 sampleRate = 10

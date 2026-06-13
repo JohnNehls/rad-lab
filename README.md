@@ -111,9 +111,20 @@ Contributions are welcome. Please fork the repository and submit a pull request.
 To run the test suite:
 
 ```shell
-python -m pytest tests/ -v
-./apps/run_apps.sh  # smoke test: run all apps with a headless backend 
+python -m pytest tests/ -v  # unit tests (fast; apps regression is deselected)
+python -m pytest -m apps    # apps regression: run every apps/ script headless
+                            # and compare stdout against tests/app_baselines/
 ```
+
+After an intentional change to a script's output, refresh the baselines with:
+
+```shell
+RADLAB_UPDATE_APP_BASELINES=1 python -m pytest -m apps
+```
+
+New app scripts are picked up automatically. Seed any randomness
+(`np.random.seed(0)`) so the stdout baseline is stable, or name the file
+`*_no_test.py` to have the regression skip it.
 
 ## License
 

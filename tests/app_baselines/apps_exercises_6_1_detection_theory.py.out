@@ -1,0 +1,17 @@
+==================================================
+Detection Theory Summary
+==================================================
+
+Pfa = 1e-06
+
+Required post-integration SNR for Pd = 0.9:
+  swerling0   : 13.18 dB
+  swerling1   : 21.14 dB
+  swerling3   : 16.99 dB
+
+Required per-pulse SNR for Pd = 0.9 (Swerling 0, NCI):
+  N =   1: 13.18 dB
+  N =   5: 7.50 dB
+  N =  10: 5.27 dB
+  N =  20: 3.17 dB
+  N =  50: 0.58 dB
