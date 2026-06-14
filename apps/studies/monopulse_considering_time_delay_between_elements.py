@@ -33,6 +33,7 @@ from rad_lab.range_equation import noise_power
 from rad_lab._rdm_internals import create_window, add_returns
 from rad_lab.returns import Target, Return
 
+np.random.seed(0)  # reproducible noise realizations
 
 # -- Use a low carrier-to-bandwidth ratio to make the time delay significant --
 bw = 200e6  # waveform bandwidth [Hz]

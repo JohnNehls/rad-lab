@@ -112,19 +112,22 @@ To run the test suite:
 
 ```shell
 python -m pytest tests/ -v  # unit tests (fast; apps regression is deselected)
-python -m pytest -m apps    # apps regression: run every apps/ script headless
-                            # and compare stdout against tests/app_baselines/
+python -m pytest -m apps    # apps regression: run every apps/ script headless,
+                            # comparing stdout against tests/app_baselines/ and
+                            # each figure against tests/app_baselines/figures/
 ```
 
-After an intentional change to a script's output, refresh the baselines with:
+After an intentional change to a script's output or plots, refresh both the
+stdout and image baselines with:
 
 ```shell
 RADLAB_UPDATE_APP_BASELINES=1 python -m pytest -m apps
 ```
 
 New app scripts are picked up automatically. Seed any randomness
-(`np.random.seed(0)`) so the stdout baseline is stable, or name the file
-`*_no_test.py` to have the regression skip it.
+(`np.random.seed(0)`) so the stdout and figure baselines are stable, or name
+the file `*_no_test.py` to have the regression skip it. Figure comparison is
+RMS-pixel based, so a matplotlib upgrade may require a baseline refresh.
 
 ## License
 
