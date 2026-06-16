@@ -19,6 +19,12 @@ These take a few minutes, so they are deselected by default (see
 To refresh the stdout and image baselines after an intentional change:
 
     RADLAB_UPDATE_APP_BASELINES=1 pytest -m apps
+
+Set ``RADLAB_SKIP_FIGURE_COMPARE=1`` to keep the script-execution, stdout, and
+figure-count checks while skipping the pixel-level image comparison.  CI uses
+this because RMS image diffs are sensitive to the rendering environment
+(matplotlib bundles a fixed freetype, but ``usetex`` scripts render text via the
+host's LaTeX/dvipng, which differs from the machine that generated baselines).
 """
 
 import os
@@ -101,6 +107,11 @@ def test_app_script(script: Path, tmp_path: Path) -> None:
             f"{len(fig_baselines)} baseline(s); if intentional, refresh with: "
             "RADLAB_UPDATE_APP_BASELINES=1 pytest -m apps"
         )
+        # Pixel comparison is sensitive to the rendering environment (notably
+        # LaTeX/dvipng for usetex scripts), so CI sets RADLAB_SKIP_FIGURE_COMPARE
+        # to keep the robust count check while skipping the RMS image diff.
+        if os.environ.get("RADLAB_SKIP_FIGURE_COMPARE"):
+            return
         for expected, actual in zip(fig_baselines, produced):
             msg = compare_images(str(expected), str(actual), tol=FIGURE_TOL)
             assert msg is None, (
