@@ -70,7 +70,9 @@ for i in range(len(steer_vec)):
 f_measured_theta = mp.monopulse_angle_at_peak_deg(dc_list[0], dc_list[1], dx)
 f_measured_error = abs(f_measured_theta - tgt_angle)
 
-print(f"{f_measured_theta=} degrees")
-print(f"{f_measured_error=} degrees")
+# Fixed precision: full float repr differs in the last ULP across platforms
+# (BLAS/CPU rounding), which breaks the byte-exact stdout regression.
+print(f"f_measured_theta={f_measured_theta:.6f} degrees")
+print(f"f_measured_error={f_measured_error:.6f} degrees")
 
 plt.show()
