@@ -1248,8 +1248,7 @@ datacube. It also generates the corresponding Doppler frequency and range axes.<
 <span class="normal">92</span>
 <span class="normal">93</span>
 <span class="normal">94</span>
-<span class="normal">95</span>
-<span class="normal">96</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">doppler_process</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="normal">95</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">doppler_process</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Performs Doppler processing on a radar datacube.</span>
 
 <span class="sd">    This function applies a Fast Fourier Transform (FFT) across the slow-time</span>
@@ -1269,9 +1268,8 @@ datacube. It also generates the corresponding Doppler frequency and range axes.<
 <span class="sd">            - R_axis (np.ndarray): The range axis [delta_r, R_ambigious] [m].</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">N_r</span><span class="p">,</span> <span class="n">N_p</span> <span class="o">=</span> <span class="n">datacube</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">dR_grid</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">C</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">fs</span><span class="p">)</span>
-    <span class="n">prf</span> <span class="o">=</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">datacube</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">R_axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N_r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dR_grid</span>  <span class="c1"># Process fast time</span>
+    <span class="n">prf</span> <span class="o">=</span> <span class="n">fs</span> <span class="o">/</span> <span class="n">N_r</span>
+    <span class="n">R_axis</span> <span class="o">=</span> <span class="n">range_axis</span><span class="p">(</span><span class="n">fs</span><span class="p">,</span> <span class="n">N_r</span><span class="p">)</span>
     <span class="n">f_axis</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">fft</span><span class="o">.</span><span class="n">fftfreq</span><span class="p">(</span><span class="n">N_p</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">prf</span><span class="p">))</span>  <span class="c1"># process slow time</span>
     <span class="n">datacube</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">fft</span><span class="o">.</span><span class="n">fftshift</span><span class="p">(</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">datacube</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">axes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">f_axis</span><span class="p">,</span> <span class="n">R_axis</span>
@@ -1398,7 +1396,8 @@ use FFT-based convolution.  Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/rf_datacube.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 98</span>
+<span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
@@ -1431,8 +1430,7 @@ use FFT-based convolution.  Defaults to True.</p>
 <span class="normal">129</span>
 <span class="normal">130</span>
 <span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">matchfilter</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pulse_wvf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pedantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">matchfilter</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pulse_wvf</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pedantic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Applies a matched filter to a datacube for pulse compression.</span>
 
 <span class="sd">    Mirrors a real-time hardware matched filter (FIR with coefficients</span>

@@ -1376,7 +1376,7 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
     <span class="p">)</span>
     <span class="n">datacube</span> <span class="o">*=</span> <span class="n">chwin_norm_mat</span>
 
-    <span class="n">f_axis</span><span class="p">,</span> <span class="n">r_axis</span> <span class="o">=</span> <span class="n">doppler_process</span><span class="p">(</span><span class="n">datacube</span><span class="p">,</span> <span class="n">radar</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">)</span>
+    <span class="n">f_axis</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">doppler_process</span><span class="p">(</span><span class="n">datacube</span><span class="p">,</span> <span class="n">radar</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">)</span>  <span class="c1"># r_axis is unchanged</span>
 
     <span class="c1"># f = -2 fc/c * Rdot -&gt; Rdot = -c f / (2 fc)</span>
     <span class="n">rdot_axis</span> <span class="o">=</span> <span class="o">-</span><span class="n">c</span><span class="o">.</span><span class="n">C</span> <span class="o">*</span> <span class="n">f_axis</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">radar</span><span class="o">.</span><span class="n">fcar</span><span class="p">)</span>

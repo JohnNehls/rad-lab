@@ -1568,7 +1568,7 @@ Defaults to False.</p>
 <span class="sd">            - gain_vec (np.ndarray): The complex voltage gain at each angle in `theta_vec`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">weight_vec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">weight_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">el_pos</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">weight_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">el_pos</span><span class="p">))</span>
 
     <span class="n">theta_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N_theta</span><span class="p">)</span>
 
