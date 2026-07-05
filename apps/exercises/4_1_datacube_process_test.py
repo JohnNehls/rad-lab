@@ -56,8 +56,11 @@ ax[1].set_ylabel("range [m]")
 fig.colorbar(mesh, ax=ax[1])
 plt.tight_layout()
 
-print("TODO: create a test that checks the max of RDM is in the correct bin")
-# if maxBin != [x,y]:
-#     raise Exception("RDM processed incorrectly")
+# -- Verify the RDM peak landed in the expected range-Doppler cell --
+peak_range_bin, peak_doppler_bin = np.unravel_index(np.argmax(abs(dc)), dc.shape)
+print(f"RDM peak: range bin {peak_range_bin}, Doppler {f_ax[peak_doppler_bin] * 1e-6:.3f} MHz")
+print(f"expected: range bin 98, Doppler {PRF / 4 * 1e-6:.3f} MHz")
+if peak_range_bin != 98 or not np.isclose(f_ax[peak_doppler_bin], PRF / 4):
+    raise Exception("RDM processed incorrectly")
 
 plt.show()

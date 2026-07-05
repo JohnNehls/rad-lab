@@ -1,4 +1,5 @@
 ##########################
 Test datacube processing
 ##########################
-TODO: create a test that checks the max of RDM is in the correct bin
+RDM peak: range bin 98, Doppler 0.025 MHz
+expected: range bin 98, Doppler 0.025 MHz

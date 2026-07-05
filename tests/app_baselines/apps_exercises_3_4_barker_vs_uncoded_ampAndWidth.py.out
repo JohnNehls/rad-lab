@@ -1,3 +1,7 @@
 ##############################
 Problem 4: Compare Barker 13 to uncoded pulse
 ##############################
+pulse length:    uncoded=4 samples, barker13=52 samples
+pulse amplitude: uncoded=5.00 v, barker13=1.39 v
+matched-filter peaks: uncoded=10.0 barker13=10.0
+-3 dB mainlobe width: uncoded=3 samples, barker13=3 samples

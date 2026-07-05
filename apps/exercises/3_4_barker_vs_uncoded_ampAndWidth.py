@@ -7,6 +7,7 @@ in time. After matched filtering, the Barker pulse produces a sharper peak
 the uncoded pulse has a triangular autocorrelation with no sidelobes.
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab.waveform_helpers import matchfilter_with_waveform, zeropad_waveform
 from rad_lab.waveform import uncoded_pulse, barker_coded_pulse
@@ -43,6 +44,20 @@ ax[0].legend()
 # Right: matched-filter output — Barker peak is ~13x taller (processing gain)
 iu, conv_u = matchfilter_with_waveform(mag_u_s, mag_u)
 ib, conv_b = matchfilter_with_waveform(mag_b_s, mag_b)
+
+# The Barker pulse spreads the same (unit-normalized) energy over 13 chips, so
+# it is 13x longer with 1/sqrt(13) the amplitude, yet the matched-filter peaks
+# and mainlobe widths match — same detection energy and range resolution.
+n_u = int((abs(mag_u) > 0).sum())
+n_b = int((abs(mag_b) > 0).sum())
+print(f"pulse length:    uncoded={n_u} samples, barker13={n_b} samples")
+print(f"pulse amplitude: uncoded={abs(mag_u_s).max():.2f} v, barker13={abs(mag_b_s).max():.2f} v")
+peak_u = abs(conv_u).max()
+peak_b = abs(conv_b).max()
+width_u = int((abs(conv_u) >= peak_u / np.sqrt(2)).sum())  # -3 dB width [samples]
+width_b = int((abs(conv_b) >= peak_b / np.sqrt(2)).sum())
+print(f"matched-filter peaks: uncoded={peak_u:.1f} barker13={peak_b:.1f}")
+print(f"-3 dB mainlobe width: uncoded={width_u} samples, barker13={width_b} samples")
 ax[1].plot(iu, conv_u, "-o", label="uncoded")
 ax[1].plot(ib, conv_b, "-x", label="barker13")
 ax[1].set_xlabel("index shift")

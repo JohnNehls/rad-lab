@@ -9,6 +9,7 @@ Steps:
      matched filter, and Doppler-processes to produce the range-Doppler map.
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, Radar, Target, Return, barker_coded_waveform
 
@@ -33,6 +34,11 @@ waveform = barker_coded_waveform(10e6, nchips=13)
 return_list = [Return(target=Target(range=0.5e3, range_rate=1.0e3, rcs=1))]
 
 # -- Generate and display the range-Doppler map --
-rdm.gen(radar, waveform, return_list)
+rdot_axis, r_axis, datacube = rdm.gen(radar, waveform, return_list)
+
+# The RDM peak should land in the target's range/range-rate cell
+peak_r, peak_rdot = np.unravel_index(np.argmax(abs(datacube)), datacube.shape)
+print(f"RDM peak: range = {r_axis[peak_r] * 1e-3:.2f} km (target at 0.50 km)")
+print(f"          range rate = {rdot_axis[peak_rdot] * 1e-3:.2f} km/s (target at 1.00 km/s)")
 
 plt.show()

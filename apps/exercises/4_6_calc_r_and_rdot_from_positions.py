@@ -18,6 +18,10 @@ print("##########################")
 print("Problem 6")
 
 # range_and_rangerate(radar_pos, radar_vel, target_pos, target_vel)
-result = range_and_rangerate([0, 0, 3048], [300, 0, 0], [5e3, 0, 3048], [-300, 0, 0])
+los, tgt_range, tgt_range_rate = range_and_rangerate(
+    [0, 0, 3048], [300, 0, 0], [5e3, 0, 3048], [-300, 0, 0]
+)
 
-print(result)
+print(f"line of sight = [{los[0]:.1f}, {los[1]:.1f}, {los[2]:.1f}] m")
+print(f"range         = {tgt_range:.1f} m")
+print(f"range rate    = {tgt_range_rate:.1f} m/s")

@@ -19,6 +19,10 @@ plt.rcParams["text.usetex"] = True
 # Higher PRF => shorter PRI => less time for echoes => shorter unambiguous range.
 PRF_ar = np.arange(1e3, 200.5e3, 500)
 
+print("Problem 1: unambiguous range")
+for PRF in [1e3, 10e3, 100e3]:
+    print(f"\tPRF={PRF * 1e-3:5.0f} kHz : {pdr.range_unambiguous(PRF) * 1e-3:.2f} km")
+
 plt.figure()
 plt.plot(PRF_ar * 1e-3, pdr.range_unambiguous(PRF_ar) * 1e-3)
 plt.title("unambiguous range vs PRF")
@@ -64,6 +68,10 @@ for PRF in PRF_ar:
 apparent_range_ar = np.array(apparent_range_ar)
 range_max_ar = np.array(range_max_ar)
 
+print(f"Problem 3: apparent range of a {R_tgt * 1e-3:.1f} km target")
+for PRF, apparent in zip(PRF_ar, apparent_range_ar):
+    print(f"\tPRF={PRF * 1e-3:5.0f} kHz : {apparent * 1e-3:6.2f} km")
+
 plt.figure()
 plt.title(f"range aliasing vs PRF: target range = {R_tgt * 1e-3:.1f} [km]")
 plt.plot(PRF_ar * 1e-3, apparent_range_ar * 1e-3, "o", label="apparent range")
@@ -90,6 +98,10 @@ for PRF in PRF_ar:
 
 apparent_doppler_ar = np.array(apparent_doppler_ar)
 apparent_rangeRate_ar = np.array(apparent_rangeRate_ar)
+
+print(f"Problem 4: apparent Doppler and range rate of a {rangeRate_tgt} m/s target")
+for PRF, doppler, rangeRate in zip(PRF_ar, apparent_doppler_ar, apparent_rangeRate_ar):
+    print(f"\tPRF={PRF * 1e-3:5.0f} kHz : {doppler * 1e-3:7.2f} kHz  {rangeRate:7.1f} m/s")
 
 fig, ax = plt.subplots(1, 2)
 fig.suptitle(f"target range rate = {rangeRate_tgt} [m/s]")
@@ -127,6 +139,12 @@ for f0 in f0_ar:
 
 apparent_rangeRate_ar = np.array(apparent_rangeRate_ar)
 rangeRate_max_ar = np.array(rangeRate_max_ar)
+
+print(
+    f"Problem 5: apparent range rate of a {rangeRate_tgt} m/s target at PRF={PRF * 1e-3:.0f} kHz"
+)
+for f0, rangeRate in zip(f0_ar, apparent_rangeRate_ar):
+    print(f"\tf0={f0 * 1e-9:4.0f} GHz : {rangeRate:7.1f} m/s")
 
 plt.figure()
 plt.title(

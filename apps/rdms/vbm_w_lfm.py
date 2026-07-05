@@ -10,6 +10,7 @@ The target is stationary (range_rate=0) to isolate the VBM effect in the
 Doppler dimension.
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, Radar, Target, EaPlatform, Return, lfm_waveform
 
@@ -46,6 +47,16 @@ return_list = [
     )
 ]
 
-rdm.gen(radar, waveform, return_list, debug=False)
+rdot_axis, r_axis, datacube = rdm.gen(radar, waveform, return_list, debug=False)
+
+# The VBM noise should sit at the target's range and mask a band of Doppler
+# bins roughly rdot_delta wide, centered on the (stationary) target.
+peak_r, _ = np.unravel_index(np.argmax(abs(datacube)), datacube.shape)
+row = abs(datacube[peak_r, :])
+masked = rdot_axis[row > row.max() / 10]  # bins within 20 dB of the peak
+print(f"peak range = {r_axis[peak_r] * 1e-3:.2f} km (target at 0.50 km)")
+print(
+    f"Doppler bins within 20 dB of peak: {masked.min() * 1e-3:.2f} to {masked.max() * 1e-3:.2f} km/s"
+)
 
 plt.show()

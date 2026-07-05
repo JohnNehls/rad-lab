@@ -91,6 +91,16 @@ for snr_db in snr_db_list:
     f_error_list_phase.append(abs(np.rad2deg(f_angle_est_niave) - tgt_angle))
 
 
+# -- Summarize all four methods: errors should fall with SNR, and the
+# monopulse-ratio methods should agree between time and frequency domains --
+print(f"angle error [deg] vs SNR (true angle = {tgt_angle} deg, BASEBAND={BASEBAND})")
+print("\tSNR [dB]   time ratio   time phase   freq ratio   freq phase")
+for i, snr_db in enumerate(snr_db_list):
+    print(
+        f"\t{snr_db:8d}   {error_mean_list[i]:10.3f}   {error_mean_list_phase[i]:10.3f}"
+        f"   {f_error_list[i]:10.3f}   {f_error_list_phase[i]:10.3f}"
+    )
+
 # -- Plot received signals at each SNR --
 plt.legend()
 plt.title("Noisy signal for Each SNR [dB]")

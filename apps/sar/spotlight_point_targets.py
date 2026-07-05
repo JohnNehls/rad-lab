@@ -16,6 +16,7 @@ Cross-range resolution comparison (at ~5.8 km slant range):
   Spotlight: λR/(2L) = 0.03 × 5831 / (2 × 200) ≈ 0.44 m  (~4× finer)
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import sar, SarRadar, SarTarget, lfm_waveform
 
@@ -54,6 +55,14 @@ targets = [
 # -- Generate the focused SAR image --
 cross_range, slant_range, total_image = sar.gen(
     sar_radar, waveform, targets, seed=0, plot=True, debug=False
+)
+
+# Report where the brightest scatterer focused -- each target should produce
+# a peak, and the global peak should sit on one of the target positions.
+peak_sr, peak_cr = np.unravel_index(np.argmax(abs(total_image)), total_image.shape)
+print(
+    f"image peak: cross-range = {cross_range[peak_cr]:.2f} m, "
+    f"slant range = {slant_range[peak_sr] * 1e-3:.3f} km"
 )
 
 plt.show()

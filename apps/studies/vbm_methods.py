@@ -19,6 +19,7 @@ physically accurate:
 Each method generates an RDM so you can visually compare the Doppler spread.
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, Radar, Target, EaPlatform, Return, uncoded_waveform
 import rad_lab.vbm as vbm
@@ -51,7 +52,10 @@ vbm_name_function_dict = {
 }
 
 # -- Generate an RDM for each VBM method --
+# For each method, measure the Doppler extent within 20 dB of the peak at the
+# jammer's range bin and compare it to the prescribed rdot_delta.
 rdot_delta = 1.0e3  # prescribed Doppler spread [m/s]
+print(f"measured VBM Doppler spread (prescribed rdot_delta = {rdot_delta:.0f} m/s)")
 for name, func in vbm_name_function_dict.items():
     jammer_return = Return(
         target=Target(range=0.2e3, range_rate=0.0e3),
@@ -64,9 +68,14 @@ for name, func in vbm_name_function_dict.items():
             vbm_noise_function=func,
         ),
     )
-    rdm.gen(radar, waveform, [jammer_return], debug=False)
+    rdot_axis, r_axis, datacube = rdm.gen(radar, waveform, [jammer_return], debug=False)
     ax = plt.gca()
     ax.set_title(name)
+
+    peak_r, _ = np.unravel_index(np.argmax(abs(datacube)), datacube.shape)
+    row = abs(datacube[peak_r, :])
+    masked = rdot_axis[row > row.max() / 10]
+    print(f"\t{name}: {masked.max() - masked.min():7.1f} m/s")
 
 print(
     f"Note:LFM phase VBM is the only method to match the perscribed {rdot_delta} [m/s] VBM width."

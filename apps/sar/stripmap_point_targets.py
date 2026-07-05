@@ -20,6 +20,7 @@ Parameter design summary:
     and along-track positions −5, 0, +5 m (separated by 5 m, > 1.5–2.1 m res)
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import sar, SarRadar, SarTarget, lfm_waveform
 
@@ -57,6 +58,14 @@ targets = [
 # -- Generate the focused SAR image --
 cross_range, slant_range, total_image = sar.gen(
     sar_radar, waveform, targets, seed=0, plot=True, debug=False
+)
+
+# Report where the brightest scatterer focused -- each target should produce
+# a peak, and the global peak should sit on one of the target positions.
+peak_sr, peak_cr = np.unravel_index(np.argmax(abs(total_image)), total_image.shape)
+print(
+    f"image peak: cross-range = {cross_range[peak_cr]:.2f} m, "
+    f"slant range = {slant_range[peak_sr] * 1e-3:.3f} km"
 )
 
 plt.show()

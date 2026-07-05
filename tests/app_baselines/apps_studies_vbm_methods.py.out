@@ -1,1 +1,7 @@
+measured VBM Doppler spread (prescribed rdot_delta = 1000 m/s)
+	random phase VBM:  7491.0 m/s
+	uniform bandwidth phase VBM:  3576.0 m/s
+	gaussian bandwidth phase VBM:  4512.0 m/s
+	uniform bandwidth phase normalized VBM:  2094.0 m/s
+	LFM phase VBM:   789.0 m/s
 Note:LFM phase VBM is the only method to match the perscribed 1000.0 [m/s] VBM width.

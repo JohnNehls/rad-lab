@@ -4,3 +4,11 @@ Problem 2: Barker sidelobe check code example
 
 The sidelobes do not follow the table
 	consider the ypeak/nchips comment in the problem
+peak / max sidelobe of the autocorrelation (theory: nchips)
+	barker  2:  2.67
+	barker  3:  3.00
+	barker  4:  4.00
+	barker  5:  5.00
+	barker  7:  7.00
+	barker 11: 11.00
+	barker 13: 13.00

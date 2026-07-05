@@ -101,8 +101,13 @@ for i, (tgt, ax) in enumerate(zip(targets, axes)):
             f"Target {i}: x={tgt.position[0]}m\n"
             f"-3dB width={width:.2f}m (theory={theoretical:.2f}m)"
         )
+        print(
+            f"target {i} (x={tgt.position[0]:5.1f} m): "
+            f"-3 dB cross-range width = {width:.2f} m (theory {theoretical:.2f} m)"
+        )
     else:
         ax.set_title(f"Target {i}: x={tgt.position[0]}m")
+        print(f"target {i} (x={tgt.position[0]:5.1f} m): no -3 dB width found")
 
 fig.suptitle("Cross-range cuts at peak range bin", fontsize=14)
 fig.tight_layout()

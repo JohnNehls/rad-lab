@@ -28,6 +28,9 @@ pos_ar = np.linspace(2, 8, Nel) * 1e-3  # element positions [m]
 
 # -- Compute the phase center (weighted centroid of positions) --
 phase_cent = ula.array_phase_center(pos_ar, chebWindow)
+print(
+    f"phase center = {phase_cent * 1e3:.3f} mm (geometric center = {pos_ar.mean() * 1e3:.3f} mm)"
+)
 
 # -- Plot: element weights and phase center location --
 plt.figure()

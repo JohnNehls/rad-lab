@@ -51,10 +51,11 @@ mag_u_s = 10 ** (SNR / 20) * mag_u  # scale pulse voltage for target SNR
 
 add_waveform_at_index(noise_1, mag_u_s, indx_1)  # add pulse into noise in-place
 print("verify noise is at ~ 0dB")
-print(f"\t{10*np.log10(np.var(noise_1))=}")
+print(f"\tnoise variance = {10 * np.log10(np.var(noise_1)):.2f} dB")
 
 # Apply matched filter: correlate the noisy signal with the known pulse
 m_index_shift, mf = matchfilter_with_waveform(noise_1, mag_u)
+print(f"matched-filter peak at sample {np.argmax(abs(mf))} (pulse placed at index {indx_1})")
 
 # Plot: noisy signal, original pulse, and matched-filter output
 fig, ax = plt.subplots(1, 3, figsize=(12, 4))
@@ -100,6 +101,7 @@ add_waveform_at_index(noise_2, mag_u_s, indx_3)
 
 # Matched filter should show three distinct peaks at the pulse locations
 _, mf = matchfilter_with_waveform(noise_2, mag_u)
+print(f"strongest matched-filter peak at sample {np.argmax(abs(mf))} (30 dB pulse at {indx_2})")
 
 fig, ax = plt.subplots(1, 4, figsize=(15, 4))
 fig.suptitle(f"S3P3 case 2: uncoded pulses @ index: {indx_1}, {indx_2}, {indx_3} -- check SNR")
@@ -130,7 +132,7 @@ for a in ax:
 print("## Case 3: LFM and BPSK pulses ####")
 noise_3 = unity_variance_complex_noise(1000)
 
-print(f"{10*np.log10(np.var(noise_3))=}")  # verify noise floor is ~0 dB
+print(f"noise variance = {10 * np.log10(np.var(noise_3)):.2f} dB")  # verify ~0 dB floor
 
 # Embed an LFM pulse at sample 300
 lfm_idx = 300
@@ -148,6 +150,12 @@ _, mag_b = barker_coded_pulse(sampleRate, BW, 13)
 mag_b_s = 10 ** (SNR / 20) * mag_b
 add_waveform_at_index(noise_3, mag_b_s, bpsk_idx)
 
+# Each matched filter should peak only at its own waveform's location
+_, mf_lfm = matchfilter_with_waveform(noise_3, mag_lfm)
+_, mf_b = matchfilter_with_waveform(noise_3, mag_b)
+print(f"lfm matched-filter peak at sample {np.argmax(abs(mf_lfm))} (lfm pulse at {lfm_idx})")
+print(f"bpsk matched-filter peak at sample {np.argmax(abs(mf_b))} (bpsk pulse at {bpsk_idx})")
+
 # Plot: combined signal, each pulse, and each matched-filter output
 fig, ax = plt.subplots(1, 5, figsize=(18, 4))
 fig.suptitle("S3P3 case 3")
@@ -164,12 +172,12 @@ ax[2].set_title(f"bpsk pulse, index={bpsk_idx}")
 ax[2].set_xlabel("sample")
 ax[2].set_ylabel("magnitude")
 # LFM matched filter — should peak at lfm_idx, suppress the BPSK pulse
-ax[3].plot(abs(matchfilter_with_waveform(noise_3, mag_lfm)[1]))
+ax[3].plot(abs(mf_lfm))
 ax[3].set_title("lfm match")
 ax[3].set_xlabel("sample")
 ax[3].set_ylabel("magnitude")
 # BPSK matched filter — should peak at bpsk_idx, suppress the LFM pulse
-ax[4].plot(abs(matchfilter_with_waveform(noise_3, mag_b)[1]))
+ax[4].plot(abs(mf_b))
 ax[4].set_title("bpsk match")
 ax[4].set_xlabel("sample")
 ax[4].set_ylabel("magnitude")

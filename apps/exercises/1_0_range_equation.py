@@ -43,12 +43,14 @@ Gr = Gt  # assume receive gain = transmit gain
 T = 290  # system noise temperature [K]
 
 # -- Plot SNR vs range for each (Pt, RCS) combination --
+print(f"Problem 1: BPSK SNR [dB] at {R_ar[-1] * 1e-3:.0f} km")
 fig, ax = plt.subplots(1, len(Pt_ar), sharex="all", sharey="all")
 fig.suptitle("BPSK SNR")
 for index, Pt in enumerate(Pt_ar):
     for sig_index, sig in enumerate(sig_ar):
         y = re.snr_range_eqn_bpsk_cp(Pt, Gt, Gr, sig, wavelength, R_ar, B, F, L, T, n_p, Ncode)
         y = 10 * np.log10(y)  # convert to dB
+        print(f"\tPt={Pt * 1e-3:4.1f} kW  RCS={sig_db_ar[sig_index]:2d} dBsm : {y[-1]:5.1f}")
         ax[index].plot(R_ar / 1e3, y, label=f"RCS={sig_db_ar[sig_index]}[dBsm]")
     # overlay the detection threshold line
     ax[index].plot(
@@ -74,6 +76,7 @@ Pt = 5e3  # transmit power [W]
 Tcpi_ar = [2e-3, 5e-3, 10e-3]  # CPI durations [s]
 dutyFactor_ar = [0.01, 0.1, 0.2]  # duty factors: 1%, 10%, 20%
 
+print(f"Problem 2: duty-factor SNR [dB] at {R_ar[-1] * 1e-3:.0f} km")
 fig, ax = plt.subplots(1, len(Tcpi_ar), sharex="all", sharey="all")
 fig.suptitle("CPI DutyFactor SNR")
 for index, Tcpi in enumerate(Tcpi_ar):
@@ -82,6 +85,7 @@ for index, Tcpi in enumerate(Tcpi_ar):
             Pt, Gt, Gr, sigma, wavelength, R_ar, F, L, T, Tcpi, dutyFactor
         )
         y = 10 * np.log10(y)  # convert to dB
+        print(f"\tTcpi={Tcpi * 1e3:4.1f} ms  DF={dutyFactor:4.2f} : {y[-1]:5.1f}")
         ax[index].plot(R_ar / 1e3, y, label=f"DF={dutyFactor}")
     ax[index].plot(
         R_ar / 1e3,
@@ -120,6 +124,12 @@ for i, Pt in enumerate(Pt_ar):
         )
         min_det_range_sigmaPt[i, j] = val
 
+print("Problem 3: min detectable range grids [km]")
+print(
+    f"\t(Pt, RCS) grid:   min={min_det_range_sigmaPt.min() * 1e-3:.1f} "
+    f"max={min_det_range_sigmaPt.max() * 1e-3:.1f}"
+)
+
 plt.figure()
 plt.title(f"Tcpi={Tcpi * 1e3}[ms] DF={dutyFactor}  SNR_thresh={SNR_thresh_db}[dB]")
 plt.pcolormesh(sigma_db_ar, Pt_ar * 1e-3, min_det_range_sigmaPt * 1e-3)
@@ -139,6 +149,11 @@ for i, Tcpi in enumerate(Tcpi_ar):
             Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, dutyFactor
         )
         min_det_range_sigmaTcpi[i, j] = val
+
+print(
+    f"\t(Tcpi, RCS) grid: min={min_det_range_sigmaTcpi.min() * 1e-3:.1f} "
+    f"max={min_det_range_sigmaTcpi.max() * 1e-3:.1f}"
+)
 
 plt.figure()
 plt.title(f"Pt={Pt * 1e-3:.1f}kW  DF={dutyFactor}  SNR_thresh={SNR_thresh_db}[dB]")

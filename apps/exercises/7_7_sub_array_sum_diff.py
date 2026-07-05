@@ -43,6 +43,15 @@ for sub_array in sub_arrays:
 sum_gain = sub_array_gain[0] + sub_array_gain[1]  # Sigma: max at boresight
 diff_gain = sub_array_gain[0] - sub_array_gain[1]  # Delta: null at boresight
 
+# The sum beam should peak at boresight; the difference beam should have a
+# null there with its two peaks symmetric about it.
+i_boresight = np.argmin(abs(thetas))
+print(f"sum beam:  peak = {abs(sum_gain).max():.2f} at {thetas[np.argmax(abs(sum_gain))]:.2f} deg")
+print(
+    f"diff beam: peak = {abs(diff_gain).max():.2f} at {abs(thetas[np.argmax(abs(diff_gain))]):.2f} deg (either side of boresight)"
+)
+print(f"diff beam gain at boresight = {abs(diff_gain[i_boresight]):.3f} (null)")
+
 # -- Plot --
 plt.title("Sum and Difference Gain Profiles")
 plt.plot(thetas, abs(sum_gain), label=r"$\Sigma$")

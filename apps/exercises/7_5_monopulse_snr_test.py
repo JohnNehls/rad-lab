@@ -60,6 +60,12 @@ for snr_db in snr_db_list:
     error_mean_list.append(np.mean(measured_error))
     error_std_list.append(np.std(measured_error))
 
+# -- Summarize: error statistics should fall monotonically with SNR --
+print(f"monopulse angle error vs SNR (true angle = {tgt_angle} deg)")
+print("\tSNR [dB]   mean [deg]   std [deg]")
+for snr_db, err_mean, err_std in zip(snr_db_list, error_mean_list, error_std_list):
+    print(f"\t{snr_db:8d}   {err_mean:10.3f}   {err_std:9.3f}")
+
 # -- Plot the received signals at each SNR --
 plt.legend()
 plt.title("Noisy signal for Each SNR [dB]")

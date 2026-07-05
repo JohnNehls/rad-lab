@@ -81,6 +81,14 @@ cr_u, sr_u, img_u = sar.gen(
 )
 
 # -- Compare focused images --
+# Both runs should focus the same scene; the image peak location should match.
+for label, cr, sr_ax, img in [("Gaussian", cr_g, sr_g, img_g), ("ULA     ", cr_u, sr_u, img_u)]:
+    peak_sr, peak_cr = np.unravel_index(np.argmax(np.abs(img)), img.shape)
+    print(
+        f"{label} image peak: cross-range = {cr[peak_cr]:.2f} m, "
+        f"slant range = {sr_ax[peak_sr] * 1e-3:.3f} km"
+    )
+
 fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 for ax, cr, sr_ax, img, title in [
     (axes[0], cr_g, sr_g, img_g, "Gaussian beam"),

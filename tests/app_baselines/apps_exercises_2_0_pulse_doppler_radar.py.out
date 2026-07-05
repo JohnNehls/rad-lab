@@ -1,0 +1,45 @@
+Problem 1: unambiguous range
+	PRF=    1 kHz : 150.00 km
+	PRF=   10 kHz : 15.00 km
+	PRF=  100 kHz : 1.50 km
+Problem 3: apparent range of a 15.5 km target
+	PRF=    2 kHz :  15.50 km
+	PRF=    4 kHz :  15.50 km
+	PRF=    8 kHz :  15.50 km
+	PRF=   16 kHz :   6.12 km
+	PRF=   32 kHz :   1.44 km
+	PRF=   50 kHz :   0.50 km
+	PRF=   60 kHz :   0.50 km
+	PRF=   64 kHz :   1.44 km
+	PRF=   95 kHz :   1.29 km
+	PRF=  100 kHz :   0.50 km
+	PRF=  128 kHz :   0.27 km
+	PRF=  150 kHz :   0.50 km
+	PRF=  228 kHz :   0.37 km
+Problem 4: apparent Doppler and range rate of a -750 m/s target
+	PRF=    2 kHz :    0.00 kHz      0.0 m/s
+	PRF=    4 kHz :   -2.00 kHz     30.0 m/s
+	PRF=    8 kHz :    2.00 kHz    -30.0 m/s
+	PRF=   16 kHz :    2.00 kHz    -30.0 m/s
+	PRF=   32 kHz :  -14.00 kHz    210.0 m/s
+	PRF=   50 kHz :    0.00 kHz      0.0 m/s
+	PRF=   60 kHz :  -10.00 kHz    150.0 m/s
+	PRF=   64 kHz :  -14.00 kHz    210.0 m/s
+	PRF=   95 kHz :  -45.00 kHz    675.0 m/s
+	PRF=  100 kHz :  -50.00 kHz    750.0 m/s
+	PRF=  128 kHz :   50.00 kHz   -750.0 m/s
+	PRF=  150 kHz :   50.00 kHz   -750.0 m/s
+	PRF=  228 kHz :   50.00 kHz   -750.0 m/s
+Problem 5: apparent range rate of a -750 m/s target at PRF=16 kHz
+	f0=   1 GHz :  -750.0 m/s
+	f0=   2 GHz :   450.0 m/s
+	f0=   4 GHz :  -150.0 m/s
+	f0=   6 GHz :    50.0 m/s
+	f0=   8 GHz :   150.0 m/s
+	f0=  10 GHz :   -30.0 m/s
+	f0=  12 GHz :    50.0 m/s
+	f0=  16 GHz :     0.0 m/s
+	f0=  18 GHz :    50.0 m/s
+	f0=  34 GHz :    26.5 m/s
+	f0=  36 GHz :   -16.7 m/s
+	f0=  94 GHz :    -9.6 m/s

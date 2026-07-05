@@ -94,6 +94,7 @@ targets = text_targets(
     nominal_y=5e3,  # centre of text at y = 5 km
     rcs=10.0,
 )
+print(f"point cloud: {len(targets)} targets spelling 'rad-lab'")
 
 # -- Generate the focused SAR image --
 cross_range, slant_range, total_image = sar.gen(

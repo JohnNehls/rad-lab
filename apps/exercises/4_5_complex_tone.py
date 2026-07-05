@@ -24,8 +24,9 @@ chwin = signal.windows.chebwin(mag_s.size, 60)  # 60 dB sidelobe suppression
 mag_chwin_s = chwin * mag_s
 
 # -- Compare spectra: without vs with window --
-print("complex tone without filter")
+print("complex tone without window")
 plot_pulse_and_spectrum(t_s, mag_s, "complex tone without filter", n_pad=1024)
+print("complex tone with chebwin window")
 plot_pulse_and_spectrum(t_s, mag_chwin_s, "complex tone with chwin filter", n_pad=1024)
 
 plt.show()

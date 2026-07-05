@@ -82,6 +82,14 @@ rcmc(datacube, sar_radar, range_axis)
 rdm_after = fft.fftshift(fft.fft(datacube, axis=1), axes=1)
 peaks_after = np.argmax(np.abs(rdm_after[search, :]), axis=0) + search.start
 
+# RCMC should have straightened the trajectory to a flat line at R0.  Only
+# Doppler bins inside the target's Doppler bandwidth carry signal energy.
+in_band = np.abs(f_eta) <= doppler_bw / 2
+migration_before = np.abs(range_axis[peaks_before[in_band]] - R0).max()
+migration_after = np.abs(range_axis[peaks_after[in_band]] - R0).max()
+print(f"Max in-band peak deviation from R0: before RCMC = {migration_before:.2f} m")
+print(f"                                    after RCMC  = {migration_after:.2f} m")
+
 # -- Closed-form migration curve for overlay --
 arg = np.clip(lam * f_eta / (2 * v), -0.999, 0.999)
 theory_R = R0 / np.sqrt(1 - arg**2)

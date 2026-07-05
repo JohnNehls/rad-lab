@@ -1,3 +1,9 @@
 ## Uncoded pulse ##
+	delay -3 dB width   = 40.0 us
+	Doppler -3 dB width = 8.80 kHz
 ## Barker-13 coded pulse ##
+	delay -3 dB width   = 40.0 us
+	Doppler -3 dB width = 0.40 kHz
 ## LFM pulse ##
+	delay -3 dB width   = 80.0 us
+	Doppler -3 dB width = 0.80 kHz

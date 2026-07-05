@@ -1,0 +1,8 @@
+Study 1: constant aperture L = 5 lambda (same beamwidth, gain grows with N)
+	dx=lambda/2, 10 el: peak gain = 20.00 dBi, 3-dB beamwidth = 10.17 deg
+	dx=lambda/4, 20 el: peak gain = 26.02 dBi, 3-dB beamwidth = 10.14 deg
+	dx=lambda/8, 40 el: peak gain = 32.04 dBi, 3-dB beamwidth = 10.14 deg
+Study 2: constant spacing dx = lambda/2 (longer aperture => narrower beam)
+	L=2 lambda,  4 el: peak gain = 12.04 dBi, 3-dB beamwidth = 26.26 deg
+	L=4 lambda,  8 el: peak gain = 18.06 dBi, 3-dB beamwidth = 12.76 deg
+	L=8 lambda, 16 el: peak gain = 24.08 dBi, 3-dB beamwidth = 6.32 deg

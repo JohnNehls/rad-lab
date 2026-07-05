@@ -7,6 +7,7 @@ autocorrelation sidelobes are at most 1/N of the peak, giving clean detection
 with minimal range ambiguity.
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab.waveform_helpers import matchfilter_with_waveform
 from rad_lab.waveform import uncoded_pulse, barker_coded_pulse, BARKER_DICT
@@ -47,6 +48,10 @@ ax[1].set_ylabel("magnitude")
 ax[1].set_title("xcorrelation")
 
 # -- Loop over all Barker code lengths and overlay results --
+# For each code, measure the peak-to-max-sidelobe ratio.  Barker codes have
+# sidelobes of at most 1 chip vs a peak of N chips, so the ratio should be ~N.
+print("peak / max sidelobe of the autocorrelation (theory: nchips)")
+samples_per_chip = int(sampleRate / BW)
 for nChip in BARKER_DICT.keys():
     t_b, mag_b = barker_coded_pulse(sampleRate, BW, nChip)
     ax[0].plot(t_b, mag_b, label=f"barker {nChip}")
@@ -55,6 +60,14 @@ for nChip in BARKER_DICT.keys():
     ib, conv_b = matchfilter_with_waveform(mag_b, mag_b)
     conv_b = abs(conv_b)
     ax[1].plot(ib, conv_b, label=f"barker {nChip}")
+
+    # Sidelobes are everything outside the mainlobe (one chip wide either side)
+    i_peak = np.argmax(conv_b)
+    sidelobes = np.concatenate([
+        conv_b[: i_peak - samples_per_chip],
+        conv_b[i_peak + samples_per_chip + 1 :],
+    ])
+    print(f"\tbarker {nChip:2d}: {conv_b[i_peak] / sidelobes.max():5.2f}")
 
 for a in ax:
     a.grid()

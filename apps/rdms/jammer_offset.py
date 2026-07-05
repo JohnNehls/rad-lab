@@ -11,6 +11,7 @@ EaPlatform offset parameters:
   - delay: additional time delay before retransmission [s].
 """
 
+import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, Radar, Target, Return, EaPlatform, lfm_waveform
 
@@ -46,5 +47,13 @@ return_list = [
     )
 ]
 
-rdm.gen(radar, waveform, return_list)
+rdot_axis, r_axis, datacube = rdm.gen(radar, waveform, return_list)
+
+# At a 200 kHz PRF the unambiguous range is ~0.75 km, so the 3.5 km skin
+# return folds to ~0.50 km and the jammer (200 m closer) folds to ~0.30 km.
+# The global peak is the skin return at the target's 1 km/s range rate.
+peak_r, peak_rdot = np.unravel_index(np.argmax(abs(datacube)), datacube.shape)
+print(f"RDM peak: range = {r_axis[peak_r] * 1e-3:.2f} km (3.5 km skin return, folded)")
+print(f"          range rate = {rdot_axis[peak_rdot] * 1e-3:.2f} km/s (target at 1.00 km/s)")
+
 plt.show()

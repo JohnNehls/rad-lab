@@ -1,5 +1,6 @@
-complex tone without filter
+complex tone without window
 	bandwidth:
 	PW=1.3e+07 f_start=1.9e+07 f_end=3.1e+07
+complex tone with chebwin window
 	bandwidth:
 	PW=2.2e+07 f_start=1.4e+07 f_end=3.6e+07

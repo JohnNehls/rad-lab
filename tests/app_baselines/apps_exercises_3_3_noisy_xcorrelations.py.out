@@ -7,7 +7,11 @@ verify uncoded pulse BW
 	bandwidth:
 	PW=4.9e+06 f_start=-2.4e+06 f_end=2.4e+06
 verify noise is at ~ 0dB
-	10*np.log10(np.var(noise_1))=np.float64(0.28576956694622674)
+	noise variance = 0.29 dB
+matched-filter peak at sample 202 (pulse placed at index 200)
 ## Case 2: three uncoded pulse ####
+strongest matched-filter peak at sample 202 (30 dB pulse at 200)
 ## Case 3: LFM and BPSK pulses ####
-10*np.log10(np.var(noise_3))=np.float64(-0.08072568424683528)
+noise variance = -0.08 dB
+lfm matched-filter peak at sample 320 (lfm pulse at 300)
+bpsk matched-filter peak at sample 632 (bpsk pulse at 600)
