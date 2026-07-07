@@ -65,6 +65,8 @@ def test_app_script(script: Path, tmp_path: Path) -> None:
     rel = _script_id(script)
     if script.name.endswith("_no_test.py"):
         pytest.skip("script is marked incomplete (_no_test suffix)")
+    if "import adi" in script.read_text():
+        pytest.skip("script drives ADALM-Pluto hardware (requires pyadi-iio and an SDR)")
 
     key = rel.replace("/", "_")
 
