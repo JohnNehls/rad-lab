@@ -515,10 +515,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rad_lab.range_equation.min_target_detection_range" class="md-nav__link">
+  <a href="#rad_lab.range_equation.max_target_detection_range" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;min_target_detection_range
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;max_target_detection_range
       
     </span>
   </a>
@@ -526,10 +526,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rad_lab.range_equation.min_target_detection_range_bpsk_cp" class="md-nav__link">
+  <a href="#rad_lab.range_equation.max_target_detection_range_bpsk_cp" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;min_target_detection_range_bpsk_cp
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;max_target_detection_range_bpsk_cp
       
     </span>
   </a>
@@ -537,10 +537,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rad_lab.range_equation.min_target_detection_range_dutyfactor_cp" class="md-nav__link">
+  <a href="#rad_lab.range_equation.max_target_detection_range_dutyfactor_cp" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;min_target_detection_range_dutyfactor_cp
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;max_target_detection_range_dutyfactor_cp
       
     </span>
   </a>
@@ -941,10 +941,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rad_lab.range_equation.min_target_detection_range" class="md-nav__link">
+  <a href="#rad_lab.range_equation.max_target_detection_range" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;min_target_detection_range
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;max_target_detection_range
       
     </span>
   </a>
@@ -952,10 +952,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rad_lab.range_equation.min_target_detection_range_bpsk_cp" class="md-nav__link">
+  <a href="#rad_lab.range_equation.max_target_detection_range_bpsk_cp" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;min_target_detection_range_bpsk_cp
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;max_target_detection_range_bpsk_cp
       
     </span>
   </a>
@@ -963,10 +963,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#rad_lab.range_equation.min_target_detection_range_dutyfactor_cp" class="md-nav__link">
+  <a href="#rad_lab.range_equation.max_target_detection_range_dutyfactor_cp" class="md-nav__link">
     <span class="md-ellipsis">
       
-        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;min_target_detection_range_dutyfactor_cp
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;max_target_detection_range_dutyfactor_cp
       
     </span>
   </a>
@@ -1115,8 +1115,8 @@ and the one-way Friis transmission equation used for jammer link budgets.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="rad_lab.range_equation.min_target_detection_range" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">min_target_detection_range</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span></code>
+<h2 id="rad_lab.range_equation.max_target_detection_range" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">max_target_detection_range</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1361,7 +1361,7 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <span class="normal">292</span>
 <span class="normal">293</span>
 <span class="normal">294</span>
-<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">min_target_detection_range</span><span class="p">(</span>
+<span class="normal">295</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">max_target_detection_range</span><span class="p">(</span>
     <span class="n">Pt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">Gt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">Gr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1405,8 +1405,8 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="rad_lab.range_equation.min_target_detection_range_bpsk_cp" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">min_target_detection_range_bpsk_cp</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">n_p</span><span class="p">,</span> <span class="n">n_c</span><span class="p">)</span></code>
+<h2 id="rad_lab.range_equation.max_target_detection_range_bpsk_cp" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">max_target_detection_range_bpsk_cp</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">n_p</span><span class="p">,</span> <span class="n">n_c</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1685,7 +1685,7 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <span class="normal">331</span>
 <span class="normal">332</span>
 <span class="normal">333</span>
-<span class="normal">334</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">min_target_detection_range_bpsk_cp</span><span class="p">(</span>
+<span class="normal">334</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">max_target_detection_range_bpsk_cp</span><span class="p">(</span>
     <span class="n">Pt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">Gt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">Gr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -1720,7 +1720,7 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Maximum detection range [m]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">one_pulse</span> <span class="o">=</span> <span class="n">min_target_detection_range</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">one_pulse</span> <span class="o">=</span> <span class="n">max_target_detection_range</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">one_pulse</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_p</span> <span class="o">*</span> <span class="n">n_c</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1731,8 +1731,8 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <div class="doc doc-object doc-function">
 
 
-<h2 id="rad_lab.range_equation.min_target_detection_range_dutyfactor_cp" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">min_target_detection_range_dutyfactor_cp</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Tcpi</span><span class="p">,</span> <span class="n">tau_df</span><span class="p">)</span></code>
+<h2 id="rad_lab.range_equation.max_target_detection_range_dutyfactor_cp" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">max_target_detection_range_dutyfactor_cp</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">Tcpi</span><span class="p">,</span> <span class="n">tau_df</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1993,7 +1993,7 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <span class="normal">368</span>
 <span class="normal">369</span>
 <span class="normal">370</span>
-<span class="normal">371</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">min_target_detection_range_dutyfactor_cp</span><span class="p">(</span>
+<span class="normal">371</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">max_target_detection_range_dutyfactor_cp</span><span class="p">(</span>
     <span class="n">Pt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">Gt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">Gr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -2026,7 +2026,7 @@ All gain and loss factors must be in linear (unitless) form.</p>
 <span class="sd">    Returns:</span>
 <span class="sd">        float: Maximum detection range [m]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">one_pulse</span> <span class="o">=</span> <span class="n">min_target_detection_range</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+    <span class="n">one_pulse</span> <span class="o">=</span> <span class="n">max_target_detection_range</span><span class="p">(</span><span class="n">Pt</span><span class="p">,</span> <span class="n">Gt</span><span class="p">,</span> <span class="n">Gr</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">wavelength</span><span class="p">,</span> <span class="n">SNR_thresh</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">L</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">one_pulse</span> <span class="o">*</span> <span class="p">(</span><span class="n">Tcpi</span> <span class="o">*</span> <span class="n">tau_df</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">4</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>

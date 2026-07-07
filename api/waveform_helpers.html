@@ -1646,12 +1646,12 @@ the interpolation limit.</p>
     <span class="c1"># recursive step</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;find_width: find_width is interpolating to 2x the sample rate </span><span class="si">{</span><span class="n">interp_count</span><span class="si">=}</span><span class="s2">&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;find_width: interpolating to </span><span class="si">{</span><span class="n">interp_scale</span><span class="si">}</span><span class="s2">x the sample rate </span><span class="si">{</span><span class="n">interp_count</span><span class="si">=}</span><span class="s2">&quot;</span>
         <span class="p">)</span>
         <span class="n">interp_func</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">)</span>
         <span class="n">newx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span> <span class="o">*</span> <span class="n">interp_scale</span><span class="p">)</span>
         <span class="n">newy</span> <span class="o">=</span> <span class="n">interp_func</span><span class="p">(</span><span class="n">newx</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">find_width</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">interp_max</span><span class="p">,</span> <span class="n">interp_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">find_width</span><span class="p">(</span><span class="n">newx</span><span class="p">,</span> <span class="n">newy</span><span class="p">,</span> <span class="n">interp_max</span><span class="p">,</span> <span class="n">interp_count</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">interp_scale</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

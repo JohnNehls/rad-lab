@@ -1149,12 +1149,7 @@ broadside.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
@@ -1178,7 +1173,12 @@ broadside.</p>
 <span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
-<span class="normal">218</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_timeshift_due_to_element_position</span><span class="p">(</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_timeshift_due_to_element_position</span><span class="p">(</span>
     <span class="n">signal_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">element_position</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">tgt_angle</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1304,10 +1304,7 @@ The magnitude of the weights is used in the calculation.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
@@ -1322,7 +1319,12 @@ The magnitude of the weights is used in the calculation.</p>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
-<span class="normal">186</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">array_phase_center</span><span class="p">(</span><span class="n">position_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weight_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">array_phase_center</span><span class="p">(</span><span class="n">position_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weight_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculates the phase center of an antenna array.</span>
 
@@ -1339,8 +1341,10 @@ The magnitude of the weights is used in the calculation.</p>
 <span class="sd">        float: The position of the array&#39;s phase center.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">position_ar</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">)</span>
-    <span class="c1"># unsure if the weight should be abs value or not</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">)</span> <span class="o">*</span> <span class="n">position_ar</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">)</span>
+    <span class="c1"># Weight magnitudes in both numerator and denominator: a weighted average</span>
+    <span class="c1"># must be insensitive to element phase, which lives in the pattern, not</span>
+    <span class="c1"># the aperture centroid.</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">)</span> <span class="o">*</span> <span class="n">position_ar</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">))</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1450,7 +1454,7 @@ the main beam. 0 degrees is broadside. Defaults to 0.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If True, plots the gain pattern in dBi.
+                <p>If True, plots the array factor in dB.
 Defaults to False.</p>
               </div>
             </td>
@@ -1539,7 +1543,9 @@ Defaults to False.</p>
 <span class="normal">84</span>
 <span class="normal">85</span>
 <span class="normal">86</span>
-<span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">linear_antenna_gain</span><span class="p">(</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">linear_antenna_gain</span><span class="p">(</span>
     <span class="n">el_pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">weight_vec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">N_theta</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">,</span>
@@ -1559,7 +1565,7 @@ Defaults to False.</p>
 <span class="sd">            gain over. Defaults to 10000.</span>
 <span class="sd">        steer_angle (float, optional): The angle in degrees at which to steer</span>
 <span class="sd">            the main beam. 0 degrees is broadside. Defaults to 0.</span>
-<span class="sd">        plot (bool, optional): If True, plots the gain pattern in dBi.</span>
+<span class="sd">        plot (bool, optional): If True, plots the array factor in dB.</span>
 <span class="sd">            Defaults to False.</span>
 
 <span class="sd">    Returns:</span>
@@ -1578,15 +1584,17 @@ Defaults to False.</p>
     <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">),</span> <span class="n">el_pos</span><span class="p">))</span>
     <span class="n">Af</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">weight_vec</span>
 
-    <span class="c1"># The difference between the antenna&#39;s gain and the isotropic antenna&#39;s gain is dBi</span>
-    <span class="n">af_dbi</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Af</span><span class="p">))</span>
+    <span class="c1"># 20*log10 of the voltage array factor.  Note this is NOT dBi: for an</span>
+    <span class="c1"># N-element uniform array it peaks at 20*log10(N), while the actual</span>
+    <span class="c1"># directivity is ~10*log10(N) dBi.</span>
+    <span class="n">af_db</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">Af</span><span class="p">))</span>
 
     <span class="k">if</span> <span class="n">plot</span><span class="p">:</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">),</span> <span class="n">af_dbi</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="n">af_dbi</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">),</span> <span class="n">af_db</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="n">af_db</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">))</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Angle $\theta$ [deg]&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Gain [dBi]&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Array factor [dB]&quot;</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">),</span> <span class="n">Af</span>
@@ -1607,9 +1615,10 @@ Defaults to False.</p>
 
     <div class="doc doc-contents ">
 
-        <p>Calculates gain pattern in dBi for a uniform linear array.</p>
+        <p>Calculates the array-factor pattern in dB for a uniform linear array.</p>
 <p>This function defines the array geometry based on the number of elements
-and their uniform spacing. It then computes and returns the gain in dBi.</p>
+and their uniform spacing, then returns <code>20*log10(|AF|)</code>.  This is the
+voltage array factor in dB, not dBi (see :func:<code>linear_antenna_gain</code>).</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1715,7 +1724,7 @@ the main beam. 0 degrees is broadside. Defaults to 0.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If True, plots the gain pattern in dBi.
+                <p>If True, plots the array factor in dB.
 Defaults to False.</p>
               </div>
             </td>
@@ -1744,7 +1753,7 @@ Defaults to False.</p>
               <div class="doc-md-description">
                 <p>tuple[np.ndarray, np.ndarray]:
 - theta_vec (np.ndarray): The grid of angles in degrees, from -90 to 90.
-- gain_vec_db (np.ndarray): The voltage gain in dBi at each angle.</p>
+- gain_vec_db (np.ndarray): Voltage array factor in dB at each angle.</p>
               </div>
             </td>
           </tr>
@@ -1754,9 +1763,7 @@ Defaults to False.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
@@ -1791,7 +1798,10 @@ Defaults to False.</p>
 <span class="normal">162</span>
 <span class="normal">163</span>
 <span class="normal">164</span>
-<span class="normal">165</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">linear_antenna_gain_N_db</span><span class="p">(</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">linear_antenna_gain_N_db</span><span class="p">(</span>
     <span class="n">N_el</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">dx</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">weight_vec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1800,10 +1810,11 @@ Defaults to False.</p>
     <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculates gain pattern in dBi for a uniform linear array.</span>
+<span class="sd">    Calculates the array-factor pattern in dB for a uniform linear array.</span>
 
 <span class="sd">    This function defines the array geometry based on the number of elements</span>
-<span class="sd">    and their uniform spacing. It then computes and returns the gain in dBi.</span>
+<span class="sd">    and their uniform spacing, then returns ``20*log10(|AF|)``.  This is the</span>
+<span class="sd">    voltage array factor in dB, not dBi (see :func:`linear_antenna_gain`).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        N_el (int): The number of antenna array elements.</span>
@@ -1814,13 +1825,13 @@ Defaults to False.</p>
 <span class="sd">            gain over. Defaults to 10000.</span>
 <span class="sd">        steer_angle (float, optional): The angle in degrees at which to steer</span>
 <span class="sd">            the main beam. 0 degrees is broadside. Defaults to 0.</span>
-<span class="sd">        plot (bool, optional): If True, plots the gain pattern in dBi.</span>
+<span class="sd">        plot (bool, optional): If True, plots the array factor in dB.</span>
 <span class="sd">            Defaults to False.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple[np.ndarray, np.ndarray]:</span>
 <span class="sd">            - theta_vec (np.ndarray): The grid of angles in degrees, from -90 to 90.</span>
-<span class="sd">            - gain_vec_db (np.ndarray): The voltage gain in dBi at each angle.</span>
+<span class="sd">            - gain_vec_db (np.ndarray): Voltage array factor in dB at each angle.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">N_el</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span>
     <span class="n">el_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N_el</span><span class="p">)</span>  <span class="c1"># wavelengths</span>
@@ -1954,7 +1965,7 @@ the main beam. 0 degrees is broadside. Defaults to 0.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>If True, plots the gain pattern in dBi.
+                <p>If True, plots the array factor in dB.
 Defaults to False.</p>
               </div>
             </td>
@@ -1993,9 +2004,7 @@ Defaults to False.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 90</span>
-<span class="normal"> 91</span>
-<span class="normal"> 92</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
 <span class="normal"> 95</span>
@@ -2028,7 +2037,9 @@ Defaults to False.</p>
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">linear_antenna_gain_meters</span><span class="p">(</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">linear_antenna_gain_meters</span><span class="p">(</span>
     <span class="n">el_pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">fc</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">weight_vec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2051,7 +2062,7 @@ Defaults to False.</p>
 <span class="sd">            gain over. Defaults to 10000.</span>
 <span class="sd">        steer_angle (float, optional): The angle in degrees at which to steer</span>
 <span class="sd">            the main beam. 0 degrees is broadside. Defaults to 0.</span>
-<span class="sd">        plot (bool, optional): If True, plots the gain pattern in dBi.</span>
+<span class="sd">        plot (bool, optional): If True, plots the array factor in dB.</span>
 <span class="sd">            Defaults to False.</span>
 
 <span class="sd">    Returns:</span>
@@ -2325,12 +2336,7 @@ model the round-trip amplitude.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">221</span>
-<span class="normal">222</span>
-<span class="normal">223</span>
-<span class="normal">224</span>
-<span class="normal">225</span>
-<span class="normal">226</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
 <span class="normal">229</span>
@@ -2360,7 +2366,12 @@ model the round-trip amplitude.</p>
 <span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
-<span class="normal">256</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ula_pattern</span><span class="p">(</span>
+<span class="normal">256</span>
+<span class="normal">257</span>
+<span class="normal">258</span>
+<span class="normal">259</span>
+<span class="normal">260</span>
+<span class="normal">261</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">ula_pattern</span><span class="p">(</span>
     <span class="n">el_pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">weight_vec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">two_way</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
