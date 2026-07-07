@@ -1,8 +1,8 @@
 import numpy as np
 import adi
 import matplotlib.pyplot as plt
-import rsp.waveform as wvf
-import rsp.rf_datacube as rfd
+import rad_lab.waveform as wvf
+import rad_lab.rf_datacube as rfd
 
 plt.close("all")
 

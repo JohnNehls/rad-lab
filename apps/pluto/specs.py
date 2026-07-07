@@ -1,4 +1,4 @@
-import rsp.pulse_doppler_radar as pdr
+import rad_lab.pulse_doppler_radar as pdr
 
 # post-hack to ad9364 specs
 DAC_bit = 12
