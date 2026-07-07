@@ -7,11 +7,12 @@ zero-Doppler cuts are plotted to illustrate the range-Doppler resolution
 tradeoffs.
 
 Key takeaways:
-- Uncoded pulse: narrow in delay (good range resolution for a given bandwidth)
-  but wide in Doppler — poor velocity resolution.  The ambiguity surface is a
-  "thumbtack" shape.
-- Barker-coded pulse: similar mainlobe width to uncoded (set by chip bandwidth)
-  but with lower autocorrelation sidelobes — better clutter rejection.
+- Uncoded pulse: triangular in delay (width set by the pulse length) and a
+  sinc ridge in Doppler — a short pulse tolerates large Doppler shifts but
+  resolves velocity poorly.
+- Barker-coded pulse: same delay mainlobe width as a single chip but the
+  surface approaches a "thumbtack" — energy is spread into low pedestal
+  sidelobes across both delay and Doppler, sharpening joint resolution.
 - LFM pulse: a diagonal ridge showing range-Doppler coupling.  Narrow in both
   dimensions, but a target's apparent range shifts with its Doppler frequency.
 """

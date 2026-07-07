@@ -5,7 +5,7 @@ Problem 1: Plot SNR vs range for a BPSK waveform across different transmit
            powers and target RCS values.
 Problem 2: Plot SNR vs range using the duty-factor form of the range equation
            across different CPI lengths and duty factors.
-Problem 3: Compute minimum detectable range as a 2D function of (Tx power, RCS)
+Problem 3: Compute maximum detection range as a 2D function of (Tx power, RCS)
            and (CPI time, RCS), visualized as heatmaps.
 """
 
@@ -101,64 +101,65 @@ handles, labels = ax[0].get_legend_handles_labels()
 fig.legend(handles, labels, loc="lower center", ncols=len(labels), bbox_to_anchor=(0.5, -0.02))
 plt.subplots_adjust(bottom=0.15)
 
-## Problem 3: Minimum detectable range heatmaps #############################
-# Solve the range equation for range and visualize how it depends on
-# (transmit power, RCS) and (CPI time, RCS).
+## Problem 3: Maximum detection range heatmaps ##############################
+# Solve the range equation for the range at which SNR drops to the detection
+# threshold — the farthest range at which the target is still detectable —
+# and visualize how it depends on (transmit power, RCS) and (CPI time, RCS).
 
 SNR_thresh_db = 15
 SNR_thresh = 10 ** (SNR_thresh_db / 10)
 duty_factor = 0.1  # 10%
 Tcpi = 2e-3  # [s]
 
-# -- Figure 1: min detectable range vs (Tx power, RCS) --
+# -- Figure 1: max detection range vs (Tx power, RCS) --
 Pt_ar = np.arange(500, 10.1e3, 100)
 sigma_db_ar = np.arange(-5, 26, 1)
 sigma_ar = [10 ** (x / 10) for x in sigma_db_ar]
-min_det_range_sigmaPt = np.zeros((len(Pt_ar), len(sigma_ar)))
+max_det_range_sigmaPt = np.zeros((len(Pt_ar), len(sigma_ar)))
 
 for i, Pt in enumerate(Pt_ar):
     for j, sigma in enumerate(sigma_ar):
-        val = re.min_target_detection_range_dutyfactor_cp(
+        val = re.max_target_detection_range_dutyfactor_cp(
             Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, duty_factor
         )
-        min_det_range_sigmaPt[i, j] = val
+        max_det_range_sigmaPt[i, j] = val
 
-print("Problem 3: min detectable range grids [km]")
+print("Problem 3: max detection range grids [km]")
 print(
-    f"\t(Pt, RCS) grid:   min={min_det_range_sigmaPt.min() * 1e-3:.1f} "
-    f"max={min_det_range_sigmaPt.max() * 1e-3:.1f}"
+    f"\t(Pt, RCS) grid:   min={max_det_range_sigmaPt.min() * 1e-3:.1f} "
+    f"max={max_det_range_sigmaPt.max() * 1e-3:.1f}"
 )
 
 plt.figure()
 plt.title(f"Tcpi={Tcpi * 1e3}[ms] DF={duty_factor}  SNR_thresh={SNR_thresh_db}[dB]")
-plt.pcolormesh(sigma_db_ar, Pt_ar * 1e-3, min_det_range_sigmaPt * 1e-3)
+plt.pcolormesh(sigma_db_ar, Pt_ar * 1e-3, max_det_range_sigmaPt * 1e-3)
 c = plt.colorbar()
-c.set_label("minimum detectable target range [km]")
+c.set_label("maximum detection range [km]")
 plt.xlabel("target RCS [dBsm]")
 plt.ylabel("transmit power [kW]")
 
-# -- Figure 2: min detectable range vs (CPI time, RCS) --
+# -- Figure 2: max detection range vs (CPI time, RCS) --
 Pt = 5e3  # [W]
 Tcpi_ar = np.arange(1e-3, 50.2e-3, 200e-6)
-min_det_range_sigmaTcpi = np.zeros((len(Tcpi_ar), len(sigma_ar)))
+max_det_range_sigmaTcpi = np.zeros((len(Tcpi_ar), len(sigma_ar)))
 
 for i, Tcpi in enumerate(Tcpi_ar):
     for j, sigma in enumerate(sigma_ar):
-        val = re.min_target_detection_range_dutyfactor_cp(
+        val = re.max_target_detection_range_dutyfactor_cp(
             Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, duty_factor
         )
-        min_det_range_sigmaTcpi[i, j] = val
+        max_det_range_sigmaTcpi[i, j] = val
 
 print(
-    f"\t(Tcpi, RCS) grid: min={min_det_range_sigmaTcpi.min() * 1e-3:.1f} "
-    f"max={min_det_range_sigmaTcpi.max() * 1e-3:.1f}"
+    f"\t(Tcpi, RCS) grid: min={max_det_range_sigmaTcpi.min() * 1e-3:.1f} "
+    f"max={max_det_range_sigmaTcpi.max() * 1e-3:.1f}"
 )
 
 plt.figure()
 plt.title(f"Pt={Pt * 1e-3:.1f}kW  DF={duty_factor}  SNR_thresh={SNR_thresh_db}[dB]")
-plt.pcolormesh(sigma_db_ar, Tcpi_ar * 1e3, min_det_range_sigmaTcpi * 1e-3)
+plt.pcolormesh(sigma_db_ar, Tcpi_ar * 1e3, max_det_range_sigmaTcpi * 1e-3)
 c = plt.colorbar()
-c.set_label("minimum detectable target range [km]")
+c.set_label("maximum detection range [km]")
 plt.xlabel("target RCS [dBsm]")
 plt.ylabel("CPI time [ms]")
 

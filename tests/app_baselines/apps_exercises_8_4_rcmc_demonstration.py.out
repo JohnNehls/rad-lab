@@ -32,12 +32,12 @@ Target 0: pos=[0, 1500, 0], expected slant range=2121.3 m
   Peak at slant_range=2122.5 m, cross_range=0.000 m
   Peak magnitude (dB): 0.0
   Azimuth peak position vs range bin offset:
-    range bin -3 (R=2100.0m): az peak at cr=-0.112m, -25.1 dB
-    range bin -2 (R=2107.5m): az peak at cr=-0.562m, -26.3 dB
+    range bin -3 (R=2100.0m): az peak at cr=-0.112m, -25.2 dB
+    range bin -2 (R=2107.5m): az peak at cr=-0.562m, -26.1 dB
     range bin -1 (R=2115.0m): az peak at cr=0.112m, -9.8 dB
     range bin +0 (R=2122.5m): az peak at cr=0.000m, 0.0 dB
-    range bin +1 (R=2130.0m): az peak at cr=0.075m, -11.3 dB
-    range bin +2 (R=2137.5m): az peak at cr=0.675m, -30.2 dB
-    range bin +3 (R=2145.0m): az peak at cr=-0.075m, -25.5 dB
+    range bin +1 (R=2130.0m): az peak at cr=0.075m, -11.4 dB
+    range bin +2 (R=2137.5m): az peak at cr=0.675m, -29.1 dB
+    range bin +3 (R=2145.0m): az peak at cr=-0.075m, -25.6 dB
 
 Rendering figures (close all windows to exit)...

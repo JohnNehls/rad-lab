@@ -18,6 +18,7 @@ import matplotlib.pyplot as plt
 from . import constants as c
 from .rf_datacube import number_range_bins, range_axis, data_cube, matchfilter
 from .range_equation import noise_power
+from .noise import unity_variance_complex_noise
 from .utilities import zero_to_smallest_float
 from ._rdm_internals import create_window
 from ._sar_internals import (
@@ -145,7 +146,7 @@ def gen(
         c.RADAR_LOAD
         * noise_power(sar_radar.sample_rate, sar_radar.noise_factor, sar_radar.op_temp)
     )
-    noise_dc = np.random.uniform(low=-1, high=1, size=datacube.shape) * rx_noise_volt
+    noise_dc = unity_variance_complex_noise(datacube.shape) * rx_noise_volt
 
     datacube += noise_dc
     del noise_dc

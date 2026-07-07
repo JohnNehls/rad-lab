@@ -1,6 +1,6 @@
-Figure 24: peak gain (20*log10(N) dBi; see 10 vs 20 log10 note above)
-	10 elements: 20.00 dBi
-	40 elements: 32.04 dBi
+Figure 24: array-factor peak (20*log10(N) dB; see scaling note above)
+	10 elements: 20.00 dB
+	40 elements: 32.04 dB
 Figure 25: normalized gain beyond +/-60 deg (0 dB indicates a grating lobe)
 	lambda/4 spacing:  -16.95 dB
 	lambda/2 spacing:  -19.89 dB

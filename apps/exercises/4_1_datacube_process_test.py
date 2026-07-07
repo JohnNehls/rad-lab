@@ -31,7 +31,8 @@ dt_pulse = 1 / PRF  # time between pulses [s]
 t_ar = np.arange(Np) * dt_pulse  # slow-time axis
 
 # Place a complex sinusoid at range bin 98, oscillating at PRF/4 in slow time.
-# After Doppler processing, this should appear at Doppler bin = Np/4.
+# After Doppler processing, this should appear at +PRF/4 on the (fftshifted)
+# Doppler frequency axis.
 dc[98, :] = np.exp(2j * PI * PRF / 4 * t_ar)
 
 # -- Visualize raw vs processed datacube --

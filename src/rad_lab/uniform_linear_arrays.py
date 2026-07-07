@@ -54,7 +54,7 @@ def linear_antenna_gain(
             gain over. Defaults to 10000.
         steer_angle (float, optional): The angle in degrees at which to steer
             the main beam. 0 degrees is broadside. Defaults to 0.
-        plot (bool, optional): If True, plots the gain pattern in dBi.
+        plot (bool, optional): If True, plots the array factor in dB.
             Defaults to False.
 
     Returns:
@@ -73,15 +73,17 @@ def linear_antenna_gain(
     A = np.exp(1j * 2 * np.pi * np.outer(np.sin(theta_grid), el_pos))
     Af = A @ weight_vec
 
-    # The difference between the antenna's gain and the isotropic antenna's gain is dBi
-    af_dbi = 20 * np.log10(abs(Af))
+    # 20*log10 of the voltage array factor.  Note this is NOT dBi: for an
+    # N-element uniform array it peaks at 20*log10(N), while the actual
+    # directivity is ~10*log10(N) dBi.
+    af_db = 20 * np.log10(abs(Af))
 
     if plot:
         plt.figure()
-        plt.plot(np.rad2deg(theta_grid), af_dbi)
-        plt.ylim((-30, af_dbi.max() * 1.2))
+        plt.plot(np.rad2deg(theta_grid), af_db)
+        plt.ylim((-30, af_db.max() * 1.2))
         plt.xlabel(r"Angle $\theta$ [deg]")
-        plt.ylabel("Gain [dBi]")
+        plt.ylabel("Array factor [dB]")
         plt.grid()
 
     return np.rad2deg(theta_grid), Af
@@ -110,7 +112,7 @@ def linear_antenna_gain_meters(
             gain over. Defaults to 10000.
         steer_angle (float, optional): The angle in degrees at which to steer
             the main beam. 0 degrees is broadside. Defaults to 0.
-        plot (bool, optional): If True, plots the gain pattern in dBi.
+        plot (bool, optional): If True, plots the array factor in dB.
             Defaults to False.
 
     Returns:
@@ -134,10 +136,11 @@ def linear_antenna_gain_N_db(
     plot: bool = False,
 ) -> tuple[np.ndarray, np.ndarray]:
     """
-    Calculates gain pattern in dBi for a uniform linear array.
+    Calculates the array-factor pattern in dB for a uniform linear array.
 
     This function defines the array geometry based on the number of elements
-    and their uniform spacing. It then computes and returns the gain in dBi.
+    and their uniform spacing, then returns ``20*log10(|AF|)``.  This is the
+    voltage array factor in dB, not dBi (see :func:`linear_antenna_gain`).
 
     Args:
         N_el (int): The number of antenna array elements.
@@ -148,13 +151,13 @@ def linear_antenna_gain_N_db(
             gain over. Defaults to 10000.
         steer_angle (float, optional): The angle in degrees at which to steer
             the main beam. 0 degrees is broadside. Defaults to 0.
-        plot (bool, optional): If True, plots the gain pattern in dBi.
+        plot (bool, optional): If True, plots the array factor in dB.
             Defaults to False.
 
     Returns:
         tuple[np.ndarray, np.ndarray]:
             - theta_vec (np.ndarray): The grid of angles in degrees, from -90 to 90.
-            - gain_vec_db (np.ndarray): The voltage gain in dBi at each angle.
+            - gain_vec_db (np.ndarray): Voltage array factor in dB at each angle.
     """
     L = (N_el - 1) * dx
     el_pos = np.linspace(-L / 2, L / 2, N_el)  # wavelengths
@@ -182,8 +185,10 @@ def array_phase_center(position_ar: np.ndarray, weight_ar: np.ndarray) -> float:
         float: The position of the array's phase center.
     """
     assert len(position_ar) == len(weight_ar)
-    # unsure if the weight should be abs value or not
-    return np.sum(abs(weight_ar) * position_ar) / np.sum(weight_ar)
+    # Weight magnitudes in both numerator and denominator: a weighted average
+    # must be insensitive to element phase, which lives in the pattern, not
+    # the aperture centroid.
+    return np.sum(abs(weight_ar) * position_ar) / np.sum(abs(weight_ar))
 
 
 def apply_timeshift_due_to_element_position(

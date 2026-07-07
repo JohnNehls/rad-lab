@@ -2,9 +2,13 @@
 """Compare Barker-13 vs uncoded pulse amplitude and matched-filter width.
 
 Both pulses use the same chip bandwidth, so the Barker-13 pulse is 13x longer
-in time. After matched filtering, the Barker pulse produces a sharper peak
-(same mainlobe width as uncoded) but with 13x higher processing gain, while
-the uncoded pulse has a triangular autocorrelation with no sidelobes.
+in time.  Because both are normalized to unit energy and scaled to the same
+SNR, the Barker pulse carries the same energy spread over 13 chips at
+1/sqrt(13) the amplitude — the matched-filter peaks and -3 dB mainlobe widths
+come out identical.  The practical difference: the Barker pulse reaches that
+energy at 13x lower peak power (easier on the transmitter), at the cost of
+autocorrelation sidelobes, whereas the uncoded pulse has a clean triangular
+autocorrelation with none.
 """
 
 import numpy as np

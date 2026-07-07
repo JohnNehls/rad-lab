@@ -16,6 +16,12 @@ def amplitude_monopulse(sig_a: np.ndarray, sig_b: np.ndarray, dx: float) -> np.n
 
     where sum = sig_a + sig_b and delta = sig_a - sig_b.
 
+    Note:
+        This is a small-angle estimator.  Im(delta/sum) equals
+        tan(pi*dx*sin(theta)) exactly, so the arctan(2*x) linearisation
+        introduces a bias that grows off boresight (about 0.1 deg at
+        theta = 5 deg for dx = 0.5).
+
     Args:
         sig_a: Complex signal from the first array element.
         sig_b: Complex signal from the second array element.

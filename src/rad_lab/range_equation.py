@@ -258,7 +258,7 @@ def snr_range_eqn_duty_factor_pulses(
     return single_pulse_snr * Tcpi * tau_df
 
 
-def min_target_detection_range(
+def max_target_detection_range(
     Pt: float,
     Gt: float,
     Gr: float,
@@ -295,7 +295,7 @@ def min_target_detection_range(
     ) ** (1 / 4)
 
 
-def min_target_detection_range_bpsk_cp(
+def max_target_detection_range_bpsk_cp(
     Pt: float,
     Gt: float,
     Gr: float,
@@ -330,11 +330,11 @@ def min_target_detection_range_bpsk_cp(
     Returns:
         float: Maximum detection range [m]
     """
-    one_pulse = min_target_detection_range(Pt, Gt, Gr, sigma, wavelength, SNR_thresh, B, F, L, T)
+    one_pulse = max_target_detection_range(Pt, Gt, Gr, sigma, wavelength, SNR_thresh, B, F, L, T)
     return one_pulse * (n_p * n_c) ** (1 / 4)
 
 
-def min_target_detection_range_dutyfactor_cp(
+def max_target_detection_range_dutyfactor_cp(
     Pt: float,
     Gt: float,
     Gr: float,
@@ -367,5 +367,5 @@ def min_target_detection_range_dutyfactor_cp(
     Returns:
         float: Maximum detection range [m]
     """
-    one_pulse = min_target_detection_range(Pt, Gt, Gr, sigma, wavelength, SNR_thresh, 1, F, L, T)
+    one_pulse = max_target_detection_range(Pt, Gt, Gr, sigma, wavelength, SNR_thresh, 1, F, L, T)
     return one_pulse * (Tcpi * tau_df) ** (1 / 4)

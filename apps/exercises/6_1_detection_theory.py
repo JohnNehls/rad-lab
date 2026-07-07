@@ -19,8 +19,10 @@ Key takeaways:
   its RCS is less likely to fade to zero.
 - Non-coherent integration reduces the per-pulse SNR requirement at the
   cost of needing multiple independent looks.
-- Albersheim's closed-form approximation is useful for quick estimates but
-  can deviate significantly from the exact result, especially for small N.
+- Albersheim's closed-form approximation tracks the exact numerical result
+  to within a fraction of a dB over most of its stated validity range
+  (0.1 <= Pd <= 0.9, 1e-7 <= Pfa <= 1e-3, 1 <= N <= 8096), degrading only
+  toward the low-Pd / high-Pfa corner.
 """
 
 import numpy as np

@@ -16,7 +16,7 @@ Model       RCS fluctuation                Decorrelation
 ==========  =============================  =============================
 0 (or V)    Non-fluctuating (constant)     —
 I           Chi-squared, 2 DOF (Rayleigh)  Scan-to-scan (slow)
-III         Chi-squared, 4 DOF (Rician)    Scan-to-scan (slow)
+III         Chi-squared, 4 DOF             Scan-to-scan (slow)
 ==========  =============================  =============================
 
 References
@@ -242,12 +242,12 @@ def required_snr_nci(pd, pfa, n_pulses):
 def albersheim(pd, pfa, n_pulses=1):
     r"""Approximate single-pulse SNR via Albersheim's equation.
 
-    Albersheim's equation (Richards, Eq. 5.28):
+    Albersheim's equation (Richards, *FRSP* 2nd ed., Eq. 6.61):
 
     .. math::
 
-        \text{SNR}_1\,[\text{dB}] = -5.2 +
-            \left(6.2 + \frac{4.54}{\sqrt{N}}\right)
+        \text{SNR}_1\,[\text{dB}] = -5 \log_{10} N +
+            \left(6.2 + \frac{4.54}{\sqrt{N + 0.44}}\right)
             \log_{10}\!\bigl(A + 0.12\,A\,B + 1.7\,B\bigr)
 
     where :math:`A = \ln(0.62 / P_{fa})` and
@@ -255,10 +255,14 @@ def albersheim(pd, pfa, n_pulses=1):
 
     .. note::
 
-        This is a *closed-form approximation* for non-coherent integration.
-        It is most accurate for moderate :math:`N` (roughly 10–1000) and can
-        deviate by several dB for :math:`N = 1`.  Use :func:`required_snr`
-        or :func:`required_snr_nci` for exact results.
+        This is a *closed-form approximation* for non-coherent integration
+        of a non-fluctuating target, usually quoted as valid over
+        :math:`1 \le N \le 8096`, :math:`0.1 \le P_d \le 0.9`, and
+        :math:`10^{-7} \le P_{fa} \le 10^{-3}`.  Against this module's exact
+        inverse it agrees to ~0.3 dB over most of that region but degrades
+        toward the low-:math:`P_d` / high-:math:`P_{fa}` corner (several dB
+        at :math:`P_d = 0.1`, :math:`P_{fa} = 10^{-3}`).  Use
+        :func:`required_snr` or :func:`required_snr_nci` for exact results.
 
     Args:
         pd: Desired detection probability.
@@ -270,7 +274,9 @@ def albersheim(pd, pfa, n_pulses=1):
     """
     a = np.log(0.62 / pfa)
     b = np.log(pd / (1 - pd))
-    return -5.2 + (6.2 + 4.54 / np.sqrt(n_pulses)) * np.log10(a + 0.12 * a * b + 1.7 * b)
+    return -5 * np.log10(n_pulses) + (6.2 + 4.54 / np.sqrt(n_pulses + 0.44)) * np.log10(
+        a + 0.12 * a * b + 1.7 * b
+    )
 
 
 # ---------------------------------------------------------------------------

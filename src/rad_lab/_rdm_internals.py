@@ -5,7 +5,7 @@ from scipy import signal
 from . import constants as c
 from .waveform_helpers import add_waveform_at_index
 from .utilities import phase_negpi_pospi
-from .range_equation import snr_range_eqn, signal_range_eqn, signal_range_eqn_one_way
+from .range_equation import signal_range_eqn, signal_range_eqn_one_way
 from . import vbm
 from .pulse_doppler_radar import Radar
 from .waveform import WaveformSample
@@ -54,7 +54,9 @@ def _inject_pulses(
 
     For each pulse, constructs ``amplitude * waveform_samples * exp(j * phases[i])``
     and adds it at the corresponding flat-datacube index.  Pulses whose index
-    exceeds the datacube size are silently skipped.
+    falls outside the datacube (before sample 0 or beyond the end) are
+    silently skipped — a negative index would otherwise wrap around and
+    corrupt the end of the buffer.
 
     Args:
         datacube: 2-D complex array modified in place.
@@ -68,7 +70,7 @@ def _inject_pulses(
     amplitudes = np.broadcast_to(amplitude, len(sample_indices))
     with _flat_datacube(datacube) as flat:
         for i in range(len(sample_indices)):
-            if sample_indices[i] < datacube.size:
+            if 0 <= sample_indices[i] < datacube.size:
                 pulse = amplitudes[i] * waveform_samples * np.exp(1j * phases[i])
                 add_waveform_at_index(flat, pulse, sample_indices[i])
 
@@ -197,7 +199,7 @@ def add_jammer(
                 * np.exp(1j * one_way_propagation_phases[i])
             )
 
-            if return_sample_indices[i] < datacube.size:
+            if 0 <= return_sample_indices[i] < datacube.size:
                 add_waveform_at_index(flat, pulse, return_sample_indices[i])
 
 
@@ -268,46 +270,6 @@ def create_window(
         plt.show()
 
     return window_matrix
-
-
-def skin_snr_amplitude(radar: Radar, target: Target, waveform: WaveformSample) -> float:
-    """Calculates the required per-pulse voltage amplitude to achieve a target SNR.
-
-    Uses the radar range equation to find the SNR after processing, then works
-    backward to determine the necessary per-pulse signal amplitude to inject
-    into the simulation datacube.
-
-    Args:
-        radar: Radar system parameters.
-        target: Target kinematics and scattering parameters.
-        waveform: WaveformSample containing pulse data and parameters.
-
-    Returns:
-        The required per-pulse SNR as a linear voltage ratio.
-    """
-    # Assumes the range equation provides the total SNR after coherent integration
-    # over all pulses in the Coherent Processing Interval (CPI).
-    snr_after_integration = snr_range_eqn(
-        radar.tx_power,
-        radar.tx_gain,
-        radar.rx_gain,
-        target.rcs,
-        c.C / radar.fcar,
-        target.range,
-        waveform.bw,
-        radar.noise_factor,
-        radar.total_losses,
-        radar.op_temp,
-        waveform.time_bw_product,
-    )
-
-    # To find the required per-pulse amplitude, we first find the per-pulse SNR
-    # by dividing by the number of pulses (the coherent integration gain).
-    snr_per_pulse = snr_after_integration / radar.n_pulses
-
-    # The voltage amplitude for a single pulse is the square root of the per-pulse
-    # SNR (power ratio), assuming a normalized noise power of 1.0.
-    return np.sqrt(snr_per_pulse)
 
 
 def skin_voltage_amplitude(radar: Radar, target: Target) -> float:

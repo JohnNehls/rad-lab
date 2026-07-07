@@ -9,10 +9,13 @@ Figure 27: Weighted array factors (Chebyshev and Taylor) vs unweighted.
 Figure 28: Beam steering to 15, 45, and -60 degrees.
            Steering broadens the beam and reduces peak gain at large angles.
 
-Discrepancies with reference document:
-  - Figures 24 and 25 appear to use 10*log10 instead of 20*log10 in the
-    original document, causing a 2x scaling error.
-  - Our figures 27 and 28 match the document correctly.
+Scaling note vs the reference document:
+  - These figures plot the voltage array factor in dB, 20*log10|AF|, which
+    peaks at 20*log10(N).  The reference document plots 10*log10 quantities
+    (power gain, dBi), so its unnormalized peaks sit at half our dB values.
+    Neither is a bug — they are different (voltage vs power) conventions.
+  - Figures 27 and 28 are normalized to their peaks, so the convention
+    cancels and they match the document directly.
 """
 
 import numpy as np
@@ -27,22 +30,22 @@ plt.rcParams["text.usetex"] = True
 fig, axs = plt.subplots(1, 2)
 fig.suptitle(r"Unweighted Array Factor for $\lambda/2$ spacing")
 
-print("Figure 24: peak gain (20*log10(N) dBi; see 10 vs 20 log10 note above)")
+print("Figure 24: array-factor peak (20*log10(N) dB; see scaling note above)")
 theta, gain = ula.linear_antenna_gain_N_db(10, 1 / 2, plot=False)
 axs[0].plot(theta, gain)
 axs[0].set_title("10 elements")
-print(f"\t10 elements: {gain.max():.2f} dBi")
+print(f"\t10 elements: {gain.max():.2f} dB")
 
 theta, gain = ula.linear_antenna_gain_N_db(40, 1 / 2, plot=False)
 axs[1].plot(theta, gain)
 axs[1].set_title("40 elements")
-print(f"\t40 elements: {gain.max():.2f} dBi")
+print(f"\t40 elements: {gain.max():.2f} dB")
 
 for ax in axs:
     ax.grid()
     ax.set_ylim((-60, 40))
     ax.set_xlabel(r"Angle $\theta$ [deg]")
-    ax.set_ylabel("Gain [dBi]")
+    ax.set_ylabel("Array factor [dB]")
 
 plt.tight_layout()
 
@@ -82,7 +85,7 @@ for ax in axs:
     ax.grid()
     ax.set_ylim((-80, 10))
     ax.set_xlabel(r"Angle $\theta$ [deg]")
-    ax.set_ylabel("Normalized Gain [dBi]")
+    ax.set_ylabel("Normalized Array Factor [dB]")
 
 plt.tight_layout()
 
@@ -113,7 +116,7 @@ for ax in axs:
     ax.plot(theta, gain_cheb - gain_cheb.max(), "-.r", label="30 dB Cheb.")
     ax.plot(theta, gain_tay - gain_tay.max(), "--k", label="35 dB Taylor")
     ax.set_xlabel(r"Angle $\theta$ [deg]")
-    ax.set_ylabel("Normalized Gain [dBi]")
+    ax.set_ylabel("Normalized Array Factor [dB]")
     ax.set_ylim((-60, 5))
     ax.grid()
 
@@ -136,7 +139,7 @@ for ax, angle in zip(axs, [15, 45, -60]):
     ax.grid()
     ax.set_ylim((-60, 5))
     ax.set_xlabel(r"Angle $\theta$ [deg]")
-    ax.set_ylabel("Normalized Gain [dBi]")
+    ax.set_ylabel("Normalized Array Factor [dB]")
 
 plt.tight_layout()
 

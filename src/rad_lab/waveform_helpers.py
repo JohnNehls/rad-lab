@@ -118,12 +118,12 @@ def find_width(
     # recursive step
     else:
         logger.info(
-            f"find_width: find_width is interpolating to 2x the sample rate {interp_count=}"
+            f"find_width: interpolating to {interp_scale}x the sample rate {interp_count=}"
         )
         interp_func = interp1d(x, y, kind="linear")
         newx = np.linspace(x[0], x[-1], x.size * interp_scale)
         newy = interp_func(newx)
-        return find_width(newx, newy, interp_max, interp_count + 1)
+        return find_width(newx, newy, interp_max, interp_count + 1, interp_scale)
 
 
 def plot_pulse_and_spectrum(

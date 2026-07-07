@@ -19,8 +19,9 @@ def noise_checks(noise_dc: np.ndarray, total_dc: np.ndarray) -> None:
     noise_var = np.var(total_dc, 1)
     print(f"\t{np.mean(noise_var)=: .4f}")
     print(f"\t{np.var(noise_var)=: .4f}")
-    print(f"\t{np.mean(20*np.log10(noise_var))=: .4f}")
-    print(f"\t{np.var(20*np.log10(noise_var))=: .4f}")
+    # variance is a power-like quantity -> 10*log10 for dB
+    print(f"\t{np.mean(10*np.log10(noise_var))=: .4f}")
+    print(f"\t{np.var(10*np.log10(noise_var))=: .4f}")
     print("\nPeak magnitude:")
     print(f"\t{20*np.log10(np.max(abs(noise_dc)))=:.2f}")
     print(f"\t{20*np.log10(np.max(abs(total_dc)))=:.2f}")

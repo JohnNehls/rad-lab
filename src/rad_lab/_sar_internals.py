@@ -252,6 +252,11 @@ def rcmc(
 
         _plot_rdm(range_axis, f_eta, datacube, "RDM before RCMC")
 
+    # Interpolation must read the *uncorrected* range-Doppler data for every
+    # output row.  The kernel reaches 3 rows above k, which an in-place gather
+    # would have already overwritten, so work from a pristine copy.
+    rd_source = datacube.copy()
+
     col_indices = np.arange(n_pulses)[np.newaxis, :]
     for k in range(n_range_bins):
         R0 = range_axis[k]
@@ -267,7 +272,7 @@ def rcmc(
         in_bounds = (src_rows >= 0) & (src_rows < n_range_bins)
         clipped_rows = np.where(in_bounds, src_rows, 0)
 
-        gathered = datacube[clipped_rows, col_indices]  # (8, n_pulses)
+        gathered = rd_source[clipped_rows, col_indices]  # (8, n_pulses)
         gathered = np.where(in_bounds, gathered, 0.0)
 
         # Hann-windowed sinc weights at sub-bin offset, normalised so a
