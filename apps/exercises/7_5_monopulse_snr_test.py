@@ -44,16 +44,16 @@ for snr_db in snr_db_list:
     snr_volt_scale = 10 ** (snr_db / 20)
 
     # Simulate received signal at each element: scaled signal + noise
-    recieved_signals = []
+    received_signals = []
     for sv in steer_vec:
-        recieved_signals.append(
+        received_signals.append(
             snr_volt_scale * sv * signal_ar + unity_variance_complex_noise(N_samples)
         )
-    plt.plot(recieved_signals[0], label=f"snr={snr_db}")
+    plt.plot(np.real(received_signals[0]), label=f"snr={snr_db}")
 
     # Estimate angle from the monopulse ratio (sample-by-sample)
     dx = array_pos[1] - array_pos[0]  # element separation [wavelengths]
-    measured_theta = mp.monopulse_angle_deg(recieved_signals[0], recieved_signals[1], dx)
+    measured_theta = mp.monopulse_angle_deg(received_signals[0], received_signals[1], dx)
 
     # Compute estimation error statistics across all samples
     measured_error = abs(measured_theta - tgt_angle)
@@ -69,7 +69,7 @@ for snr_db, err_mean, err_std in zip(snr_db_list, error_mean_list, error_std_lis
 # -- Plot the received signals at each SNR --
 plt.legend()
 plt.title("Noisy signal for Each SNR [dB]")
-plt.xlabel("time [s]")
+plt.xlabel("sample")
 plt.ylabel("amplitude [v]")
 plt.grid()
 

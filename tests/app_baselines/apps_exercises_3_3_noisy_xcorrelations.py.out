@@ -9,7 +9,7 @@ verify uncoded pulse BW
 verify noise is at ~ 0dB
 	noise variance = 0.29 dB
 matched-filter peak at sample 202 (pulse placed at index 200)
-## Case 2: three uncoded pulse ####
+## Case 2: three uncoded pulses ####
 strongest matched-filter peak at sample 202 (30 dB pulse at 200)
 ## Case 3: LFM and BPSK pulses ####
 noise variance = -0.08 dB

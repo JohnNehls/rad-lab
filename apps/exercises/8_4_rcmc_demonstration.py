@@ -61,9 +61,7 @@ print(
 )
 
 
-def run_peak_analysis(
-    label: str, rcmc: bool, debug: bool = False, plot: bool = False
-) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+def run_peak_analysis(label: str, rcmc: bool, debug: bool = False, plot: bool = False) -> None:
     print("=" * 70)
     print(f"  {label}  (rcmc={rcmc})")
     print("=" * 70)
@@ -118,7 +116,6 @@ def run_peak_analysis(
                     f"az peak at cr={cross_range[az_peak]:.3f}m, {peak_db:.1f} dB"
                 )
         print()
-    return cross_range, slant_range, total_dc
 
 
 # First pass: numerical only, no figures (keeps peak RAM down — the

@@ -88,15 +88,15 @@ plt.tight_layout()
 
 ## Figure 27: Weighted vs unweighted, 40 elements ##########################
 Nel = 40
-chebWindow = signal.windows.chebwin(Nel, 30)  # 30 dB Chebyshev sidelobe level
-tayWindow = signal.windows.taylor(Nel, sll=35)  # 35 dB Taylor sidelobe level
+cheb_window = signal.windows.chebwin(Nel, 30)  # 30 dB Chebyshev sidelobe level
+tay_window = signal.windows.taylor(Nel, sll=35)  # 35 dB Taylor sidelobe level
 
 fig, axs = plt.subplots(1, 2)
 fig.suptitle(r"Array Factor with Different Weights: 40 elements, $\lambda/2$ spacing")
 
 theta, gain = ula.linear_antenna_gain_N_db(Nel, 1 / 2, plot=False)
-theta, gain_cheb = ula.linear_antenna_gain_N_db(Nel, 1 / 2, weight_vec=chebWindow, plot=False)
-theta, gain_tay = ula.linear_antenna_gain_N_db(Nel, 1 / 2, weight_vec=tayWindow, plot=False)
+theta, gain_cheb = ula.linear_antenna_gain_N_db(Nel, 1 / 2, weight_vec=cheb_window, plot=False)
+theta, gain_tay = ula.linear_antenna_gain_N_db(Nel, 1 / 2, weight_vec=tay_window, plot=False)
 
 # Peak sidelobe level: max normalized gain outside the mainlobe (|theta| > 5 deg)
 print("Figure 27: peak sidelobe level")

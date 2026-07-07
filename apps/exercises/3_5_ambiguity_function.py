@@ -72,7 +72,7 @@ _apply_limits(
     plot_zero_cuts(tau, fd, af, title="Zero Cuts — Barker-13"),
 )
 
-# -- LFM pulse (time-bandwidth product = 100) --
+# -- LFM pulse (time-bandwidth product = 10) --
 print("## LFM pulse ##")
 T_lfm = 1e-3  # 1 ms pulse → TBP = bw * T = 10
 _, pulse_lfm = lfm_pulse(sample_rate, bw, T_lfm, chirp_up_down=1, normalize=False)

@@ -27,8 +27,8 @@ Np = 256  # number of pulses in the CPI
 
 # -- Create an empty datacube and inject a test signal --
 dc = data_cube(fs, PRF, Np)  # shape: (range_bins, Np)
-dtPulse = 1 / PRF  # time between pulses [s]
-t_ar = np.arange(Np) * dtPulse  # slow-time axis
+dt_pulse = 1 / PRF  # time between pulses [s]
+t_ar = np.arange(Np) * dt_pulse  # slow-time axis
 
 # Place a complex sinusoid at range bin 98, oscillating at PRF/4 in slow time.
 # After Doppler processing, this should appear at Doppler bin = Np/4.

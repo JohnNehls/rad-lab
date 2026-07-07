@@ -28,8 +28,8 @@ print("Problem 3: noisy xcorrelations")
 print("##############################")
 
 # -- Common waveform parameters --
-sampleRate = 20e6  # sample rate [Hz]
-BW = 4e6  # waveform bandwidth [Hz]
+sample_rate = 20e6  # sample rate [Hz]
+bw = 4e6  # waveform bandwidth [Hz]
 
 ## Case 1: Single uncoded pulse in noise #####################################
 print("## Case 1: add uncoded pulse ######")
@@ -40,26 +40,26 @@ noise_1 = unity_variance_complex_noise(1000)
 
 # Verify the pulse bandwidth via its spectrum
 print("verify uncoded pulse BW")
-t_u, mag_u = uncoded_pulse(sampleRate, BW, normalize=True)
+t_u, mag_u = uncoded_pulse(sample_rate, bw, normalize=True)
 plot_pulse_and_spectrum(t_u, mag_u, "uncoded BW check", n_pad=1000)
 
 # Create the pulse, scale it to the desired SNR, and embed it in noise
-t_u, mag_u = uncoded_pulse(sampleRate, BW)
-indx_1 = 200  # sample index where pulse is placed
-SNR = 20  # desired SNR [dB] (noise floor is 0 dB)
-mag_u_s = 10 ** (SNR / 20) * mag_u  # scale pulse voltage for target SNR
+t_u, mag_u = uncoded_pulse(sample_rate, bw)
+pulse_index = 200  # sample index where pulse is placed
+snr_db = 20  # desired SNR [dB] (noise floor is 0 dB)
+mag_u_s = 10 ** (snr_db / 20) * mag_u  # scale pulse voltage for target SNR
 
-add_waveform_at_index(noise_1, mag_u_s, indx_1)  # add pulse into noise in-place
+add_waveform_at_index(noise_1, mag_u_s, pulse_index)  # add pulse into noise in-place
 print("verify noise is at ~ 0dB")
 print(f"\tnoise variance = {10 * np.log10(np.var(noise_1)):.2f} dB")
 
 # Apply matched filter: correlate the noisy signal with the known pulse
 m_index_shift, mf = matchfilter_with_waveform(noise_1, mag_u)
-print(f"matched-filter peak at sample {np.argmax(abs(mf))} (pulse placed at index {indx_1})")
+print(f"matched-filter peak at sample {np.argmax(abs(mf))} (pulse placed at index {pulse_index})")
 
 # Plot: noisy signal, original pulse, and matched-filter output
 fig, ax = plt.subplots(1, 3, figsize=(12, 4))
-fig.suptitle(f"S3P3 case 1: uncoded pulse at index{indx_1}")
+fig.suptitle(f"S3P3 case 1: uncoded pulse at index {pulse_index}")
 ax[0].plot(np.real(noise_1), "-o")
 ax[0].set_title("noise")
 ax[0].set_xlabel("sample")
@@ -77,34 +77,27 @@ for a in ax:
     a.grid()
 
 ## Case 2: Three uncoded pulses at different SNRs ###########################
-print("## Case 2: three uncoded pulse ####")
+print("## Case 2: three uncoded pulses ####")
 noise_2 = unity_variance_complex_noise(1000)
 
-# Embed three pulses at different locations and SNR levels
-indx_1 = 128
-SNR = 15  # [dB]
-_, mag_u = uncoded_pulse(sampleRate, BW)
-mag_u_s = 10 ** (SNR / 20) * mag_u
-add_waveform_at_index(noise_2, mag_u_s, indx_1)
-
-indx_2 = 200
-SNR = 30  # [dB] — strongest pulse
-_, mag_u = uncoded_pulse(sampleRate, BW)
-mag_u_s = 10 ** (SNR / 20) * mag_u
-add_waveform_at_index(noise_2, mag_u_s, indx_2)
-
-indx_3 = 950
-SNR = 20  # [dB]
-_, mag_u = uncoded_pulse(sampleRate, BW)
-mag_u_s = 10 ** (SNR / 20) * mag_u
-add_waveform_at_index(noise_2, mag_u_s, indx_3)
+# Embed the same pulse at three locations and SNR levels
+pulse_indices = [128, 200, 950]  # sample index of each pulse
+pulse_snrs_db = [15, 30, 20]  # SNR of each pulse [dB]
+_, mag_u = uncoded_pulse(sample_rate, bw)
+for pulse_index, snr_db in zip(pulse_indices, pulse_snrs_db):
+    mag_u_s = 10 ** (snr_db / 20) * mag_u
+    add_waveform_at_index(noise_2, mag_u_s, pulse_index)
 
 # Matched filter should show three distinct peaks at the pulse locations
 _, mf = matchfilter_with_waveform(noise_2, mag_u)
-print(f"strongest matched-filter peak at sample {np.argmax(abs(mf))} (30 dB pulse at {indx_2})")
+strongest_index = pulse_indices[np.argmax(pulse_snrs_db)]
+print(
+    f"strongest matched-filter peak at sample {np.argmax(abs(mf))} "
+    f"({max(pulse_snrs_db)} dB pulse at {strongest_index})"
+)
 
 fig, ax = plt.subplots(1, 4, figsize=(15, 4))
-fig.suptitle(f"S3P3 case 2: uncoded pulses @ index: {indx_1}, {indx_2}, {indx_3} -- check SNR")
+fig.suptitle(f"S3P3 case 2: uncoded pulses at indices {pulse_indices} -- check SNR")
 ax[0].plot(np.real(noise_2), "-o")
 ax[0].set_title("noise")
 ax[0].set_xlabel("sample")
@@ -117,7 +110,7 @@ ax[2].plot(abs(mf), "-o")
 ax[2].set_xlabel("sample")
 ax[2].set_ylabel("matched magnitude")
 ax[2].set_title("match filter on noise")
-ax[3].plot(10 * np.log(abs(mf)), "-o")
+ax[3].plot(20 * np.log10(abs(mf)), "-o")
 ax[3].set_xlabel("sample")
 ax[3].set_ylabel("matched dB")
 ax[3].set_title("match filter on noise")
@@ -136,18 +129,18 @@ print(f"noise variance = {10 * np.log10(np.var(noise_3)):.2f} dB")  # verify ~0 
 
 # Embed an LFM pulse at sample 300
 lfm_idx = 300
-SNR = 20  # [dB]
+snr_db = 20  # [dB]
 T = 2e-6  # pulse duration [s]
-chirpUpDown = 1  # up-chirp
-_, mag_lfm = lfm_pulse(sampleRate, BW, T, chirpUpDown)
-mag_lfm_s = 10 ** (SNR / 20) * mag_lfm
+chirp_up_down = 1  # up-chirp
+_, mag_lfm = lfm_pulse(sample_rate, bw, T, chirp_up_down)
+mag_lfm_s = 10 ** (snr_db / 20) * mag_lfm
 add_waveform_at_index(noise_3, mag_lfm_s, lfm_idx)
 
 # Embed a Barker-13 BPSK pulse at sample 600
 bpsk_idx = 600
-SNR = 20  # [dB]
-_, mag_b = barker_coded_pulse(sampleRate, BW, 13)
-mag_b_s = 10 ** (SNR / 20) * mag_b
+snr_db = 20  # [dB]
+_, mag_b = barker_coded_pulse(sample_rate, bw, 13)
+mag_b_s = 10 ** (snr_db / 20) * mag_b
 add_waveform_at_index(noise_3, mag_b_s, bpsk_idx)
 
 # Each matched filter should peak only at its own waveform's location

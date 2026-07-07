@@ -18,17 +18,17 @@ print("Problem 4: Compare Barker 13 to uncoded pulse")
 print("##############################")
 
 # -- Waveform parameters --
-BW = 4e6  # waveform bandwidth [Hz]
-sampleRate = 16e6  # sample rate [Hz]
-SNR = 20  # [dB]
+bw = 4e6  # waveform bandwidth [Hz]
+sample_rate = 16e6  # sample rate [Hz]
+snr_db = 20  # [dB]
 
 # -- Generate both pulses and scale to the same SNR --
-tb, mag_b = barker_coded_pulse(sampleRate, BW, 13)
-mag_b_s = 10 ** (SNR / 20) * mag_b
+tb, mag_b = barker_coded_pulse(sample_rate, bw, 13)
+mag_b_s = 10 ** (snr_db / 20) * mag_b
 
-tu, mag_u = uncoded_pulse(sampleRate, BW)
+tu, mag_u = uncoded_pulse(sample_rate, bw)
 tu, mag_u = zeropad_waveform(tu, mag_u, 50)  # zero-pad for visual comparison
-mag_u_s = 10 ** (SNR / 20) * mag_u
+mag_u_s = 10 ** (snr_db / 20) * mag_u
 
 # -- Plot: time-domain pulses and their matched-filter outputs --
 fig, ax = plt.subplots(1, 2)

@@ -128,7 +128,5 @@ for ax, cr, cut, w, theory, title in [
 
 fig.suptitle("Stripmap vs Spotlight SAR — Centre Target", fontsize=14)
 fig.tight_layout()
-# fig.savefig("stripmap_vs_spotlight.png", dpi=200)
-# print("\nSaved stripmap_vs_spotlight.png")
 
 plt.show()

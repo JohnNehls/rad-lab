@@ -23,11 +23,11 @@ plt.rcParams["text.usetex"] = True
 
 # -- Define a 40-element array with Chebyshev weights --
 Nel = 40
-chebWindow = signal.windows.chebwin(Nel, 30)  # 30 dB Chebyshev weights (un-normalized)
+cheb_window = signal.windows.chebwin(Nel, 30)  # 30 dB Chebyshev weights (un-normalized)
 pos_ar = np.linspace(2, 8, Nel) * 1e-3  # element positions [m]
 
 # -- Compute the phase center (weighted centroid of positions) --
-phase_cent = ula.array_phase_center(pos_ar, chebWindow)
+phase_cent = ula.array_phase_center(pos_ar, cheb_window)
 print(
     f"phase center = {phase_cent * 1e3:.3f} mm (geometric center = {pos_ar.mean() * 1e3:.3f} mm)"
 )
@@ -35,7 +35,7 @@ print(
 # -- Plot: element weights and phase center location --
 plt.figure()
 plt.title("Array Weights and Phase Center")
-plt.plot(pos_ar, chebWindow, "o", label="weights")
+plt.plot(pos_ar, cheb_window, "o", label="weights")
 plt.axvline(x=phase_cent, linestyle="dashed", color="k", label="phase center")
 plt.xlabel("Array Element Position [m]")
 plt.ylabel("Weight")

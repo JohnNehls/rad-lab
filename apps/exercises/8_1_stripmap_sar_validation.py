@@ -1,13 +1,13 @@
 #!/usr/bin/env python
-"""Validate an un-windowed stripmap SAR example
+"""Validate an un-windowed stripmap SAR example.
 
 Generates three figures:
-  1) sar_full.png: full SAR image from sar.gen
-  2) sar_psf_zoom.png: ±150 m range, ±15 m cross-range zoom around each target
-     - we are to see sinc-like patterns in rang and cross-range axes.
-  3) sar_cr_cuts.png Cross-range cuts through the peak range bin of each target.
-     - compares measured the -3 dB mainlobe width and to the theoretical
-       resolution λR/(2L) for an un-windowed SAR image.
+  1) Full SAR image from sar.gen.
+  2) ±150 m range, ±15 m cross-range zoom around each target — expect
+     sinc-like patterns along both the range and cross-range axes.
+  3) Cross-range cuts through the peak range bin of each target — compares
+     the measured -3 dB mainlobe width to the theoretical resolution
+     λR/(2L) for an un-windowed SAR image.
 """
 
 import numpy as np

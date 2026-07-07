@@ -148,7 +148,7 @@ for f0, rangeRate in zip(f0_ar, apparent_rangeRate_ar):
 
 plt.figure()
 plt.title(
-    rf"range rate vs freq: $\dot{{r}}_{{target}}$ = {rangeRate_tgt} [m/s], PRF={PRF * 1e-3:.1f}[km]"
+    rf"range rate vs freq: $\dot{{r}}_{{target}}$ = {rangeRate_tgt} [m/s], PRF={PRF * 1e-3:.1f}[kHz]"
 )
 plt.plot(f0_ar * 1e-9, apparent_rangeRate_ar, "o", label=r"apparent $\dot{r}$")
 plt.plot(f0_ar * 1e-9, rangeRate_max_ar, "--r", label=r"unambiguous $\dot{r}$")

@@ -14,10 +14,10 @@ from rad_lab.waveform_helpers import plot_pulse_and_spectrum
 
 # -- Signal parameters --
 fs = 200e6  # sampling frequency [Hz]
-BW = 11e6  # pulse bandwidth [Hz]
+bw = 11e6  # pulse bandwidth [Hz]
 
 # -- Generate a complex tone at fs/8 (25 MHz) --
-t_s, mag_s = complex_tone_pulse(fs, BW, fs / 8)
+t_s, mag_s = complex_tone_pulse(fs, bw, fs / 8)
 
 # -- Apply a Chebyshev window to suppress spectral leakage --
 chwin = signal.windows.chebwin(mag_s.size, 60)  # 60 dB sidelobe suppression

@@ -24,10 +24,10 @@ print("##########################")
 
 # -- Pulse parameters --
 fs = 100e6  # sampling frequency [Hz]
-BW = 11e6  # pulse bandwidth [Hz]
+bw = 11e6  # pulse bandwidth [Hz]
 
 # -- Generate an uncoded (rectangular) pulse --
-t_u, mag_u = uncoded_pulse(fs, BW)
+t_u, mag_u = uncoded_pulse(fs, bw)
 
 # -- Create window functions (same length as the pulse) --
 chwin = signal.windows.chebwin(mag_u.size, 60)  # Chebyshev, 60 dB sidelobe suppression
@@ -40,15 +40,15 @@ mag_bhwin = bhwin * mag_u
 mag_tywin = tywin * mag_u
 
 # -- Plot pulse shape and spectrum for each case --
-Npad = 4001  # zero-pad length for smooth spectral estimate
+n_pad = 4001  # zero-pad length for smooth spectral estimate
 
 print("uncoded")
-plot_pulse_and_spectrum(t_u, mag_u, "unfiltered pulse", Npad, spec_dec=True)
+plot_pulse_and_spectrum(t_u, mag_u, "unfiltered pulse", n_pad, spec_dec=True)
 print("Chebyshev")
-plot_pulse_and_spectrum(t_u, mag_chwin, "chwin filtered pulse", Npad, spec_dec=True)
+plot_pulse_and_spectrum(t_u, mag_chwin, "chwin filtered pulse", n_pad, spec_dec=True)
 print("Blackman-Harris")
-plot_pulse_and_spectrum(t_u, mag_bhwin, "bhwin filtered pulse", Npad, spec_dec=True)
+plot_pulse_and_spectrum(t_u, mag_bhwin, "bhwin filtered pulse", n_pad, spec_dec=True)
 print("Taylor (should be smaller BW)")
-plot_pulse_and_spectrum(t_u, mag_tywin, "tywin filtered pulse", Npad, spec_dec=True)
+plot_pulse_and_spectrum(t_u, mag_tywin, "tywin filtered pulse", n_pad, spec_dec=True)
 
 plt.show()

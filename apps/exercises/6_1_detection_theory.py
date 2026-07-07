@@ -29,6 +29,7 @@ from rad_lab.detection import (
     pd_swerling0,
     pd_swerling0_nci,
     required_snr,
+    required_snr_nci,
     plot_pd_vs_snr,
     plot_roc,
     plot_required_snr_vs_n,
@@ -87,8 +88,6 @@ for model in ["swerling0", "swerling1", "swerling3"]:
 
 print("\nRequired per-pulse SNR for Pd = 0.9 (Swerling 0, NCI):")
 for n in [1, 5, 10, 20, 50]:
-    from rad_lab.detection import required_snr_nci
-
     snr = required_snr_nci(0.9, pfa, n)
     print(f"  N = {n:3d}: {snr:.2f} dB")
 

@@ -29,11 +29,10 @@ n_p = 256  # number of pulses coherently integrated
 
 # -- Sweep variables --
 Pt_ar = [1e3, 5e3, 10e3]  # transmit power values [W]
-sig_db_ar = [0, 10, 20]  # target RCS values [dBsm]
-sig_ar = [10 ** (x / 10) for x in sig_db_ar]  # convert RCS to linear [m^2]
+sigma_db_ar = [0, 10, 20]  # target RCS values [dBsm]
+sigma_ar = [10 ** (x / 10) for x in sigma_db_ar]  # convert RCS to linear [m^2]
 R_ar = np.arange(1e3, 30.1e3, 100)  # range axis [m]
 SNR_thresh_db = 12  # detection threshold [dB]
-SNR_thresh = 10 ** (SNR_thresh_db / 10)
 
 # -- Derived quantities --
 wavelength = C / fc
@@ -47,11 +46,11 @@ print(f"Problem 1: BPSK SNR [dB] at {R_ar[-1] * 1e-3:.0f} km")
 fig, ax = plt.subplots(1, len(Pt_ar), sharex="all", sharey="all")
 fig.suptitle("BPSK SNR")
 for index, Pt in enumerate(Pt_ar):
-    for sig_index, sig in enumerate(sig_ar):
-        y = re.snr_range_eqn_bpsk_cp(Pt, Gt, Gr, sig, wavelength, R_ar, B, F, L, T, n_p, Ncode)
+    for sigma_index, sigma in enumerate(sigma_ar):
+        y = re.snr_range_eqn_bpsk_cp(Pt, Gt, Gr, sigma, wavelength, R_ar, B, F, L, T, n_p, Ncode)
         y = 10 * np.log10(y)  # convert to dB
-        print(f"\tPt={Pt * 1e-3:4.1f} kW  RCS={sig_db_ar[sig_index]:2d} dBsm : {y[-1]:5.1f}")
-        ax[index].plot(R_ar / 1e3, y, label=f"RCS={sig_db_ar[sig_index]}[dBsm]")
+        print(f"\tPt={Pt * 1e-3:4.1f} kW  RCS={sigma_db_ar[sigma_index]:2d} dBsm : {y[-1]:5.1f}")
+        ax[index].plot(R_ar / 1e3, y, label=f"RCS={sigma_db_ar[sigma_index]}[dBsm]")
     # overlay the detection threshold line
     ax[index].plot(
         R_ar / 1e3,
@@ -74,19 +73,19 @@ plt.subplots_adjust(bottom=0.15)
 sigma = 10 ** (0 / 10)  # 0 dBsm target
 Pt = 5e3  # transmit power [W]
 Tcpi_ar = [2e-3, 5e-3, 10e-3]  # CPI durations [s]
-dutyFactor_ar = [0.01, 0.1, 0.2]  # duty factors: 1%, 10%, 20%
+duty_factor_ar = [0.01, 0.1, 0.2]  # duty factors: 1%, 10%, 20%
 
 print(f"Problem 2: duty-factor SNR [dB] at {R_ar[-1] * 1e-3:.0f} km")
 fig, ax = plt.subplots(1, len(Tcpi_ar), sharex="all", sharey="all")
-fig.suptitle("CPI DutyFactor SNR")
+fig.suptitle("CPI duty-factor SNR")
 for index, Tcpi in enumerate(Tcpi_ar):
-    for dutyFactor in dutyFactor_ar:
+    for duty_factor in duty_factor_ar:
         y = re.snr_range_eqn_duty_factor_pulses(
-            Pt, Gt, Gr, sigma, wavelength, R_ar, F, L, T, Tcpi, dutyFactor
+            Pt, Gt, Gr, sigma, wavelength, R_ar, F, L, T, Tcpi, duty_factor
         )
         y = 10 * np.log10(y)  # convert to dB
-        print(f"\tTcpi={Tcpi * 1e3:4.1f} ms  DF={dutyFactor:4.2f} : {y[-1]:5.1f}")
-        ax[index].plot(R_ar / 1e3, y, label=f"DF={dutyFactor}")
+        print(f"\tTcpi={Tcpi * 1e3:4.1f} ms  DF={duty_factor:4.2f} : {y[-1]:5.1f}")
+        ax[index].plot(R_ar / 1e3, y, label=f"DF={duty_factor}")
     ax[index].plot(
         R_ar / 1e3,
         SNR_thresh_db * np.ones(R_ar.shape),
@@ -108,7 +107,7 @@ plt.subplots_adjust(bottom=0.15)
 
 SNR_thresh_db = 15
 SNR_thresh = 10 ** (SNR_thresh_db / 10)
-dutyFactor = 0.1  # 10%
+duty_factor = 0.1  # 10%
 Tcpi = 2e-3  # [s]
 
 # -- Figure 1: min detectable range vs (Tx power, RCS) --
@@ -120,7 +119,7 @@ min_det_range_sigmaPt = np.zeros((len(Pt_ar), len(sigma_ar)))
 for i, Pt in enumerate(Pt_ar):
     for j, sigma in enumerate(sigma_ar):
         val = re.min_target_detection_range_dutyfactor_cp(
-            Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, dutyFactor
+            Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, duty_factor
         )
         min_det_range_sigmaPt[i, j] = val
 
@@ -131,7 +130,7 @@ print(
 )
 
 plt.figure()
-plt.title(f"Tcpi={Tcpi * 1e3}[ms] DF={dutyFactor}  SNR_thresh={SNR_thresh_db}[dB]")
+plt.title(f"Tcpi={Tcpi * 1e3}[ms] DF={duty_factor}  SNR_thresh={SNR_thresh_db}[dB]")
 plt.pcolormesh(sigma_db_ar, Pt_ar * 1e-3, min_det_range_sigmaPt * 1e-3)
 c = plt.colorbar()
 c.set_label("minimum detectable target range [km]")
@@ -146,7 +145,7 @@ min_det_range_sigmaTcpi = np.zeros((len(Tcpi_ar), len(sigma_ar)))
 for i, Tcpi in enumerate(Tcpi_ar):
     for j, sigma in enumerate(sigma_ar):
         val = re.min_target_detection_range_dutyfactor_cp(
-            Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, dutyFactor
+            Pt, Gt, Gr, sigma, wavelength, SNR_thresh, F, L, T, Tcpi, duty_factor
         )
         min_det_range_sigmaTcpi[i, j] = val
 
@@ -156,7 +155,7 @@ print(
 )
 
 plt.figure()
-plt.title(f"Pt={Pt * 1e-3:.1f}kW  DF={dutyFactor}  SNR_thresh={SNR_thresh_db}[dB]")
+plt.title(f"Pt={Pt * 1e-3:.1f}kW  DF={duty_factor}  SNR_thresh={SNR_thresh_db}[dB]")
 plt.pcolormesh(sigma_db_ar, Tcpi_ar * 1e3, min_det_range_sigmaTcpi * 1e-3)
 c = plt.colorbar()
 c.set_label("minimum detectable target range [km]")

@@ -22,13 +22,13 @@ print("The sidelobes do not follow the table")
 print("\tconsider the ypeak/nchips comment in the problem")
 
 # -- Waveform parameters --
-BW = 4e6  # waveform bandwidth [Hz]
-sampleRate = 16e6  # sample rate [Hz]
-Npad = 50  # zero-pad length for cleaner correlation display
+bw = 4e6  # waveform bandwidth [Hz]
+sample_rate = 16e6  # sample rate [Hz]
+n_pad = 50  # zero-pad length for cleaner correlation display
 
 # -- Create the uncoded (reference) pulse and zero-pad it --
-tu, mag_u = uncoded_pulse(sampleRate, BW)
-tu, mag_u = zeropad_waveform(tu, mag_u, Npad)
+tu, mag_u = uncoded_pulse(sample_rate, bw)
+tu, mag_u = zeropad_waveform(tu, mag_u, n_pad)
 
 fig, ax = plt.subplots(1, 2, figsize=(10, 4))
 fig.suptitle("S3P2 Barker sidelobe check")
@@ -51,15 +51,15 @@ ax[1].set_title("xcorrelation")
 # For each code, measure the peak-to-max-sidelobe ratio.  Barker codes have
 # sidelobes of at most 1 chip vs a peak of N chips, so the ratio should be ~N.
 print("peak / max sidelobe of the autocorrelation (theory: nchips)")
-samples_per_chip = int(sampleRate / BW)
-for nChip in BARKER_DICT.keys():
-    t_b, mag_b = barker_coded_pulse(sampleRate, BW, nChip)
-    ax[0].plot(t_b, mag_b, label=f"barker {nChip}")
+samples_per_chip = int(sample_rate / bw)
+for nchip in BARKER_DICT.keys():
+    t_b, mag_b = barker_coded_pulse(sample_rate, bw, nchip)
+    ax[0].plot(t_b, mag_b, label=f"barker {nchip}")
 
-    t_b, mag_b = zeropad_waveform(t_b, mag_b, Npad)
+    t_b, mag_b = zeropad_waveform(t_b, mag_b, n_pad)
     ib, conv_b = matchfilter_with_waveform(mag_b, mag_b)
     conv_b = abs(conv_b)
-    ax[1].plot(ib, conv_b, label=f"barker {nChip}")
+    ax[1].plot(ib, conv_b, label=f"barker {nchip}")
 
     # Sidelobes are everything outside the mainlobe (one chip wide either side)
     i_peak = np.argmax(conv_b)
@@ -67,7 +67,7 @@ for nChip in BARKER_DICT.keys():
         conv_b[: i_peak - samples_per_chip],
         conv_b[i_peak + samples_per_chip + 1 :],
     ])
-    print(f"\tbarker {nChip:2d}: {conv_b[i_peak] / sidelobes.max():5.2f}")
+    print(f"\tbarker {nchip:2d}: {conv_b[i_peak] / sidelobes.max():5.2f}")
 
 for a in ax:
     a.grid()

@@ -19,7 +19,7 @@ import rad_lab.uniform_linear_arrays as ula
 import rad_lab.rdm as rdm
 import rad_lab.monopulse as mp
 from rad_lab.pulse_doppler_radar import Radar
-from rad_lab.waveform import uncoded_waveform, barker_coded_waveform, lfm_waveform
+from rad_lab.waveform import lfm_waveform
 from rad_lab.returns import Target, Return
 
 np.random.seed(0)  # reproducible rseed draw below
@@ -40,10 +40,11 @@ radar = Radar(
     dwell_time=2e-3,
 )
 
-# -- Choose a waveform (last one wins — try uncommenting others) --
-waveform = uncoded_waveform(bw)  # high 1
-waveform = barker_coded_waveform(bw, nchips=13)  # high 1
-waveform = lfm_waveform(bw, T=10 / 40e6, chirp_up_down=1)  # high 2
+# -- Choose a waveform --
+# Alternatives to try (import from rad_lab.waveform):
+#   waveform = uncoded_waveform(bw)
+#   waveform = barker_coded_waveform(bw, nchips=13)
+waveform = lfm_waveform(bw, T=10 / 40e6, chirp_up_down=1)
 
 # -- Two-element array and target --
 tgt_angle = 5  # true target angle [deg]
@@ -53,9 +54,10 @@ steer_vec = ula.steering_vector(array_pos, tgt_angle)
 
 # -- Generate one RDM per array element --
 # Each element sees the same target but with a different phase (steering vector).
+# One shared seed: both elements get the identical noise realization.
+rseed = np.random.randint(1000)
 dc_list = []
 for sv in steer_vec:
-    rseed = np.random.randint(1000)
     return_list = [Return(target=Target(range=2.4e3, range_rate=0.2e3, rcs=10, sv=sv))]
     rdot_axis, r_axis, datacube = rdm.gen(
         radar, waveform, return_list, debug=False, plot=False, seed=rseed
