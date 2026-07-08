@@ -23,5 +23,8 @@ jobs:
       - name: Install dependencies
         run: pip install -e ".[docs]"
 
+      - name: Generate gallery
+        run: python docs/mkdocs/make_gallery.py
+
       - name: Deploy docs
         run: mkdocs gh-deploy --force -f docs/mkdocs/mkdocs.yml

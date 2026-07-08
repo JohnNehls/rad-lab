@@ -55,6 +55,7 @@ rdm.gen(radar, waveform, return_list)
 
 Other available waveforms: `uncoded_waveform`, `random_coded_waveform`, `lfm_waveform`.
 For additional RDM examples see [apps/rdms](apps/rdms),
+the [gallery](https://johnnehls.github.io/rad-lab/gallery/index.html#rdms),
 or the [API docs](https://johnnehls.github.io/rad-lab/).
 
 ### SAR Image Generation
@@ -65,7 +66,8 @@ point-target scenes:
 <img src="docs/figs/sar_radlab_point_cloud.png" width="600">
 <!-- ![image](docs/figs/sar_radlab_point_cloud.png) -->
 
-For more SAR examples see [apps/sar](apps/sar).
+For more SAR examples see [apps/sar](apps/sar) or the
+[gallery](https://johnnehls.github.io/rad-lab/gallery/index.html#sar).
 
 ### Exercises
 
@@ -81,6 +83,9 @@ scripts in [apps/exercises](apps/exercises). Each file builds intuition for one 
 - Detection theory
 - Linear arrays and monopulse
 - Stripmap and spotlight SAR
+
+Every figure these exercises produce can be browsed in the
+[gallery](https://johnnehls.github.io/rad-lab/gallery/index.html).
 
 ## Modeling assumptions
 

@@ -8,8 +8,16 @@ use_directory_urls: false
 theme:
   name: material
 
+extra_css:
+  - stylesheets/gallery.css
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+
 plugins:
   - search
+  - glightbox
   - mkdocstrings:
       handlers:
         python:
@@ -23,6 +31,7 @@ plugins:
 
 nav:
   - Home: index.md
+  - Gallery: gallery/index.md
   - API Reference:
       - rdm: api/rdm.md
       - SAR: api/sar.md
