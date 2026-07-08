@@ -1,7 +1,4 @@
-
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
+<!DOCTYPE html><html lang="en" class="no-js"><head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -42,13 +39,15 @@
       
         
         
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/gallery.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -56,7 +55,17 @@
 
     
     
-  </head>
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
   
   
     <body dir="ltr">
@@ -87,12 +96,12 @@
     <a href="../index.html" title="rad-lab" class="md-header__button md-logo" aria-label="rad-lab" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -120,30 +129,30 @@
       
         <label class="md-header__button md-icon" for="__search">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         </label>
         <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -173,7 +182,7 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -185,13 +194,13 @@
     <a href="../index.html" title="rad-lab" class="md-nav__button md-logo" aria-label="rad-lab" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     rad-lab
   </label>
   
-  <ul class="md-nav__list" data-md-scrollfix>
+  <ul class="md-nav__list" data-md-scrollfix="">
     
       
       
@@ -224,6 +233,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -237,10 +273,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -258,8 +294,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -267,7 +303,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -473,7 +509,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#rad_lab.returns" class="md-nav__link">
@@ -495,7 +531,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" EaPlatform">
+    <nav class="md-nav" aria-label="&nbsp;EaPlatform">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -611,7 +647,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" Return">
+    <nav class="md-nav" aria-label="&nbsp;Return">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -661,7 +697,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" Target">
+    <nav class="md-nav" aria-label="&nbsp;Target">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1028,7 +1064,7 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1044,7 +1080,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#rad_lab.returns" class="md-nav__link">
@@ -1066,7 +1102,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" EaPlatform">
+    <nav class="md-nav" aria-label="&nbsp;EaPlatform">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1182,7 +1218,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" Return">
+    <nav class="md-nav" aria-label="&nbsp;Return">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1232,7 +1268,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" Target">
+    <nav class="md-nav" aria-label="&nbsp;Target">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1521,7 +1557,7 @@ modulation.  <code>None</code> selects the default LFM noise function.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/rad_lab/returns.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
+                <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
@@ -1552,7 +1588,7 @@ modulation.  <code>None</code> selects the default LFM noise function.</p>
 <span class="normal">60</span>
 <span class="normal">61</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EaPlatform</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Electronic attack (EA) platform — hardware and signal modulation parameters.</span>
+<span class="w">    </span><span class="sd">"""Electronic attack (EA) platform — hardware and signal modulation parameters.</span>
 
 <span class="sd">    All fields beyond the first three are modulation parameters that control how</span>
 <span class="sd">    the stored pulse is modified before retransmission.</span>
@@ -1570,7 +1606,7 @@ modulation.  <code>None</code> selects the default LFM noise function.</p>
 <span class="sd">            Defaults to 0.</span>
 <span class="sd">        vbm_noise_function: Phase-noise function used for VBM slow-time</span>
 <span class="sd">            modulation.  ``None`` selects the default LFM noise function.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">tx_power</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">tx_gain</span><span class="p">:</span> <span class="nb">float</span>
@@ -1580,7 +1616,7 @@ modulation.  <code>None</code> selects the default LFM noise function.</p>
     <span class="n">range_offset</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">delay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="n">vbm_noise_function</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
               </details>
 
 
@@ -1882,7 +1918,7 @@ with the target (set <code>target.rcs</code> and supply a <code>platform</code>)
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/rad_lab/returns.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
+                <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
@@ -1907,11 +1943,11 @@ with the target (set <code>target.rcs</code> and supply a <code>platform</code>)
 <span class="normal">86</span>
 <span class="normal">87</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Return</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simulated radar return — skin, jammer-based EA, or both simultaneously.</span>
+<span class="w">    </span><span class="sd">"""A simulated radar return — skin, jammer-based EA, or both simultaneously.</span>
 
 <span class="sd">    The two contributions are independent and additive:</span>
 
-<span class="sd">    - Skin return fires when ``target.rcs is not None``.  The radar&#39;s own</span>
+<span class="sd">    - Skin return fires when ``target.rcs is not None``.  The radar's own</span>
 <span class="sd">      transmitted pulse reflects off the target.  ``target.rcs`` sets the</span>
 <span class="sd">      physical amplitude via the two-way range equation.</span>
 <span class="sd">    - Memory return fires when ``platform is not None``.  A DRFM jammer</span>
@@ -1925,11 +1961,11 @@ with the target (set <code>target.rcs</code> and supply a <code>platform</code>)
 <span class="sd">    Attributes:</span>
 <span class="sd">        target: Target kinematics and (for skin) RCS.</span>
 <span class="sd">        platform: EA platform parameters.  ``None`` disables jammer return.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">target</span><span class="p">:</span> <span class="n">Target</span>
     <span class="n">platform</span><span class="p">:</span> <span class="n">EaPlatform</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
               </details>
 
 
@@ -2118,7 +2154,7 @@ Defaults to 1 (isotropic / no array).</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/rad_lab/returns.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
+                <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
 <span class="normal">16</span>
@@ -2136,7 +2172,7 @@ Defaults to 1 (isotropic / no array).</p>
 <span class="normal">28</span>
 <span class="normal">29</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Target</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Target kinematics and scattering parameters.</span>
+<span class="w">    </span><span class="sd">"""Target kinematics and scattering parameters.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        range: True target range [m].</span>
@@ -2145,13 +2181,13 @@ Defaults to 1 (isotropic / no array).</p>
 <span class="sd">            unused by jammer return amplitude in physical mode.</span>
 <span class="sd">        sv: Steering vector component for a single array element [dimensionless].</span>
 <span class="sd">            Defaults to 1 (isotropic / no array).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nb">range</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">range_rate</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">rcs</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">sv</span><span class="p">:</span> <span class="nb">complex</span> <span class="o">=</span> <span class="mi">1</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
               </details>
 
 
@@ -2336,5 +2372,7 @@ Defaults to 1 (isotropic / no array).</p>
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
-  </body>
-</html>
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

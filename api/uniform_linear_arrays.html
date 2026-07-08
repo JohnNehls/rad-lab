@@ -1,7 +1,4 @@
-
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
+<!DOCTYPE html><html lang="en" class="no-js"><head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -42,13 +39,15 @@
       
         
         
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/gallery.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -56,7 +55,17 @@
 
     
     
-  </head>
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
   
   
     <body dir="ltr">
@@ -87,12 +96,12 @@
     <a href="../index.html" title="rad-lab" class="md-header__button md-logo" aria-label="rad-lab" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -120,30 +129,30 @@
       
         <label class="md-header__button md-icon" for="__search">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         </label>
         <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -173,7 +182,7 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -185,13 +194,13 @@
     <a href="../index.html" title="rad-lab" class="md-nav__button md-logo" aria-label="rad-lab" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     rad-lab
   </label>
   
-  <ul class="md-nav__list" data-md-scrollfix>
+  <ul class="md-nav__list" data-md-scrollfix="">
     
       
       
@@ -224,6 +233,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -237,10 +273,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -258,8 +294,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -267,7 +303,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -557,7 +593,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#rad_lab.uniform_linear_arrays" class="md-nav__link">
@@ -867,7 +903,7 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -883,7 +919,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#rad_lab.uniform_linear_arrays" class="md-nav__link">
@@ -1149,7 +1185,7 @@ broadside.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">194</span>
 <span class="normal">195</span>
 <span class="normal">196</span>
 <span class="normal">197</span>
@@ -1181,7 +1217,7 @@ broadside.</p>
 <span class="normal">223</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">apply_timeshift_due_to_element_position</span><span class="p">(</span>
     <span class="n">signal_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">fs</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">element_position</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">tgt_angle</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Applies a time shift to a signal based on element position and angle.</span>
 
 <span class="sd">    This function models the delay or advance a signal experiences when arriving</span>
@@ -1192,23 +1228,23 @@ broadside.</p>
 <span class="sd">        signal_ar (np.ndarray): A complex time-series signal from a single</span>
 <span class="sd">            antenna element.</span>
 <span class="sd">        fs (float): The sampling frequency of the signal in Hertz.</span>
-<span class="sd">        element_position (float): The element&#39;s position relative to the array&#39;s</span>
+<span class="sd">        element_position (float): The element's position relative to the array's</span>
 <span class="sd">            phase center in meters.</span>
 <span class="sd">        tgt_angle (float): The angle of the target in degrees, where 0 is</span>
 <span class="sd">            broadside.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: The time-shifted complex signal.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">range_diff</span> <span class="o">=</span> <span class="n">element_position</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">tgt_angle</span><span class="p">))</span>
     <span class="n">time_shift</span> <span class="o">=</span> <span class="n">range_diff</span> <span class="o">/</span> <span class="n">c</span><span class="o">.</span><span class="n">C</span>
     <span class="n">time_ar</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">signal_ar</span><span class="p">))</span> <span class="o">/</span> <span class="n">fs</span>
     <span class="n">shifted_time</span> <span class="o">=</span> <span class="n">time_ar</span> <span class="o">+</span> <span class="n">time_shift</span>
-    <span class="n">interp_fun</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">time_ar</span><span class="p">,</span> <span class="n">signal_ar</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;cubic&quot;</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s2">&quot;extrapolate&quot;</span><span class="p">)</span>
+    <span class="n">interp_fun</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span><span class="n">time_ar</span><span class="p">,</span> <span class="n">signal_ar</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"cubic"</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="s2">"extrapolate"</span><span class="p">)</span>
     <span class="n">shifted_signal</span> <span class="o">=</span> <span class="n">interp_fun</span><span class="p">(</span><span class="n">shifted_time</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">shifted_signal</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -1304,7 +1340,7 @@ The magnitude of the weights is used in the calculation.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
@@ -1325,7 +1361,7 @@ The magnitude of the weights is used in the calculation.</p>
 <span class="normal">189</span>
 <span class="normal">190</span>
 <span class="normal">191</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">array_phase_center</span><span class="p">(</span><span class="n">position_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">weight_ar</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculates the phase center of an antenna array.</span>
 
 <span class="sd">    The phase center is the apparent point from which the radiation emanates.</span>
@@ -1338,14 +1374,14 @@ The magnitude of the weights is used in the calculation.</p>
 <span class="sd">            The magnitude of the weights is used in the calculation.</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        float: The position of the array&#39;s phase center.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        float: The position of the array's phase center.</span>
+<span class="sd">    """</span>
     <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">position_ar</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">)</span>
     <span class="c1"># Weight magnitudes in both numerator and denominator: a weighted average</span>
     <span class="c1"># must be insensitive to element phase, which lives in the pattern, not</span>
     <span class="c1"># the aperture centroid.</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">)</span> <span class="o">*</span> <span class="n">position_ar</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">weight_ar</span><span class="p">))</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -1493,7 +1529,7 @@ Defaults to False.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">37</span>
 <span class="normal">38</span>
 <span class="normal">39</span>
 <span class="normal">40</span>
@@ -1552,7 +1588,7 @@ Defaults to False.</p>
     <span class="n">steer_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculates the complex voltage gain pattern for a linear antenna array.</span>
 
 <span class="sd">    Args:</span>
@@ -1572,7 +1608,7 @@ Defaults to False.</p>
 <span class="sd">        tuple[np.ndarray, np.ndarray]:</span>
 <span class="sd">            - theta_vec (np.ndarray): The grid of angles in degrees, from -90 to 90.</span>
 <span class="sd">            - gain_vec (np.ndarray): The complex voltage gain at each angle in `theta_vec`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">weight_vec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">weight_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">el_pos</span><span class="p">))</span>
 
@@ -1593,12 +1629,12 @@ Defaults to False.</p>
         <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">),</span> <span class="n">af_db</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="o">-</span><span class="mi">30</span><span class="p">,</span> <span class="n">af_db</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">*</span> <span class="mf">1.2</span><span class="p">))</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Angle $\theta$ [deg]&quot;</span><span class="p">)</span>
-        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Array factor [dB]&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"Angle $\theta$ [deg]"</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Array factor [dB]"</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">rad2deg</span><span class="p">(</span><span class="n">theta_grid</span><span class="p">),</span> <span class="n">Af</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -1763,7 +1799,7 @@ Defaults to False.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
@@ -1809,7 +1845,7 @@ Defaults to False.</p>
     <span class="n">steer_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculates the array-factor pattern in dB for a uniform linear array.</span>
 
 <span class="sd">    This function defines the array geometry based on the number of elements</span>
@@ -1832,7 +1868,7 @@ Defaults to False.</p>
 <span class="sd">        tuple[np.ndarray, np.ndarray]:</span>
 <span class="sd">            - theta_vec (np.ndarray): The grid of angles in degrees, from -90 to 90.</span>
 <span class="sd">            - gain_vec_db (np.ndarray): Voltage array factor in dB at each angle.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">L</span> <span class="o">=</span> <span class="p">(</span><span class="n">N_el</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">dx</span>
     <span class="n">el_pos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">L</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="n">N_el</span><span class="p">)</span>  <span class="c1"># wavelengths</span>
 
@@ -1840,7 +1876,7 @@ Defaults to False.</p>
         <span class="n">el_pos</span><span class="p">,</span> <span class="n">weight_vec</span><span class="o">=</span><span class="n">weight_vec</span><span class="p">,</span> <span class="n">N_theta</span><span class="o">=</span><span class="n">N_theta</span><span class="p">,</span> <span class="n">steer_angle</span><span class="o">=</span><span class="n">steer_angle</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">plot</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">thetas</span><span class="p">,</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">gain</span><span class="p">))</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2004,7 +2040,7 @@ Defaults to False.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 92</span>
 <span class="normal"> 93</span>
 <span class="normal"> 94</span>
 <span class="normal"> 95</span>
@@ -2047,7 +2083,7 @@ Defaults to False.</p>
     <span class="n">steer_angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Calculates gain pattern from element positions in meters and frequency.</span>
 
 <span class="sd">    This is a convenience wrapper for `linear_antenna_gain` that converts</span>
@@ -2055,7 +2091,7 @@ Defaults to False.</p>
 
 <span class="sd">    Args:</span>
 <span class="sd">        el_pos (np.ndarray): 1D array of element positions in meters.</span>
-<span class="sd">        fc (float): The signal&#39;s center frequency in Hertz.</span>
+<span class="sd">        fc (float): The signal's center frequency in Hertz.</span>
 <span class="sd">        weight_vec (np.ndarray, optional): A vector of complex weights for each</span>
 <span class="sd">            antenna element. If None, uniform weights are used. Defaults to None.</span>
 <span class="sd">        N_theta (int, optional): The number of angular points to calculate the</span>
@@ -2069,13 +2105,13 @@ Defaults to False.</p>
 <span class="sd">        tuple[np.ndarray, np.ndarray]:</span>
 <span class="sd">            - theta_vec (np.ndarray): The grid of angles in degrees, from -90 to 90.</span>
 <span class="sd">            - gain_vec (np.ndarray): The complex voltage gain at each angle.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">wavelength</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">C</span> <span class="o">/</span> <span class="n">fc</span>
     <span class="n">el_pos_per_wl</span> <span class="o">=</span> <span class="n">el_pos</span> <span class="o">/</span> <span class="n">wavelength</span>
     <span class="k">return</span> <span class="n">linear_antenna_gain</span><span class="p">(</span>
         <span class="n">el_pos_per_wl</span><span class="p">,</span> <span class="n">weight_vec</span><span class="o">=</span><span class="n">weight_vec</span><span class="p">,</span> <span class="n">N_theta</span><span class="o">=</span><span class="n">N_theta</span><span class="p">,</span> <span class="n">steer_angle</span><span class="o">=</span><span class="n">steer_angle</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="n">plot</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2170,7 +2206,7 @@ angle as measured at each element of the array.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
@@ -2187,7 +2223,7 @@ angle as measured at each element of the array.</p>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">steering_vector</span><span class="p">(</span><span class="n">el_pos</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">theta</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Computes the Vandermonde steering vector for a linear array.</span>
 
 <span class="sd">    This vector represents the phase shifts of a planar wave arriving from a specific</span>
@@ -2200,10 +2236,10 @@ angle as measured at each element of the array.</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        np.ndarray: A complex-valued steering vector of the same size as `el_pos`.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">theta_rad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="n">theta</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">)</span> <span class="o">*</span> <span class="n">el_pos</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2336,7 +2372,7 @@ model the round-trip amplitude.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/uniform_linear_arrays.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">226</span>
 <span class="normal">227</span>
 <span class="normal">228</span>
 <span class="normal">229</span>
@@ -2376,7 +2412,7 @@ model the round-trip amplitude.</p>
     <span class="n">weight_vec</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">two_way</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a beam-pattern callable from a ULA for use with SAR spotlight.</span>
+<span class="w">    </span><span class="sd">"""Creates a beam-pattern callable from a ULA for use with SAR spotlight.</span>
 
 <span class="sd">    Precomputes the array factor via :func:`linear_antenna_gain`, normalises</span>
 <span class="sd">    to unit peak, and returns a function that maps off-boresight angles</span>
@@ -2393,11 +2429,11 @@ model the round-trip amplitude.</p>
 <span class="sd">        A callable ``pattern(theta_rad) -&gt; weights`` where *theta_rad* is</span>
 <span class="sd">        an array of off-boresight angles [rad] and *weights* is a</span>
 <span class="sd">        same-shape array of amplitude weights in [0, 1].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">theta_deg</span><span class="p">,</span> <span class="n">complex_gain</span> <span class="o">=</span> <span class="n">linear_antenna_gain</span><span class="p">(</span><span class="n">el_pos</span><span class="p">,</span> <span class="n">weight_vec</span><span class="p">)</span>
     <span class="n">norm_gain</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">complex_gain</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">complex_gain</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
     <span class="n">interp_fn</span> <span class="o">=</span> <span class="n">interpolate</span><span class="o">.</span><span class="n">interp1d</span><span class="p">(</span>
-        <span class="n">theta_deg</span><span class="p">,</span> <span class="n">norm_gain</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">&quot;linear&quot;</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span>
+        <span class="n">theta_deg</span><span class="p">,</span> <span class="n">norm_gain</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"linear"</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="mf">0.0</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">pattern</span><span class="p">(</span><span class="n">theta_rad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
@@ -2407,7 +2443,7 @@ model the round-trip amplitude.</p>
         <span class="k">return</span> <span class="n">weights</span>
 
     <span class="k">return</span> <span class="n">pattern</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2475,5 +2511,7 @@ model the round-trip amplitude.</p>
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
-  </body>
-</html>
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

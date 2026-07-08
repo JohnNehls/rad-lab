@@ -1,0 +1,16 @@
+/* Responsive thumbnail grid for the generated gallery page */
+.grid-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 0.6rem;
+  align-items: start;
+  margin-bottom: 1.2rem;
+}
+
+.grid-gallery img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  background-color: white; /* keep transparent PNGs legible in dark mode */
+}

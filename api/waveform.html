@@ -1,7 +1,4 @@
-
-<!doctype html>
-<html lang="en" class="no-js">
-  <head>
+<!DOCTYPE html><html lang="en" class="no-js"><head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -42,13 +39,15 @@
       
         
         
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
         <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
       <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/gallery.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -56,7 +55,17 @@
 
     
     
-  </head>
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
   
   
     <body dir="ltr">
@@ -87,12 +96,12 @@
     <a href="../index.html" title="rad-lab" class="md-header__button md-logo" aria-label="rad-lab" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
       
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
     </label>
     <div class="md-header__title" data-md-component="header-title">
       <div class="md-header__ellipsis">
@@ -120,30 +129,30 @@
       
         <label class="md-header__button md-icon" for="__search">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         </label>
         <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
       <label class="md-search__icon md-icon" for="__search">
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
         
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
         </button>
       </nav>
       
     </form>
     <div class="md-search__output">
-      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
         <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
             Initializing search
@@ -173,7 +182,7 @@
           
             
               
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -185,13 +194,13 @@
     <a href="../index.html" title="rad-lab" class="md-nav__button md-logo" aria-label="rad-lab" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
 
     </a>
     rad-lab
   </label>
   
-  <ul class="md-nav__list" data-md-scrollfix>
+  <ul class="md-nav__list" data-md-scrollfix="">
     
       
       
@@ -224,6 +233,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../gallery/index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -237,10 +273,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
   
   
@@ -258,8 +294,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -267,7 +303,7 @@
   
 
           </label>
-          <ul class="md-nav__list" data-md-scrollfix>
+          <ul class="md-nav__list" data-md-scrollfix="">
             
               
                 
@@ -445,7 +481,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#rad_lab.waveform" class="md-nav__link">
@@ -478,7 +514,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" WaveformSample">
+    <nav class="md-nav" aria-label="&nbsp;WaveformSample">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -583,7 +619,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" WaveformType">
+    <nav class="md-nav" aria-label="&nbsp;WaveformType">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1077,7 +1113,7 @@
             
             
               
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
@@ -1093,7 +1129,7 @@
       <span class="md-nav__icon md-icon"></span>
       Table of contents
     </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
   <a href="#rad_lab.waveform" class="md-nav__link">
@@ -1126,7 +1162,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" WaveformSample">
+    <nav class="md-nav" aria-label="&nbsp;WaveformSample">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1231,7 +1267,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label=" WaveformType">
+    <nav class="md-nav" aria-label="&nbsp;WaveformType">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1613,7 +1649,7 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
+                <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">27</span>
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
@@ -1656,13 +1692,13 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 <span class="normal">67</span>
 <span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">WaveformSample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Container for a radar waveform and its key parameters.</span>
+<span class="w">    </span><span class="sd">"""Container for a radar waveform and its key parameters.</span>
 
 <span class="sd">    Created by the factory functions (:func:`uncoded_waveform`,</span>
 <span class="sd">    :func:`barker_coded_waveform`, :func:`random_coded_waveform`,</span>
 <span class="sd">    :func:`lfm_waveform`). Call :meth:`set_sample` before passing to</span>
 <span class="sd">    :func:`rad_lab.rdm.gen` to generate the discrete pulse array at the</span>
-<span class="sd">    radar&#39;s sample rate.</span>
+<span class="sd">    radar's sample rate.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        type: Waveform type identifier.</span>
@@ -1680,7 +1716,7 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 <span class="sd">            emerges naturally from :func:`rad_lab.rf_datacube.matchfilter`</span>
 <span class="sd">            as the coherent sum of ``N_taps`` unit-amplitude samples.</span>
 <span class="sd">            Populated by :meth:`set_sample`; not set at construction time.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="nb">type</span><span class="p">:</span> <span class="n">WaveformType</span>
     <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span>
@@ -1690,13 +1726,13 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
     <span class="n">pulse_sample</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">set_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate and store the discrete pulse array at the given sample rate.</span>
+<span class="w">        </span><span class="sd">"""Generate and store the discrete pulse array at the given sample rate.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            sample_rate: ADC sampling rate [Hz].</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_func</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
               </details>
 
 
@@ -1896,20 +1932,20 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">62</span>
 <span class="normal">63</span>
 <span class="normal">64</span>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
 <span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate and store the discrete pulse array at the given sample rate.</span>
+<span class="w">    </span><span class="sd">"""Generate and store the discrete pulse array at the given sample rate.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sample_rate: ADC sampling rate [Hz].</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_sample</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pulse_func</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -1951,20 +1987,20 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
+                <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
 <span class="normal">22</span>
 <span class="normal">23</span>
 <span class="normal">24</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">WaveformType</span><span class="p">(</span><span class="n">StrEnum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Enumeration of supported radar waveform types.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Enumeration of supported radar waveform types."""</span>
 
-    <span class="n">UNCODED</span> <span class="o">=</span> <span class="s2">&quot;uncoded&quot;</span>
-    <span class="n">BARKER</span> <span class="o">=</span> <span class="s2">&quot;barker&quot;</span>
-    <span class="n">RANDOM</span> <span class="o">=</span> <span class="s2">&quot;random&quot;</span>
-    <span class="n">LFM</span> <span class="o">=</span> <span class="s2">&quot;lfm&quot;</span>
-</code></pre></div></td></tr></table></div>
+    <span class="n">UNCODED</span> <span class="o">=</span> <span class="s2">"uncoded"</span>
+    <span class="n">BARKER</span> <span class="o">=</span> <span class="s2">"barker"</span>
+    <span class="n">RANDOM</span> <span class="o">=</span> <span class="s2">"random"</span>
+    <span class="n">LFM</span> <span class="o">=</span> <span class="s2">"lfm"</span>
+</code></pre></div></td></tr></tbody></table></div>
               </details>
 
 
@@ -1982,7 +2018,7 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
 
 <h3 id="rad_lab.waveform.WaveformType.BARKER" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">BARKER</span> <span class="o">=</span> <span class="s1">&#39;barker&#39;</span></code>
+            <code class="highlight language-python"><span class="n">BARKER</span> <span class="o">=</span> <span class="s1">'barker'</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
@@ -2003,7 +2039,7 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
 
 <h3 id="rad_lab.waveform.WaveformType.LFM" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">LFM</span> <span class="o">=</span> <span class="s1">&#39;lfm&#39;</span></code>
+            <code class="highlight language-python"><span class="n">LFM</span> <span class="o">=</span> <span class="s1">'lfm'</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
@@ -2024,7 +2060,7 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
 
 <h3 id="rad_lab.waveform.WaveformType.RANDOM" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">RANDOM</span> <span class="o">=</span> <span class="s1">&#39;random&#39;</span></code>
+            <code class="highlight language-python"><span class="n">RANDOM</span> <span class="o">=</span> <span class="s1">'random'</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
@@ -2045,7 +2081,7 @@ Populated by :meth:<code>set_sample</code>; not set at construction time.</p>
 
 
 <h3 id="rad_lab.waveform.WaveformType.UNCODED" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">UNCODED</span> <span class="o">=</span> <span class="s1">&#39;uncoded&#39;</span></code>
+            <code class="highlight language-python"><span class="n">UNCODED</span> <span class="o">=</span> <span class="s1">'uncoded'</span></code>
 
   <span class="doc doc-labels">
       <small class="doc doc-label doc-label-class-attribute"><code>class-attribute</code></small>
@@ -2220,7 +2256,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">182</span>
 <span class="normal">183</span>
 <span class="normal">184</span>
 <span class="normal">185</span>
@@ -2253,7 +2289,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">212</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">barker_coded_pulse</span><span class="p">(</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nchips</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a baseband, Barker-coded pulse.</span>
+<span class="w">    </span><span class="sd">"""Generates a baseband, Barker-coded pulse.</span>
 
 <span class="sd">    Barker codes are specific binary phase codes known for their low</span>
 <span class="sd">    autocorrelation sidelobes.</span>
@@ -2273,15 +2309,15 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If nChips is not a valid Barker code length.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">nchips</span> <span class="ow">in</span> <span class="n">BARKER_DICT</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nchips</span><span class="si">=}</span><span class="s2"> is not a valid Barker code length.&quot;</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">nchips</span> <span class="ow">in</span> <span class="n">BARKER_DICT</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">nchips</span><span class="si">=}</span><span class="s2"> is not a valid Barker code length."</span>
     <span class="k">return</span> <span class="n">coded_pulse</span><span class="p">(</span>
         <span class="n">sample_rate</span><span class="p">,</span>
         <span class="n">bw</span><span class="p">,</span>
         <span class="n">BARKER_DICT</span><span class="p">[</span><span class="n">nchips</span><span class="p">],</span>
         <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2378,7 +2414,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">303</span>
 <span class="normal">304</span>
 <span class="normal">305</span>
 <span class="normal">306</span>
@@ -2396,7 +2432,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">318</span>
 <span class="normal">319</span>
 <span class="normal">320</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">barker_coded_waveform</span><span class="p">(</span><span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nchips</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WaveformSample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a WaveformSample for a Barker-coded pulse.</span>
+<span class="w">    </span><span class="sd">"""Returns a WaveformSample for a Barker-coded pulse.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bw: Chip bandwidth in Hz. Chip duration is 1/bw.</span>
@@ -2404,8 +2440,8 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        WaveformSample for use with rdm.gen.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">nchips</span> <span class="ow">in</span> <span class="n">BARKER_DICT</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;nchips=</span><span class="si">{</span><span class="n">nchips</span><span class="si">}</span><span class="s2"> is not a valid Barker code length.&quot;</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">nchips</span> <span class="ow">in</span> <span class="n">BARKER_DICT</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"nchips=</span><span class="si">{</span><span class="n">nchips</span><span class="si">}</span><span class="s2"> is not a valid Barker code length."</span>
     <span class="k">return</span> <span class="n">WaveformSample</span><span class="p">(</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">WaveformType</span><span class="o">.</span><span class="n">BARKER</span><span class="p">,</span>
         <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
@@ -2413,7 +2449,7 @@ unit energy. Defaults to True.</p>
         <span class="n">pulse_width</span><span class="o">=</span><span class="n">nchips</span> <span class="o">/</span> <span class="n">bw</span><span class="p">,</span>
         <span class="n">pulse_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">barker_coded_pulse</span><span class="p">,</span> <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span> <span class="n">nchips</span><span class="o">=</span><span class="n">nchips</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2567,7 +2603,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">142</span>
 <span class="normal">143</span>
 <span class="normal">144</span>
 <span class="normal">145</span>
@@ -2607,9 +2643,9 @@ unit energy. Defaults to True.</p>
 <span class="normal">179</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">coded_pulse</span><span class="p">(</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">code</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a baseband, phase-coded pulse.</span>
+<span class="w">    </span><span class="sd">"""Generates a baseband, phase-coded pulse.</span>
 
-<span class="sd">    The pulse is constructed by concatenating rectangular &quot;chips&quot;, where each</span>
+<span class="sd">    The pulse is constructed by concatenating rectangular "chips", where each</span>
 <span class="sd">    chip has a phase determined by the input code (1 for 0 phase, -1 for pi</span>
 <span class="sd">    phase).</span>
 
@@ -2628,13 +2664,13 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If any value in the code is not 1 or -1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">Tc</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">bw</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sample_rate</span>
     <span class="n">samples_per_chip</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">Tc</span> <span class="o">*</span> <span class="n">sample_rate</span><span class="p">)</span>
 
     <span class="n">code_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">code_array</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;Code values must be either 1 or -1.&quot;</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">code_array</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">"Code values must be either 1 or -1."</span>
     <span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">code_array</span><span class="p">,</span> <span class="n">samples_per_chip</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">mag</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
 
@@ -2642,7 +2678,7 @@ unit energy. Defaults to True.</p>
         <span class="n">mag</span> <span class="o">=</span> <span class="n">mag</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">mag</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -2794,7 +2830,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">114</span>
 <span class="normal">115</span>
 <span class="normal">116</span>
 <span class="normal">117</span>
@@ -2822,7 +2858,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">139</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">complex_tone_pulse</span><span class="p">(</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">fc</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a complex-valued pulse with a constant frequency offset.</span>
+<span class="w">    </span><span class="sd">"""Generates a complex-valued pulse with a constant frequency offset.</span>
 
 <span class="sd">    This function creates a rectangular pulse and modulates it with a complex</span>
 <span class="sd">    exponential at a given carrier frequency.</span>
@@ -2841,11 +2877,11 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If the sample rate is below the Nyquist rate (2 * bw).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">t</span><span class="p">,</span> <span class="n">mag</span> <span class="o">=</span> <span class="n">uncoded_pulse</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">bw</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">)</span>
     <span class="n">mag_c</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="n">j</span> <span class="o">*</span> <span class="n">c</span><span class="o">.</span><span class="n">PI</span> <span class="o">*</span> <span class="n">fc</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span> <span class="o">*</span> <span class="n">mag</span>
     <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">mag_c</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3015,7 +3051,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">243</span>
 <span class="normal">244</span>
 <span class="normal">245</span>
 <span class="normal">246</span>
@@ -3054,7 +3090,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">lfm_pulse</span><span class="p">(</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">chirp_up_down</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a baseband Linear Frequency Modulated (LFM) pulse (chirp).</span>
+<span class="w">    </span><span class="sd">"""Generates a baseband Linear Frequency Modulated (LFM) pulse (chirp).</span>
 
 <span class="sd">    The instantaneous frequency of the pulse varies linearly with time over the</span>
 <span class="sd">    pulse duration.</span>
@@ -3076,8 +3112,8 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If chirp_up_down is not 1 or -1.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">chirp_up_down</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;chirp_up_down must be either 1 or -1.&quot;</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">chirp_up_down</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"chirp_up_down must be either 1 or -1."</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sample_rate</span>
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
     <span class="n">k</span> <span class="o">=</span> <span class="n">bw</span> <span class="o">/</span> <span class="n">T</span>  <span class="c1"># Chirp rate</span>
@@ -3088,7 +3124,7 @@ unit energy. Defaults to True.</p>
         <span class="n">mag</span> <span class="o">=</span> <span class="n">mag</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">mag</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3201,7 +3237,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">342</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">342</span>
 <span class="normal">343</span>
 <span class="normal">344</span>
 <span class="normal">345</span>
@@ -3220,7 +3256,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">lfm_waveform</span><span class="p">(</span><span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">T</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">chirp_up_down</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WaveformSample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a WaveformSample for a Linear Frequency Modulated (LFM) pulse.</span>
+<span class="w">    </span><span class="sd">"""Returns a WaveformSample for a Linear Frequency Modulated (LFM) pulse.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bw: Bandwidth of the frequency sweep in Hz.</span>
@@ -3229,8 +3265,8 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        WaveformSample for use with rdm.gen.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">chirp_up_down</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;chirp_up_down must be 1 (up) or -1 (down).&quot;</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">chirp_up_down</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">"chirp_up_down must be 1 (up) or -1 (down)."</span>
     <span class="k">return</span> <span class="n">WaveformSample</span><span class="p">(</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">WaveformType</span><span class="o">.</span><span class="n">LFM</span><span class="p">,</span>
         <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
@@ -3238,7 +3274,7 @@ unit energy. Defaults to True.</p>
         <span class="n">pulse_width</span><span class="o">=</span><span class="n">T</span><span class="p">,</span>
         <span class="n">pulse_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">lfm_pulse</span><span class="p">,</span> <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="n">T</span><span class="p">,</span> <span class="n">chirp_up_down</span><span class="o">=</span><span class="n">chirp_up_down</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3366,7 +3402,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">215</span>
 <span class="normal">216</span>
 <span class="normal">217</span>
 <span class="normal">218</span>
@@ -3394,7 +3430,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">240</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">random_coded_pulse</span><span class="p">(</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nchips</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a baseband pulse with a random binary phase code.</span>
+<span class="w">    </span><span class="sd">"""Generates a baseband pulse with a random binary phase code.</span>
 
 <span class="sd">    The code consists of a sequence of randomly chosen 1s and -1s.</span>
 
@@ -3409,7 +3445,7 @@ unit energy. Defaults to True.</p>
 <span class="sd">        tuple[np.ndarray, np.ndarray]: A tuple containing:</span>
 <span class="sd">            - t (np.ndarray): Time vector for the pulse in seconds.</span>
 <span class="sd">            - mag (np.ndarray): The real-valued, randomly coded magnitude.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">code_rand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">size</span><span class="o">=</span><span class="n">nchips</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">coded_pulse</span><span class="p">(</span>
         <span class="n">sample_rate</span><span class="p">,</span>
@@ -3417,7 +3453,7 @@ unit energy. Defaults to True.</p>
         <span class="n">code_rand</span><span class="p">,</span>
         <span class="n">normalize</span><span class="o">=</span><span class="n">normalize</span><span class="p">,</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3514,7 +3550,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">323</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">323</span>
 <span class="normal">324</span>
 <span class="normal">325</span>
 <span class="normal">326</span>
@@ -3531,7 +3567,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">337</span>
 <span class="normal">338</span>
 <span class="normal">339</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">random_coded_waveform</span><span class="p">(</span><span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">nchips</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WaveformSample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a WaveformSample for a random binary phase-coded pulse.</span>
+<span class="w">    </span><span class="sd">"""Returns a WaveformSample for a random binary phase-coded pulse.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bw: Chip bandwidth in Hz. Chip duration is 1/bw.</span>
@@ -3539,7 +3575,7 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        WaveformSample for use with rdm.gen.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">WaveformSample</span><span class="p">(</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">WaveformType</span><span class="o">.</span><span class="n">RANDOM</span><span class="p">,</span>
         <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
@@ -3547,7 +3583,7 @@ unit energy. Defaults to True.</p>
         <span class="n">pulse_width</span><span class="o">=</span><span class="n">nchips</span> <span class="o">/</span> <span class="n">bw</span><span class="p">,</span>
         <span class="n">pulse_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">random_coded_pulse</span><span class="p">,</span> <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span> <span class="n">nchips</span><span class="o">=</span><span class="n">nchips</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3681,7 +3717,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 82</span>
 <span class="normal"> 83</span>
 <span class="normal"> 84</span>
 <span class="normal"> 85</span>
@@ -3713,7 +3749,7 @@ unit energy. Defaults to True.</p>
 <span class="normal">111</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">uncoded_pulse</span><span class="p">(</span>
     <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">normalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generates a simple, baseband rectangular (uncoded) pulse.</span>
+<span class="w">    </span><span class="sd">"""Generates a simple, baseband rectangular (uncoded) pulse.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sample_rate (float): The sampling rate in Hz.</span>
@@ -3728,8 +3764,8 @@ unit energy. Defaults to True.</p>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        AssertionError: If the sample rate is below the Nyquist rate (2 * bw).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">sample_rate</span> <span class="o">/</span> <span class="n">bw</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;sample rate must be &gt;= 2 * bw (Nyquist)&quot;</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">sample_rate</span> <span class="o">/</span> <span class="n">bw</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"sample rate must be &gt;= 2 * bw (Nyquist)"</span>
 
     <span class="n">T</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">bw</span>
     <span class="n">dt</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">sample_rate</span>
@@ -3740,7 +3776,7 @@ unit energy. Defaults to True.</p>
         <span class="n">mag</span> <span class="o">=</span> <span class="n">mag</span> <span class="o">/</span> <span class="n">norm</span><span class="p">(</span><span class="n">mag</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">t</span><span class="p">,</span> <span class="n">mag</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3821,7 +3857,7 @@ unit energy. Defaults to True.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/waveform.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">285</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">285</span>
 <span class="normal">286</span>
 <span class="normal">287</span>
 <span class="normal">288</span>
@@ -3837,14 +3873,14 @@ unit energy. Defaults to True.</p>
 <span class="normal">298</span>
 <span class="normal">299</span>
 <span class="normal">300</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">uncoded_waveform</span><span class="p">(</span><span class="n">bw</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WaveformSample</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Returns a WaveformSample for an uncoded rectangular pulse.</span>
+<span class="w">    </span><span class="sd">"""Returns a WaveformSample for an uncoded rectangular pulse.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        bw: Pulse bandwidth in Hz. Pulse duration is 1/bw.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        WaveformSample for use with rdm.gen.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">WaveformSample</span><span class="p">(</span>
         <span class="nb">type</span><span class="o">=</span><span class="n">WaveformType</span><span class="o">.</span><span class="n">UNCODED</span><span class="p">,</span>
         <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span>
@@ -3852,7 +3888,7 @@ unit energy. Defaults to True.</p>
         <span class="n">pulse_width</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">bw</span><span class="p">,</span>
         <span class="n">pulse_func</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">uncoded_pulse</span><span class="p">,</span> <span class="n">bw</span><span class="o">=</span><span class="n">bw</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span>
     <span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</code></pre></div></td></tr></tbody></table></div>
             </details>
     </div>
 
@@ -3920,5 +3956,7 @@ unit energy. Defaults to True.</p>
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
-  </body>
-</html>
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>

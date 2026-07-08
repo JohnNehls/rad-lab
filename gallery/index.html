@@ -1,0 +1,2047 @@
+<!DOCTYPE html><html lang="en" class="no-js"><head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A Python radar module for pulse-Doppler simulation and RDM generation">
+      
+      
+      
+      
+        <link rel="prev" href="../index.html">
+      
+      
+        <link rel="next" href="../api/rdm.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Gallery - rad-lab</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../stylesheets/gallery.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            .gscrollbar-fixer { padding-right: 15px; }
+            .gdesc-inner { font-size: 0.75rem; }
+            body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color); }
+            body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color); }
+            body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color); }
+        </style></head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gallery" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="rad-lab" class="md-header__button md-logo" aria-label="rad-lab" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            rad-lab
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Gallery
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required="">
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix="">
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="rad-lab" class="md-nav__button md-logo" aria-label="rad-lab" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+
+    </a>
+    rad-lab
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix="">
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="index.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercises
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercises">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_0_range_equationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1_0_range_equation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_0_pulse_doppler_radarpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2_0_pulse_doppler_radar.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1_waveforms_xcorrelationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_1_waveforms_xcorrelation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2_barker_xcorrelation_sidelobespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_2_barker_xcorrelation_sidelobes.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3_noisy_xcorrelationspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_3_noisy_xcorrelations.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_4_barker_vs_uncoded_ampandwidthpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_4_barker_vs_uncoded_ampAndWidth.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_5_ambiguity_functionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_5_ambiguity_function.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1_datacube_process_testpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4_1_datacube_process_test.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_4_windowing_comparisonpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4_4_windowing_comparison.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_5_complex_tonepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4_5_complex_tone.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_0_stationary_rdm_snapshotpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5_0_stationary_rdm_snapshot.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6_1_detection_theorypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6_1_detection_theory.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_0_linear_array_studiespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_0_linear_array_studies.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_1-3_linear_arrays_figs24_28py" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_1-3_linear_arrays_figs24_28.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_5_monopulse_snr_testpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_5_monopulse_snr_test.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_5_monopulse_snr_test_freqpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_5_monopulse_snr_test_freq.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_6_phase_center_locationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_6_phase_center_location.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_7_sub_array_sum_diffpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_7_sub_array_sum_diff.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_8_monopulse_tgt_doppler_cellpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_8_monopulse_tgt_doppler_cell.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_1_stripmap_sar_validationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_1_stripmap_sar_validation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_3_stripmap_vs_spotlightpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_3_stripmap_vs_spotlight.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_4_rcmc_demonstrationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_4_rcmc_demonstration.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_5_rcmc_synthetic_validationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_5_rcmc_synthetic_validation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RDMs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jammer_offsetpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        jammer_offset.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kitchen_sinkpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kitchen_sink.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readme_examplepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        readme_example.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skin_snrpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        skin_snr.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vbmpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vbm.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vbm_w_lfmpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vbm_w_lfm.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spotlight_point_targetspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spotlight_point_targets.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotlight_ula_patternpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spotlight_ula_pattern.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stripmap_point_cloudpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stripmap_point_cloud.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stripmap_point_targetspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stripmap_point_targets.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Studies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Studies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monopulse_considering_time_delay_between_elementspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        monopulse_considering_time_delay_between_elements.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vbm_methodspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vbm_methods.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3">
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/rdm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rdm
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/sar.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SAR
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/sar_radar.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SAR Radar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/pulse_doppler_radar.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Radar
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/waveform.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/returns.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Returns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/range_equation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Range Equation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/rf_datacube.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RF Datacube
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/uniform_linear_arrays.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ULA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/monopulse.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monopulse
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/vbm.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VBM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/geometry.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Geometry
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/noise.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Noise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/waveform_helpers.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform Helpers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/utilities.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/constants.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Constants
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exercises
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exercises">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1_0_range_equationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1_0_range_equation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2_0_pulse_doppler_radarpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2_0_pulse_doppler_radar.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_1_waveforms_xcorrelationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_1_waveforms_xcorrelation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_2_barker_xcorrelation_sidelobespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_2_barker_xcorrelation_sidelobes.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_3_noisy_xcorrelationspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_3_noisy_xcorrelations.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_4_barker_vs_uncoded_ampandwidthpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_4_barker_vs_uncoded_ampAndWidth.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3_5_ambiguity_functionpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3_5_ambiguity_function.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_1_datacube_process_testpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4_1_datacube_process_test.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_4_windowing_comparisonpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4_4_windowing_comparison.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4_5_complex_tonepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4_5_complex_tone.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5_0_stationary_rdm_snapshotpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5_0_stationary_rdm_snapshot.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6_1_detection_theorypy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6_1_detection_theory.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_0_linear_array_studiespy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_0_linear_array_studies.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_1-3_linear_arrays_figs24_28py" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_1-3_linear_arrays_figs24_28.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_5_monopulse_snr_testpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_5_monopulse_snr_test.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_5_monopulse_snr_test_freqpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_5_monopulse_snr_test_freq.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_6_phase_center_locationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_6_phase_center_location.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_7_sub_array_sum_diffpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_7_sub_array_sum_diff.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7_8_monopulse_tgt_doppler_cellpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7_8_monopulse_tgt_doppler_cell.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_1_stripmap_sar_validationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_1_stripmap_sar_validation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_3_stripmap_vs_spotlightpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_3_stripmap_vs_spotlight.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_4_rcmc_demonstrationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_4_rcmc_demonstration.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#8_5_rcmc_synthetic_validationpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8_5_rcmc_synthetic_validation.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RDMs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDMs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#jammer_offsetpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        jammer_offset.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kitchen_sinkpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kitchen_sink.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#readme_examplepy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        readme_example.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#skin_snrpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        skin_snr.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vbmpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vbm.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vbm_w_lfmpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vbm_w_lfm.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SAR
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SAR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spotlight_point_targetspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spotlight_point_targets.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spotlight_ula_patternpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        spotlight_ula_pattern.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stripmap_point_cloudpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stripmap_point_cloud.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stripmap_point_targetspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        stripmap_point_targets.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#studies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Studies
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Studies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#monopulse_considering_time_delay_between_elementspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        monopulse_considering_time_delay_between_elements.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vbm_methodspy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        vbm_methods.py
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="gallery">Gallery</h1>
+<p>Figures produced by the example apps in <a href="https://github.com/JohnNehls/rad-lab/blob/main/apps">apps/</a>, as captured by the apps regression baselines. Click any figure to enlarge.</p>
+<h2 id="exercises">Exercises</h2>
+<h3 id="1_0_range_equationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/1_0_range_equation.py"><code>1_0_range_equation.py</code></a></h3>
+<p>Radar range equation exercises.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_1_0_range_equation.py_fig0.png" data-desc-position="bottom"><img alt="1_0_range_equation figure" src="figures/apps_exercises_1_0_range_equation.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_1_0_range_equation.py_fig1.png" data-desc-position="bottom"><img alt="1_0_range_equation figure" src="figures/apps_exercises_1_0_range_equation.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_1_0_range_equation.py_fig2.png" data-desc-position="bottom"><img alt="1_0_range_equation figure" src="figures/apps_exercises_1_0_range_equation.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_1_0_range_equation.py_fig3.png" data-desc-position="bottom"><img alt="1_0_range_equation figure" src="figures/apps_exercises_1_0_range_equation.py_fig3.png"></a></p>
+</div>
+<h3 id="2_0_pulse_doppler_radarpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/2_0_pulse_doppler_radar.py"><code>2_0_pulse_doppler_radar.py</code></a></h3>
+<p>Pulse-Doppler radar ambiguity exercises.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig0.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig1.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig2.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig3.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig3.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig4.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig4.png"></a></p>
+</div>
+<h3 id="3_1_waveforms_xcorrelationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_1_waveforms_xcorrelation.py"><code>3_1_waveforms_xcorrelation.py</code></a></h3>
+<p>Waveform cross-correlation exercises.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig0.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig1.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig2.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig3.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig3.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig4.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig4.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig5.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig5.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig6.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig6.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig7.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig7.png"></a></p>
+</div>
+<h3 id="3_2_barker_xcorrelation_sidelobespy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_2_barker_xcorrelation_sidelobes.py"><code>3_2_barker_xcorrelation_sidelobes.py</code></a></h3>
+<p>Barker code autocorrelation sidelobe comparison.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_2_barker_xcorrelation_sidelobes.py_fig0.png" data-desc-position="bottom"><img alt="3_2_barker_xcorrelation_sidelobes figure" src="figures/apps_exercises_3_2_barker_xcorrelation_sidelobes.py_fig0.png"></a></p>
+</div>
+<h3 id="3_3_noisy_xcorrelationspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_3_noisy_xcorrelations.py"><code>3_3_noisy_xcorrelations.py</code></a></h3>
+<p>Noisy cross-correlation (matched filter) exercises.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig0.png" data-desc-position="bottom"><img alt="3_3_noisy_xcorrelations figure" src="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig1.png" data-desc-position="bottom"><img alt="3_3_noisy_xcorrelations figure" src="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig2.png" data-desc-position="bottom"><img alt="3_3_noisy_xcorrelations figure" src="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig3.png" data-desc-position="bottom"><img alt="3_3_noisy_xcorrelations figure" src="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig3.png"></a></p>
+</div>
+<h3 id="3_4_barker_vs_uncoded_ampandwidthpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_4_barker_vs_uncoded_ampAndWidth.py"><code>3_4_barker_vs_uncoded_ampAndWidth.py</code></a></h3>
+<p>Compare Barker-13 vs uncoded pulse amplitude and matched-filter width.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_4_barker_vs_uncoded_ampAndWidth.py_fig0.png" data-desc-position="bottom"><img alt="3_4_barker_vs_uncoded_ampAndWidth figure" src="figures/apps_exercises_3_4_barker_vs_uncoded_ampAndWidth.py_fig0.png"></a></p>
+</div>
+<h3 id="3_5_ambiguity_functionpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_5_ambiguity_function.py"><code>3_5_ambiguity_function.py</code></a></h3>
+<p>Ambiguity function exercises.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig0.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig1.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig2.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig3.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig3.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig4.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig4.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig5.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig5.png"></a></p>
+</div>
+<h3 id="4_1_datacube_process_testpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/4_1_datacube_process_test.py"><code>4_1_datacube_process_test.py</code></a></h3>
+<p>Datacube processing test.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_1_datacube_process_test.py_fig0.png" data-desc-position="bottom"><img alt="4_1_datacube_process_test figure" src="figures/apps_exercises_4_1_datacube_process_test.py_fig0.png"></a></p>
+</div>
+<h3 id="4_4_windowing_comparisonpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/4_4_windowing_comparison.py"><code>4_4_windowing_comparison.py</code></a></h3>
+<p>Window function comparison on a rectangular pulse.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_4_windowing_comparison.py_fig0.png" data-desc-position="bottom"><img alt="4_4_windowing_comparison figure" src="figures/apps_exercises_4_4_windowing_comparison.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_4_windowing_comparison.py_fig1.png" data-desc-position="bottom"><img alt="4_4_windowing_comparison figure" src="figures/apps_exercises_4_4_windowing_comparison.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_4_windowing_comparison.py_fig2.png" data-desc-position="bottom"><img alt="4_4_windowing_comparison figure" src="figures/apps_exercises_4_4_windowing_comparison.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_4_windowing_comparison.py_fig3.png" data-desc-position="bottom"><img alt="4_4_windowing_comparison figure" src="figures/apps_exercises_4_4_windowing_comparison.py_fig3.png"></a></p>
+</div>
+<h3 id="4_5_complex_tonepy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/4_5_complex_tone.py"><code>4_5_complex_tone.py</code></a></h3>
+<p>Complex tone windowing exercise.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_5_complex_tone.py_fig0.png" data-desc-position="bottom"><img alt="4_5_complex_tone figure" src="figures/apps_exercises_4_5_complex_tone.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_5_complex_tone.py_fig1.png" data-desc-position="bottom"><img alt="4_5_complex_tone figure" src="figures/apps_exercises_4_5_complex_tone.py_fig1.png"></a></p>
+</div>
+<h3 id="5_0_stationary_rdm_snapshotpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/5_0_stationary_rdm_snapshot.py"><code>5_0_stationary_rdm_snapshot.py</code></a></h3>
+<p>Stationary target RDM snapshot with SNR check.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_5_0_stationary_rdm_snapshot.py_fig0.png" data-desc-position="bottom"><img alt="5_0_stationary_rdm_snapshot figure" src="figures/apps_exercises_5_0_stationary_rdm_snapshot.py_fig0.png"></a></p>
+</div>
+<h3 id="6_1_detection_theorypy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/6_1_detection_theory.py"><code>6_1_detection_theory.py</code></a></h3>
+<p>Detection theory fundamentals.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_1_detection_theory.py_fig0.png" data-desc-position="bottom"><img alt="6_1_detection_theory figure" src="figures/apps_exercises_6_1_detection_theory.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_1_detection_theory.py_fig1.png" data-desc-position="bottom"><img alt="6_1_detection_theory figure" src="figures/apps_exercises_6_1_detection_theory.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_1_detection_theory.py_fig2.png" data-desc-position="bottom"><img alt="6_1_detection_theory figure" src="figures/apps_exercises_6_1_detection_theory.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_1_detection_theory.py_fig3.png" data-desc-position="bottom"><img alt="6_1_detection_theory figure" src="figures/apps_exercises_6_1_detection_theory.py_fig3.png"></a></p>
+</div>
+<h3 id="7_0_linear_array_studiespy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_0_linear_array_studies.py"><code>7_0_linear_array_studies.py</code></a></h3>
+<p>Uniform linear array (ULA) studies.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_0_linear_array_studies.py_fig0.png" data-desc-position="bottom"><img alt="7_0_linear_array_studies figure" src="figures/apps_exercises_7_0_linear_array_studies.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_0_linear_array_studies.py_fig1.png" data-desc-position="bottom"><img alt="7_0_linear_array_studies figure" src="figures/apps_exercises_7_0_linear_array_studies.py_fig1.png"></a></p>
+</div>
+<h3 id="7_1-3_linear_arrays_figs24_28py"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_1-3_linear_arrays_figs24_28.py"><code>7_1-3_linear_arrays_figs24_28.py</code></a></h3>
+<p>Recreate textbook figures 24-28 for uniform linear arrays.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig0.png" data-desc-position="bottom"><img alt="7_1-3_linear_arrays_figs24_28 figure" src="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig1.png" data-desc-position="bottom"><img alt="7_1-3_linear_arrays_figs24_28 figure" src="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig2.png" data-desc-position="bottom"><img alt="7_1-3_linear_arrays_figs24_28 figure" src="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig3.png" data-desc-position="bottom"><img alt="7_1-3_linear_arrays_figs24_28 figure" src="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig3.png"></a></p>
+</div>
+<h3 id="7_5_monopulse_snr_testpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_5_monopulse_snr_test.py"><code>7_5_monopulse_snr_test.py</code></a></h3>
+<p>Monopulse angle estimation accuracy vs SNR.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test.py_fig0.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test figure" src="figures/apps_exercises_7_5_monopulse_snr_test.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test.py_fig1.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test figure" src="figures/apps_exercises_7_5_monopulse_snr_test.py_fig1.png"></a></p>
+</div>
+<h3 id="7_5_monopulse_snr_test_freqpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_5_monopulse_snr_test_freq.py"><code>7_5_monopulse_snr_test_freq.py</code></a></h3>
+<p>Monopulse angle estimation: time-domain vs frequency-domain comparison.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig0.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test_freq figure" src="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig1.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test_freq figure" src="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig1.png"></a></p>
+</div>
+<h3 id="7_6_phase_center_locationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_6_phase_center_location.py"><code>7_6_phase_center_location.py</code></a></h3>
+<p>Array phase center calculation.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_6_phase_center_location.py_fig0.png" data-desc-position="bottom"><img alt="7_6_phase_center_location figure" src="figures/apps_exercises_7_6_phase_center_location.py_fig0.png"></a></p>
+</div>
+<h3 id="7_7_sub_array_sum_diffpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_7_sub_array_sum_diff.py"><code>7_7_sub_array_sum_diff.py</code></a></h3>
+<p>Sub-array sum and difference beam patterns for monopulse.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_7_sub_array_sum_diff.py_fig0.png" data-desc-position="bottom"><img alt="7_7_sub_array_sum_diff figure" src="figures/apps_exercises_7_7_sub_array_sum_diff.py_fig0.png"></a></p>
+</div>
+<h3 id="7_8_monopulse_tgt_doppler_cellpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_8_monopulse_tgt_doppler_cell.py"><code>7_8_monopulse_tgt_doppler_cell.py</code></a></h3>
+<p>Monopulse angle estimation on a range-Doppler map.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig0.png" data-desc-position="bottom"><img alt="7_8_monopulse_tgt_doppler_cell figure" src="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig1.png" data-desc-position="bottom"><img alt="7_8_monopulse_tgt_doppler_cell figure" src="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig1.png"></a></p>
+</div>
+<h3 id="8_1_stripmap_sar_validationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_1_stripmap_sar_validation.py"><code>8_1_stripmap_sar_validation.py</code></a></h3>
+<p>Validate an un-windowed stripmap SAR example.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig0.png" data-desc-position="bottom"><img alt="8_1_stripmap_sar_validation figure" src="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig1.png" data-desc-position="bottom"><img alt="8_1_stripmap_sar_validation figure" src="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig2.png" data-desc-position="bottom"><img alt="8_1_stripmap_sar_validation figure" src="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig2.png"></a></p>
+</div>
+<h3 id="8_3_stripmap_vs_spotlightpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_3_stripmap_vs_spotlight.py"><code>8_3_stripmap_vs_spotlight.py</code></a></h3>
+<p>Side-by-side comparison of stripmap and spotlight SAR.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_3_stripmap_vs_spotlight.py_fig0.png" data-desc-position="bottom"><img alt="8_3_stripmap_vs_spotlight figure" src="figures/apps_exercises_8_3_stripmap_vs_spotlight.py_fig0.png"></a></p>
+</div>
+<h3 id="8_4_rcmc_demonstrationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_4_rcmc_demonstration.py"><code>8_4_rcmc_demonstration.py</code></a></h3>
+<p>Demonstrates Range Cell Migration Correction (RCMC).</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig0.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig1.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig2.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig3.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig3.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig4.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig4.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig5.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig5.png"></a></p>
+</div>
+<h3 id="8_5_rcmc_synthetic_validationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_5_rcmc_synthetic_validation.py"><code>8_5_rcmc_synthetic_validation.py</code></a></h3>
+<p>Validates RCMC against the closed-form migration formula.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_5_rcmc_synthetic_validation.py_fig0.png" data-desc-position="bottom"><img alt="8_5_rcmc_synthetic_validation figure" src="figures/apps_exercises_8_5_rcmc_synthetic_validation.py_fig0.png"></a></p>
+</div>
+<h2 id="rdms">RDMs</h2>
+<h3 id="jammer_offsetpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/jammer_offset.py"><code>jammer_offset.py</code></a></h3>
+<p>Jammer with range and Doppler offset.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_jammer_offset.py_fig0.png" data-desc-position="bottom"><img alt="jammer_offset figure" src="figures/apps_rdms_jammer_offset.py_fig0.png"></a></p>
+</div>
+<h3 id="kitchen_sinkpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/kitchen_sink.py"><code>kitchen_sink.py</code></a></h3>
+<p>Kitchen-sink example: demonstrates all major RDM generation options.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_kitchen_sink.py_fig0.png" data-desc-position="bottom"><img alt="kitchen_sink figure" src="figures/apps_rdms_kitchen_sink.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_kitchen_sink.py_fig1.png" data-desc-position="bottom"><img alt="kitchen_sink figure" src="figures/apps_rdms_kitchen_sink.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_kitchen_sink.py_fig2.png" data-desc-position="bottom"><img alt="kitchen_sink figure" src="figures/apps_rdms_kitchen_sink.py_fig2.png"></a></p>
+</div>
+<h3 id="readme_examplepy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/readme_example.py"><code>readme_example.py</code></a></h3>
+<p>Minimal range-Doppler map example (used in the README).</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_readme_example.py_fig0.png" data-desc-position="bottom"><img alt="readme_example figure" src="figures/apps_rdms_readme_example.py_fig0.png"></a></p>
+</div>
+<h3 id="skin_snrpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/skin_snr.py"><code>skin_snr.py</code></a></h3>
+<p>Skin return with SNR verification.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_skin_snr.py_fig0.png" data-desc-position="bottom"><img alt="skin_snr figure" src="figures/apps_rdms_skin_snr.py_fig0.png"></a></p>
+</div>
+<h3 id="vbmpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/vbm.py"><code>vbm.py</code></a></h3>
+<p>Velocity-Bin Masking (VBM) electronic attack example.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_vbm.py_fig0.png" data-desc-position="bottom"><img alt="vbm figure" src="figures/apps_rdms_vbm.py_fig0.png"></a></p>
+</div>
+<h3 id="vbm_w_lfmpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/vbm_w_lfm.py"><code>vbm_w_lfm.py</code></a></h3>
+<p>VBM electronic attack with an LFM waveform.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_vbm_w_lfm.py_fig0.png" data-desc-position="bottom"><img alt="vbm_w_lfm figure" src="figures/apps_rdms_vbm_w_lfm.py_fig0.png"></a></p>
+</div>
+<h2 id="sar">SAR</h2>
+<h3 id="spotlight_point_targetspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/spotlight_point_targets.py"><code>spotlight_point_targets.py</code></a></h3>
+<p>Spotlight SAR example: three point targets with beam-pattern weighting.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_spotlight_point_targets.py_fig0.png" data-desc-position="bottom"><img alt="spotlight_point_targets figure" src="figures/apps_sar_spotlight_point_targets.py_fig0.png"></a></p>
+</div>
+<h3 id="spotlight_ula_patternpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/spotlight_ula_pattern.py"><code>spotlight_ula_pattern.py</code></a></h3>
+<p>Spotlight SAR with a ULA-derived beam pattern.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_spotlight_ula_pattern.py_fig0.png" data-desc-position="bottom"><img alt="spotlight_ula_pattern figure" src="figures/apps_sar_spotlight_ula_pattern.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_spotlight_ula_pattern.py_fig1.png" data-desc-position="bottom"><img alt="spotlight_ula_pattern figure" src="figures/apps_sar_spotlight_ula_pattern.py_fig1.png"></a></p>
+</div>
+<h3 id="stripmap_point_cloudpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/stripmap_point_cloud.py"><code>stripmap_point_cloud.py</code></a></h3>
+<p>Stripmap SAR point-cloud example: rendering "rad-lab" as text in a SAR image.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_stripmap_point_cloud.py_fig0.png" data-desc-position="bottom"><img alt="stripmap_point_cloud figure" src="figures/apps_sar_stripmap_point_cloud.py_fig0.png"></a></p>
+</div>
+<h3 id="stripmap_point_targetspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/stripmap_point_targets.py"><code>stripmap_point_targets.py</code></a></h3>
+<p>Stripmap SAR example: three point targets at different positions.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_stripmap_point_targets.py_fig0.png" data-desc-position="bottom"><img alt="stripmap_point_targets figure" src="figures/apps_sar_stripmap_point_targets.py_fig0.png"></a></p>
+</div>
+<h2 id="studies">Studies</h2>
+<h3 id="monopulse_considering_time_delay_between_elementspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/studies/monopulse_considering_time_delay_between_elements.py"><code>monopulse_considering_time_delay_between_elements.py</code></a></h3>
+<p>Study: does the inter-element time delay matter for monopulse?</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig0.png" data-desc-position="bottom"><img alt="monopulse_considering_time_delay_between_elements figure" src="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig1.png" data-desc-position="bottom"><img alt="monopulse_considering_time_delay_between_elements figure" src="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig1.png"></a></p>
+</div>
+<h3 id="vbm_methodspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/studies/vbm_methods.py"><code>vbm_methods.py</code></a></h3>
+<p>Compare VBM noise generation methods.</p>
+<div class="grid-gallery">
+<p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig0.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig0.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig1.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig1.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig2.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig2.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig3.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig3.png"></a>
+<a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig4.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig4.png"></a></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  
+<script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(()=>{ lightbox.reload(); });
+</script></body></html>
