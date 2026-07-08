@@ -26,7 +26,7 @@ dependencies = [
 # matplotlib is pinned so the apps image-regression baselines
 # (tests/app_baselines/figures/) render identically; the runtime matplotlib
 # dependency above stays loose.
-dev = ["flake8", "pytest", "matplotlib==3.10.8"]
+dev = ["pytest", "matplotlib==3.10.8"]
 docs = ["mkdocs", "mkdocs-material", "mkdocs-glightbox", "mkdocstrings[python]"]
 
 [project.urls]

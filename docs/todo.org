@@ -17,7 +17,3 @@ enhancements:
   
 - *GPU Support:* For large data cubes, consider optional
   [[https://cupy.dev/][CuPy]] support for GPU-accelerated FFTs.
-
-* Project Maintenance
-- *Issue Tracking:* Move the "Known Test Failures" from the README to
-  GitHub Issues. A README should ideally highlight what works.
