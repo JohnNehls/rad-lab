@@ -1,4 +1,4 @@
-# This workflow will install Python dependencies and run tests with a single version of Python.
+# This workflow will install Python dependencies and run tests across supported Python versions.
 # Linting is handled by the Ruff workflow (ruff.yml).
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
@@ -17,13 +17,17 @@ jobs:
   test:
 
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.11
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
-        python-version: "3.11"
+        python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
         sudo apt install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended cm-super dvipng
