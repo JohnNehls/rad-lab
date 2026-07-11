@@ -101,6 +101,10 @@ def plot_ambiguity(
     fig.suptitle(title)
     mesh = ax.pcolormesh(tau * 1e6, fd * 1e-3, plot_data, shading="auto")
     mesh.set_clim(vmin, vmax)
+    # Beyond ±pulse length the ambiguity function is identically zero; paint
+    # the region outside the mesh in the colormap's floor colour so wider view
+    # limits don't leave blank white margins.
+    ax.set_facecolor(mesh.get_cmap()(0))
     ax.set_xlabel("Delay [µs]")
     ax.set_ylabel("Doppler Frequency [kHz]")
     cbar = fig.colorbar(mesh)
