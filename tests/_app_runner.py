@@ -9,8 +9,7 @@ The script runs via ``runpy`` with ``run_name="__main__"`` so it behaves
 exactly as ``python <script.py>`` would (its stdout is unchanged and any
 ``if __name__ == "__main__"`` guard fires).  Under the Agg backend
 ``plt.show()`` is a no-op and leaves figures open, so every figure is still
-available afterward via ``plt.get_fignums()``.  This mirrors the capture
-pattern in ``docs/make_figures.py``.
+available afterward via ``plt.get_fignums()``.
 """
 
 import os

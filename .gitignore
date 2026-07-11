@@ -4,7 +4,6 @@
 dist
 *.egg-info
 /src/rad_lab/_version.py
-/docs/generated_artifacts
 /docs/working_notes.org
 /docs/mkdocs/site/
 /docs/ltximg/
