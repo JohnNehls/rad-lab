@@ -311,25 +311,6 @@ range equation prediction.
 
 **Figure:** Range-Doppler map with SNR annotations.
 
-### Exercise 5.1: CFAR Detection
-
-Apply CA-CFAR, GOCA-CFAR, and SOCA-CFAR to an RDM with three targets.
-
-| Parameter          | Value          |
-|--------------------|----------------|
-| Radar              | same as 5.0    |
-| Waveform           | LFM, $T = 1\ \mu$s, up-chirp |
-| Target 1           | 3 km, 0 m/s, 10 dBsm |
-| Target 2           | 5 km, $-500$ m/s, 0 dBsm |
-| Target 3           | 4 km, 1 km/s, 20 dBsm |
-| CA-CFAR Pfa        | $10^{-5}$     |
-| Variant comparison Pfa | $10^{-6}$ |
-| Guard cells (R/D)  | 3 / 3          |
-| Training cells (R/D) | 10 / 10     |
-
-**Figure 1:** CA-CFAR detections overlaid on RDM.
-**Figure 2:** 3 subplots comparing CA, GOCA, and SOCA detection counts.
-
 ### Exercise 5.2: Multiple-PRF Ambiguity Resolution
 
 Generate RDMs at three different PRFs for a target whose true range and
@@ -410,7 +391,85 @@ $N$ = 5, 10, 20 pulses.
 Required per-pulse SNR (Swerling 0, NCI): 13.2 dB ($N=1$), 7.5 dB
 ($N=5$), 5.3 dB ($N=10$), 3.2 dB ($N=20$), 0.6 dB ($N=50$).
 
-### Exercise 6.2: MTI Cancellers
+### Exercise 6.2: CFAR Kernels (1-D)
+
+Isolate the CA, GOCA, and SOCA kernel arithmetic on a single range profile,
+where the adaptive threshold is a *line* drawn on the signal — unlike the
+2-D surface in 6.3.  A pair of closely-spaced targets and a clutter edge
+expose the trade-offs between the kernels.
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| Range cells        | 200            |
+| Guard cells (per side)    | 2       |
+| Training cells (per side) | 10      |
+| $P_{fa}$           | $10^{-3}$     |
+| Clutter step       | $\sim$15 dB above floor, from cell 130 |
+| Targets            | cell 45 ($\sim$26 dB), cell 51 ($\sim$21 dB) |
+
+The threshold multiplier $\alpha = N(P_{fa}^{-1/N} - 1)$ is exact only for
+CA; GOCA and SOCA reuse it as an approximation.
+
+**Figure:** Three stacked panels (CA, GOCA, SOCA).  Each shows the signal
+power, that kernel's threshold line, and its detections (dots), with the
+clutter region shaded.
+
+**Output:** Printed per-kernel detection summary:
+
+| Kernel | Target @ 45 | Target @ 51 | In-clutter false alarms |
+|--------|-------------|-------------|-------------------------|
+| CA     | detected    | masked      | 0                       |
+| GOCA   | detected    | masked      | 0                       |
+| SOCA   | detected    | detected    | 4                       |
+
+The strong target inflates one half of the weak target's window: CA and
+GOCA raise the threshold and mask it, while SOCA keys on the clean half and
+detects it — at the cost of false alarms just inside the clutter edge.
+
+### Exercise 6.3: CFAR Detection
+
+Apply CA-CFAR, GOCA-CFAR, and SOCA-CFAR to a 2-D range-Doppler map, first in
+homogeneous noise and then across a clutter edge that reproduces the kernel
+trade-offs from 6.2 on a realistic map.
+
+**Scene 1 — three targets in homogeneous noise:**
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| Radar              | same as 5.0    |
+| Target 1           | 3 km, 0 m/s, 10 dBsm |
+| Target 2           | 5 km, $-500$ m/s, 0 dBsm |
+| Target 3           | 4 km, 1 km/s, 20 dBsm |
+| CA-CFAR $P_{fa}$   | $10^{-5}$     |
+| Variant comparison $P_{fa}$ | $10^{-6}$ |
+| Guard cells (R/D)  | 3 / 3          |
+| Training cells (R/D) | 10 / 10     |
+
+**Scene 2 — clutter edge:**
+
+| Parameter          | Value          |
+|--------------------|----------------|
+| Clutter edge       | all ranges beyond 400 m, 25 dB CNR |
+| $P_{fa}$           | $10^{-4}$     |
+| Control target     | 250 m, $-800$ m/s (in the clear) |
+| Edge target        | 370 m, 400 m/s, $\sim$18.6 dB SNR |
+
+**Figure 1:** CA-CFAR detections overlaid on the three-target RDM.
+
+**Figure 2:** Three subplots comparing CA, GOCA, and SOCA detection counts
+on the same RDM (SOCA's lower threshold yields many more detections).
+
+**Figure 3:** Clutter-edge scene, three subplots.  GOCA suppresses the
+false alarms CA and SOCA fire along the edge, while SOCA is the only kernel
+that detects the weak target next to the edge:
+
+| Kernel | In-clutter false alarms | Edge target |
+|--------|-------------------------|-------------|
+| CA     | 29                      | masked      |
+| GOCA   | 1                       | masked      |
+| SOCA   | 1356                    | detected    |
+
+### Exercise 6.4: MTI Cancellers
 
 Apply 2-pulse and 3-pulse MTI cancellers to a cluttered datacube and
 compare against conventional Doppler processing.
@@ -441,7 +500,7 @@ cancellation the clutter is suppressed and both targets become visible.
 
 **Output:** Printed peak power for each case.
 
-### Exercise 6.3: Swerling Fluctuation Models
+### Exercise 6.5: Swerling Fluctuation Models
 
 Compare all five Swerling target-fluctuation models under non-coherent
 integration (NCI) to show the effect of RCS decorrelation rate and
@@ -478,7 +537,7 @@ grows the pulse-to-pulse model pulls ahead.
 | Swerling III| 9.6 dB        |
 | Swerling IV | 5.8 dB        |
 
-### Exercise 6.4: Swerling RCS Fluctuation in the RDM
+### Exercise 6.6: Swerling RCS Fluctuation in the RDM
 
 Demonstrate how Swerling target-fluctuation models affect the range-Doppler
 map when RCS fluctuation is applied during datacube generation.
@@ -515,7 +574,7 @@ changes between dwells.
 spreading.  Right: scan-to-scan models overlaying two dwells, showing
 amplitude variation.
 
-### Exercise 6.5: Monte Carlo Validation of Swerling NCI Detection Theory
+### Exercise 6.7: Monte Carlo Validation of Swerling NCI Detection Theory
 
 Validate the theoretical detection probability functions
 (`pd_swerling{0,1,2,3,4}_nci`) against a Monte Carlo simulation that
