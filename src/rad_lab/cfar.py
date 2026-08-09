@@ -7,7 +7,7 @@ training cells slide over the map in both range and Doppler dimensions.
 References
 ----------
 Richards, M. A., *Fundamentals of Radar Signal Processing*, 2nd ed.,
-McGraw-Hill, 2014, Ch. 6 (CFAR detection).
+McGraw-Hill, 2014, Ch. 7 (Constant False Alarm Rate Detection).
 """
 
 from __future__ import annotations

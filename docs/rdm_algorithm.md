@@ -4,7 +4,7 @@ This document describes the range-Doppler map generation algorithm implemented
 in `rdm.gen`. The processor follows the standard **pulse-Doppler processing**
 chain: populate a datacube with target returns, apply a matched filter for
 pulse compression, window the slow-time dimension, and Doppler-process with
-an FFT [1, Ch. 17], [2, Ch. 3].
+an FFT [1, Ch. 5], [2, Ch. 3].
 
 ## Signal Model
 
@@ -141,7 +141,7 @@ directly as post-integration SNR voltage ratios.
 
 Each pulse (column of the datacube) is compressed by convolving with the
 matched filter — the time-reversed, conjugated transmit waveform $s^*(-t)$.
-This is implemented via FFT convolution [1, Ch. 6]:
+This is implemented via FFT convolution [1, Ch. 4]:
 
 $$
 d_{\text{rc}}[k, n] = d[k, n] \ast s^*[-k]
@@ -151,7 +151,7 @@ $$
 The matched filter maximises the output SNR and compresses each target's energy
 into a peak whose width is determined by the waveform's range resolution
 $\delta_r = c / (2B_w)$. For coded waveforms the processing gain equals the
-time-bandwidth product $\tau B_w$ [1, Ch. 6].
+time-bandwidth product $\tau B_w$ [1, Ch. 4].
 
 ### 5. Doppler Windowing
 
@@ -176,7 +176,7 @@ gain. Available windows are:
 ### 6. Doppler Processing (Slow-Time FFT)
 
 The slow-time FFT transforms each range bin from the time domain into the
-Doppler frequency domain [1, Ch. 3], [2, Ch. 3]:
+Doppler frequency domain [1, Ch. 5], [2, Ch. 3]:
 
 $$
 D[k, m] = \sum_{n=0}^{N_p - 1} d_{\text{win}}[k, n]\; e^{-j\,2\pi\, mn / N_p}
@@ -194,7 +194,7 @@ spanning $[-f_{\text{prf}}/2,\; f_{\text{prf}}/2)$.
 ### 7. Range-Rate Axis
 
 The Doppler frequency axis is converted to range rate using the standard
-Doppler relationship [1, Ch. 1]:
+Doppler relationship [1, Ch. 2]:
 
 $$
 \dot{R}_m = -\frac{c\, f_m}{2\, f_c}
@@ -208,7 +208,7 @@ target (negative Doppler shift).
 - **Range resolution:** $\delta_r = \dfrac{c}{2\, B_w}$, determined by the
   waveform bandwidth.
 - **Doppler (velocity) resolution:** $\delta_{\dot{R}} = \dfrac{\lambda}{2\, T_{\text{cpi}}}$,
-  determined by the CPI duration [1, Ch. 3].
+  determined by the CPI duration [1, Ch. 5].
 - **Maximum unambiguous range:** $R_{\text{ua}} = \dfrac{c}{2\, f_{\text{prf}}}$.
 - **Maximum unambiguous range rate:** $\dot{R}_{\text{ua}} = \pm\dfrac{c\, f_{\text{prf}}}{4\, f_c}$.
 
