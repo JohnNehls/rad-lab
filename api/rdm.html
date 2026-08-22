@@ -1021,7 +1021,7 @@ windowing, and the slow-time FFT — and a set of plot helpers for RTMs and RDMs
 
 
 <h2 id="rad_lab.rdm.gen" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">gen</span><span class="p">(</span><span class="n">radar</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">return_list</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">'chebyshev'</span><span class="p">,</span> <span class="n">window_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">gen</span><span class="p">(</span><span class="n">radar</span><span class="p">,</span> <span class="n">waveform</span><span class="p">,</span> <span class="n">return_list</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="s1">'chebyshev'</span><span class="p">,</span> <span class="n">window_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">range_window</span><span class="o">=</span><span class="s1">'none'</span><span class="p">,</span> <span class="n">range_window_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h2>
 
@@ -1189,8 +1189,47 @@ One of <code>"chebyshev"</code> (default), <code>"blackman-harris"</code>,
                 <p>Optional dict forwarded to the underlying
 <code>scipy.signal.windows</code> function. For example,
 <code>window_kwargs={"at": 80}</code> sets Chebyshev attenuation to
-80 dB; <code>window_kwargs={"nbar": 5, "sll": -35}</code> tunes the
-Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
+80 dB; <code>window_kwargs={"nbar": 5, "sll": 35}</code> tunes the
+Taylor window (<code>sll</code> is a positive suppression in dB). See
+:func:<code>._rdm_internals.create_window</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>range_window</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Weighting on the matched-filter replica for <em>range</em>
+sidelobe control (fast-time), analogous to <code>window</code> in Doppler.
+<code>"none"</code> (default) is the plain matched filter, leaving the LFM's
+~-13.2 dB range sidelobes.  One of <code>"none"</code>, <code>"chebyshev"</code>,
+<code>"blackman-harris"</code>, <code>"taylor"</code>.  See
+:func:<code>rad_lab.rf_datacube.range_window</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>'none'</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>range_window_kwargs</code>
+            </td>
+            <td>
+                  <code><span title="dict">dict</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional dict forwarded to the range-window
+function (e.g. <code>{"at": 60}</code> for Chebyshev).</p>
               </div>
             </td>
             <td>
@@ -1327,7 +1366,24 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
 <span class="normal">116</span>
 <span class="normal">117</span>
 <span class="normal">118</span>
-<span class="normal">119</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">gen</span><span class="p">(</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">gen</span><span class="p">(</span>
     <span class="n">radar</span><span class="p">:</span> <span class="n">Radar</span><span class="p">,</span>
     <span class="n">waveform</span><span class="p">:</span> <span class="n">WaveformSample</span><span class="p">,</span>
     <span class="n">return_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
@@ -1336,6 +1392,8 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
     <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"chebyshev"</span><span class="p">,</span>
     <span class="n">window_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">range_window</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"none"</span><span class="p">,</span>
+    <span class="n">range_window_kwargs</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Generate a Range-Doppler Map (RDM) for a single Coherent Processing Interval (CPI).</span>
 
@@ -1365,8 +1423,17 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
 <span class="sd">        window_kwargs: Optional dict forwarded to the underlying</span>
 <span class="sd">            ``scipy.signal.windows`` function. For example,</span>
 <span class="sd">            ``window_kwargs={"at": 80}`` sets Chebyshev attenuation to</span>
-<span class="sd">            80 dB; ``window_kwargs={"nbar": 5, "sll": -35}`` tunes the</span>
-<span class="sd">            Taylor window. See :func:`._rdm_internals.create_window`.</span>
+<span class="sd">            80 dB; ``window_kwargs={"nbar": 5, "sll": 35}`` tunes the</span>
+<span class="sd">            Taylor window (``sll`` is a positive suppression in dB). See</span>
+<span class="sd">            :func:`._rdm_internals.create_window`.</span>
+<span class="sd">        range_window: Weighting on the matched-filter replica for *range*</span>
+<span class="sd">            sidelobe control (fast-time), analogous to ``window`` in Doppler.</span>
+<span class="sd">            ``"none"`` (default) is the plain matched filter, leaving the LFM's</span>
+<span class="sd">            ~-13.2 dB range sidelobes.  One of ``"none"``, ``"chebyshev"``,</span>
+<span class="sd">            ``"blackman-harris"``, ``"taylor"``.  See</span>
+<span class="sd">            :func:`rad_lab.rf_datacube.range_window`.</span>
+<span class="sd">        range_window_kwargs: Optional dict forwarded to the range-window</span>
+<span class="sd">            function (e.g. ``{"at": 60}`` for Chebyshev).</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        tuple: ``(rdot_axis, r_axis, datacube)``:</span>
@@ -1401,7 +1468,13 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
         <span class="k">del</span> <span class="n">noise_dc</span>  <span class="c1"># free the cube-sized buffer before heavy processing</span>
 
     <span class="c1">########## Match filter ########################################################################</span>
-    <span class="n">matchfilter</span><span class="p">(</span><span class="n">datacube</span><span class="p">,</span> <span class="n">waveform</span><span class="o">.</span><span class="n">pulse_sample</span><span class="p">,</span> <span class="n">pedantic</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">matchfilter</span><span class="p">(</span>
+        <span class="n">datacube</span><span class="p">,</span>
+        <span class="n">waveform</span><span class="o">.</span><span class="n">pulse_sample</span><span class="p">,</span>
+        <span class="n">pedantic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">window</span><span class="o">=</span><span class="n">range_window</span><span class="p">,</span>
+        <span class="n">window_kwargs</span><span class="o">=</span><span class="n">range_window_kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">debug</span><span class="p">:</span>
         <span class="n">plot_rtm</span><span class="p">(</span><span class="n">r_axis</span><span class="p">,</span> <span class="n">datacube</span><span class="p">,</span> <span class="s2">"RTM: match filtered"</span><span class="p">)</span>
@@ -1582,24 +1655,7 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/rdm.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">186</span>
-<span class="normal">187</span>
-<span class="normal">188</span>
-<span class="normal">189</span>
-<span class="normal">190</span>
-<span class="normal">191</span>
-<span class="normal">192</span>
-<span class="normal">193</span>
-<span class="normal">194</span>
-<span class="normal">195</span>
-<span class="normal">196</span>
-<span class="normal">197</span>
-<span class="normal">198</span>
-<span class="normal">199</span>
-<span class="normal">200</span>
-<span class="normal">201</span>
-<span class="normal">202</span>
-<span class="normal">203</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">203</span>
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span>
@@ -1629,7 +1685,24 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
 <span class="normal">230</span>
 <span class="normal">231</span>
 <span class="normal">232</span>
-<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_rdm</span><span class="p">(</span>
+<span class="normal">233</span>
+<span class="normal">234</span>
+<span class="normal">235</span>
+<span class="normal">236</span>
+<span class="normal">237</span>
+<span class="normal">238</span>
+<span class="normal">239</span>
+<span class="normal">240</span>
+<span class="normal">241</span>
+<span class="normal">242</span>
+<span class="normal">243</span>
+<span class="normal">244</span>
+<span class="normal">245</span>
+<span class="normal">246</span>
+<span class="normal">247</span>
+<span class="normal">248</span>
+<span class="normal">249</span>
+<span class="normal">250</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_rdm</span><span class="p">(</span>
     <span class="n">rdot_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">r_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -1835,24 +1908,7 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/rdm.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">236</span>
-<span class="normal">237</span>
-<span class="normal">238</span>
-<span class="normal">239</span>
-<span class="normal">240</span>
-<span class="normal">241</span>
-<span class="normal">242</span>
-<span class="normal">243</span>
-<span class="normal">244</span>
-<span class="normal">245</span>
-<span class="normal">246</span>
-<span class="normal">247</span>
-<span class="normal">248</span>
-<span class="normal">249</span>
-<span class="normal">250</span>
-<span class="normal">251</span>
-<span class="normal">252</span>
-<span class="normal">253</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">253</span>
 <span class="normal">254</span>
 <span class="normal">255</span>
 <span class="normal">256</span>
@@ -1878,7 +1934,24 @@ Taylor window. See :func:<code>._rdm_internals.create_window</code>.</p>
 <span class="normal">276</span>
 <span class="normal">277</span>
 <span class="normal">278</span>
-<span class="normal">279</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_rdm_snr</span><span class="p">(</span>
+<span class="normal">279</span>
+<span class="normal">280</span>
+<span class="normal">281</span>
+<span class="normal">282</span>
+<span class="normal">283</span>
+<span class="normal">284</span>
+<span class="normal">285</span>
+<span class="normal">286</span>
+<span class="normal">287</span>
+<span class="normal">288</span>
+<span class="normal">289</span>
+<span class="normal">290</span>
+<span class="normal">291</span>
+<span class="normal">292</span>
+<span class="normal">293</span>
+<span class="normal">294</span>
+<span class="normal">295</span>
+<span class="normal">296</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_rdm_snr</span><span class="p">(</span>
     <span class="n">rdot_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">r_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -2010,24 +2083,7 @@ axis and pulse number (slow-time) on the other.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/rdm.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
-<span class="normal">159</span>
-<span class="normal">160</span>
-<span class="normal">161</span>
-<span class="normal">162</span>
-<span class="normal">163</span>
-<span class="normal">164</span>
-<span class="normal">165</span>
-<span class="normal">166</span>
-<span class="normal">167</span>
-<span class="normal">168</span>
-<span class="normal">169</span>
-<span class="normal">170</span>
-<span class="normal">171</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">171</span>
 <span class="normal">172</span>
 <span class="normal">173</span>
 <span class="normal">174</span>
@@ -2039,7 +2095,24 @@ axis and pulse number (slow-time) on the other.</p>
 <span class="normal">180</span>
 <span class="normal">181</span>
 <span class="normal">182</span>
-<span class="normal">183</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_rtm</span><span class="p">(</span><span class="n">r_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">plot_rtm</span><span class="p">(</span><span class="n">r_axis</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Plots the magnitude and phase of a range-time matrix (RTM).</span>
 
 <span class="sd">    The RTM shows radar data before Doppler processing, with range on one</span>
@@ -2200,24 +2273,7 @@ and the off-peak noise floor has voltage standard deviation of 1.  Use
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/rad_lab/rdm.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">122</span>
-<span class="normal">123</span>
-<span class="normal">124</span>
-<span class="normal">125</span>
-<span class="normal">126</span>
-<span class="normal">127</span>
-<span class="normal">128</span>
-<span class="normal">129</span>
-<span class="normal">130</span>
-<span class="normal">131</span>
-<span class="normal">132</span>
-<span class="normal">133</span>
-<span class="normal">134</span>
-<span class="normal">135</span>
-<span class="normal">136</span>
-<span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
+              <div class="highlight"><table class="highlighttable"><tbody><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">139</span>
 <span class="normal">140</span>
 <span class="normal">141</span>
 <span class="normal">142</span>
@@ -2229,7 +2285,24 @@ and the off-peak noise floor has voltage standard deviation of 1.  Use
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_snr</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radar</span><span class="p">:</span> <span class="n">Radar</span><span class="p">,</span> <span class="n">waveform</span><span class="p">:</span> <span class="n">WaveformSample</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">to_snr</span><span class="p">(</span><span class="n">datacube</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radar</span><span class="p">:</span> <span class="n">Radar</span><span class="p">,</span> <span class="n">waveform</span><span class="p">:</span> <span class="n">WaveformSample</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""Convert a Volt-domain RDM to SNR voltage ratio.</span>
 
 <span class="sd">    Normalises so the peak magnitude equals the range-equation SNR voltage</span>
