@@ -1,0 +1,14 @@
+## Range point-spread function (noiseless) ##
+  Rectangular (no weighting)        PSL= -13.6 dB   -3dB width=  2.9 m (1.53 bins)   weighting loss=-0.00 dB
+  Taylor (nbar=5, -35 dB)           PSL= -32.0 dB   -3dB width=  4.2 m (2.25 bins)   weighting loss=0.93 dB
+  Chebyshev (-60 dB)                PSL= -33.9 dB   -3dB width=  5.1 m (2.74 bins)   weighting loss=1.86 dB
+
+## CA-CFAR on the RDM (Pfa=1e-06) ##
+  (spurious = detected cells outside a mainlobe box around the true target)
+  Rectangular (no weighting)         14 total detections,  5 spurious sidelobe cells
+  Taylor (nbar=5, -35 dB)            11 total detections,  0 spurious sidelobe cells
+  Chebyshev (-60 dB)                 15 total detections,  0 spurious sidelobe cells
+
+Takeaway: weighting the replica sinks the LFM range sidelobes below the
+CFAR threshold, so the spurious sidelobe detections vanish -- at the cost
+of ~1 dB SNR and a wider mainlobe (the mainlobe cluster even grows).

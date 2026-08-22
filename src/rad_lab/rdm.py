@@ -29,6 +29,8 @@ def gen(
     debug: bool = False,
     window: str = "chebyshev",
     window_kwargs: dict | None = None,
+    range_window: str = "none",
+    range_window_kwargs: dict | None = None,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate a Range-Doppler Map (RDM) for a single Coherent Processing Interval (CPI).
 
@@ -58,8 +60,17 @@ def gen(
         window_kwargs: Optional dict forwarded to the underlying
             ``scipy.signal.windows`` function. For example,
             ``window_kwargs={"at": 80}`` sets Chebyshev attenuation to
-            80 dB; ``window_kwargs={"nbar": 5, "sll": -35}`` tunes the
-            Taylor window. See :func:`._rdm_internals.create_window`.
+            80 dB; ``window_kwargs={"nbar": 5, "sll": 35}`` tunes the
+            Taylor window (``sll`` is a positive suppression in dB). See
+            :func:`._rdm_internals.create_window`.
+        range_window: Weighting on the matched-filter replica for *range*
+            sidelobe control (fast-time), analogous to ``window`` in Doppler.
+            ``"none"`` (default) is the plain matched filter, leaving the LFM's
+            ~-13.2 dB range sidelobes.  One of ``"none"``, ``"chebyshev"``,
+            ``"blackman-harris"``, ``"taylor"``.  See
+            :func:`rad_lab.rf_datacube.range_window`.
+        range_window_kwargs: Optional dict forwarded to the range-window
+            function (e.g. ``{"at": 60}`` for Chebyshev).
 
     Returns:
         tuple: ``(rdot_axis, r_axis, datacube)``:
@@ -94,7 +105,13 @@ def gen(
         del noise_dc  # free the cube-sized buffer before heavy processing
 
     ########## Match filter ########################################################################
-    matchfilter(datacube, waveform.pulse_sample, pedantic=False)
+    matchfilter(
+        datacube,
+        waveform.pulse_sample,
+        pedantic=False,
+        window=range_window,
+        window_kwargs=range_window_kwargs,
+    )
 
     if debug:
         plot_rtm(r_axis, datacube, "RTM: match filtered")

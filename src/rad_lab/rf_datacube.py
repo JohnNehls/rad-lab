@@ -95,7 +95,67 @@ def doppler_process(datacube: np.ndarray, fs: float) -> tuple[np.ndarray, np.nda
     return f_axis, R_axis
 
 
-def matchfilter(datacube: np.ndarray, pulse_wvf: np.ndarray, pedantic: bool = True) -> None:
+def range_window(
+    n_taps: int, window: str = "none", window_kwargs: dict | None = None
+) -> np.ndarray:
+    """Unit-mean amplitude taper for weighting a matched-filter replica.
+
+    Weighting the replica across its ``N_taps`` samples suppresses the range
+    sidelobes of the compressed pulse:
+
+    - An LFM's frequency is linear in time, so a time taper tapers the
+      swept-spectrum edges -- the frequency weighting Richards uses for
+      range-sidelobe control.  The unweighted LFM sits at ~-13.2 dB peak
+      sidelobes; weighting drives these down (e.g. Hamming ~-43 dB).
+    - The cost is a broader mainlobe (coarser range resolution) and a small
+      SNR loss from the now-mismatched filter.
+    - Normalising to unit mean keeps the coherent peak gain at ``N_taps``, so
+      the loss shows up as a raised noise floor, not a rescaled peak.
+
+    Window vocabulary matches :func:`rad_lab._rdm_internals.create_window`.
+
+    Args:
+        n_taps: Length of the taper (number of replica samples).
+        window: Window type.  One of ``"none"`` (rectangular, default),
+            ``"chebyshev"`` (accepts ``window_kwargs={"at": <dB>}``,
+            default 60), ``"blackman-harris"``, or ``"taylor"`` (accepts
+            ``window_kwargs={"nbar": ..., "sll": ...}``).
+        window_kwargs: Optional dict forwarded to the underlying
+            ``scipy.signal.windows`` function.
+
+    Returns:
+        1D taper of length ``n_taps`` with mean 1.0.
+
+    References:
+        Richards, M. A., *Fundamentals of Radar Signal Processing*, 2nd ed.,
+        McGraw-Hill, 2014, Ch. 4 (Radar Waveforms) — matched filtering, LFM
+        pulse compression, and range-sidelobe reduction by weighting.
+    """
+    kwargs = window_kwargs or {}
+    name = window.lower()
+    if name == "none":
+        win = np.ones(n_taps)
+    elif name == "chebyshev":
+        win = signal.windows.chebwin(n_taps, kwargs.get("at", 60.0))
+    elif name == "blackman-harris":
+        win = signal.windows.blackmanharris(n_taps)
+    elif name == "taylor":
+        win = signal.windows.taylor(n_taps, **kwargs)
+    else:
+        raise ValueError(
+            f"Unknown window type '{window}'. "
+            "Choose from: 'chebyshev', 'blackman-harris', 'taylor', 'none'."
+        )
+    return win / np.mean(win)
+
+
+def matchfilter(
+    datacube: np.ndarray,
+    pulse_wvf: np.ndarray,
+    pedantic: bool = True,
+    window: str = "none",
+    window_kwargs: dict | None = None,
+) -> None:
     """Applies a matched filter to a datacube for pulse compression.
 
     Mirrors a real-time hardware matched filter (FIR with coefficients
@@ -112,6 +172,12 @@ def matchfilter(datacube: np.ndarray, pulse_wvf: np.ndarray, pedantic: bool = Tr
       by performing convolution via FFT. This involves a single FFT of the
       waveform kernel and is generally faster for large datacubes.
 
+    Pass ``window`` to weight the replica for range-sidelobe control: this
+    suppresses the ~-13.2 dB LFM sidelobes that a CFAR detector would otherwise
+    flag as spurious targets around a strong return, at the cost of a broader
+    mainlobe and a small SNR loss.  See :func:`range_window` and Richards,
+    *FRSP* 2nd ed., Ch. 4.
+
     Args:
         datacube: 2D time-domain datacube with shape (N_range_bins, N_pulses),
             modified in-place.
@@ -119,14 +185,22 @@ def matchfilter(datacube: np.ndarray, pulse_wvf: np.ndarray, pedantic: bool = Tr
             see :class:`rad_lab.waveform.WaveformSample`).
         pedantic: If True, use the iterative time-domain helper; if False,
             use FFT-based convolution.  Defaults to True.
+        window: Range weighting applied to the replica.  ``"none"`` (default)
+            reproduces the plain matched filter.  See :func:`range_window`
+            for the other options.
+        window_kwargs: Optional dict forwarded to the window function.
 
     Returns:
         None: The `datacube` is modified in-place.
     """
+    replica = pulse_wvf
+    if window.lower() != "none":
+        replica = range_window(pulse_wvf.size, window, window_kwargs) * pulse_wvf
+
     if pedantic:
         for j in range(datacube.shape[1]):
-            _, mf = matchfilter_with_waveform(datacube[:, j], pulse_wvf)
+            _, mf = matchfilter_with_waveform(datacube[:, j], replica)
             datacube[:, j] = mf
     else:
-        kernel = np.conj(pulse_wvf)[::-1]
+        kernel = np.conj(replica)[::-1]
         datacube[:] = signal.fftconvolve(datacube, kernel.reshape(-1, 1), mode="same", axes=0)
