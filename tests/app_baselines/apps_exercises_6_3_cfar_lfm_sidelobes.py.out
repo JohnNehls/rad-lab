@@ -1,0 +1,3 @@
+## CA-CFAR on an unweighted LFM RDM ##
+  14 detections total, 5 on range sidelobes
+  -> exercise 6_4 suppresses these by weighting the matched filter

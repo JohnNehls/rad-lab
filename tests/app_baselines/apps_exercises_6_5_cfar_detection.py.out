@@ -1,0 +1,13 @@
+## CA-CFAR detection ##
+  Pfa=1.000000e-05 → 53 cells detected
+
+## CFAR variant comparison ##
+  CA: 48 cells detected
+  GOCA: 47 cells detected
+  SOCA: 212 cells detected
+
+## Scene 2: clutter edge ##
+  edge target SNR: 17.3 dB
+  CA: 27 false alarms inside clutter, edge target detected: False
+  GOCA: 1 false alarms inside clutter, edge target detected: False
+  SOCA: 1362 false alarms inside clutter, edge target detected: True

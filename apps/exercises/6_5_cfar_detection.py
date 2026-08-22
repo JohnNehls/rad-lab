@@ -1,8 +1,12 @@
 #!/usr/bin/env python
-"""CFAR detection on a range-Doppler map.
+"""CFAR detection on a range-Doppler map (with LFM range weighting).
 
 Generate an RDM with three targets at different ranges and velocities, then
-apply Cell-Averaging CFAR (CA-CFAR) to detect them.  The exercise shows:
+apply Cell-Averaging CFAR (CA-CFAR) to detect them.  The matched filter is
+Taylor-weighted for range-sidelobe control (see exercise 6_4), so the LFM's
+~-13.2 dB range sidelobes stay below the CFAR threshold and do not clutter the
+map with spurious detections -- isolating the behaviour of the CFAR variants
+themselves.  The exercise shows:
 
 1. The raw RDM with noise floor and target peaks.
 2. CA-CFAR detection markers overlaid on the RDM.
@@ -37,6 +41,11 @@ from rad_lab.cfar import cfar_2d, plot_cfar
 bw = 10e6  # Hz
 waveform = lfm_waveform(bw, T=1.0e-6, chirp_up_down=1)
 
+# Taylor weighting on the matched-filter replica, to suppress the LFM range
+# sidelobes (see exercise 6_4).  Applied to every RDM generated below.
+RANGE_WINDOW = "taylor"
+RANGE_WINDOW_KWARGS = {"nbar": 5, "sll": 35}
+
 # -- Radar --
 radar = Radar(
     fcar=10e9,
@@ -59,7 +68,14 @@ return_list = [
 ]
 
 # -- Generate the RDM (suppress default plot) --
-rdot_axis, r_axis, total_dc = rdm.gen(radar, waveform, return_list, plot=False)
+rdot_axis, r_axis, total_dc = rdm.gen(
+    radar,
+    waveform,
+    return_list,
+    plot=False,
+    range_window=RANGE_WINDOW,
+    range_window_kwargs=RANGE_WINDOW_KWARGS,
+)
 
 
 # -- CA-CFAR detection --
@@ -147,7 +163,12 @@ control_tgt = Target(range=250.0, range_rate=-800.0, rcs=1e-3)
 edge_tgt = Target(range=CLUTTER_START - 30.0, range_rate=400.0, rcs=1e-6)
 
 rdot_axis2, r_axis2, dc2 = rdm.gen(
-    radar, waveform, [Return(target=control_tgt), Return(target=edge_tgt)], plot=False
+    radar,
+    waveform,
+    [Return(target=control_tgt), Return(target=edge_tgt)],
+    plot=False,
+    range_window=RANGE_WINDOW,
+    range_window_kwargs=RANGE_WINDOW_KWARGS,
 )
 
 # Inject clutter: complex Gaussian noise CNR_DB above the thermal floor for
