@@ -1,0 +1,4 @@
+## 1-D CFAR kernels ##
+  CA: target@45 True, target@51 False, 0 false alarms inside clutter
+  GOCA: target@45 True, target@51 False, 0 false alarms inside clutter
+  SOCA: target@45 True, target@51 True, 4 false alarms inside clutter
