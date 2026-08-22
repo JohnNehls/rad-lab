@@ -1,6 +1,10 @@
 site_name: rad-lab
 site_description: A Python radar module for pulse-Doppler simulation and RDM generation
 
+repo_url: https://github.com/JohnNehls/rad-lab
+repo_name: JohnNehls/rad-lab
+edit_uri: edit/main/docs/mkdocs/docs/
+
 docs_dir: docs
 site_dir: site
 use_directory_urls: false

@@ -85,7 +85,7 @@ def doppler_process(datacube: np.ndarray, fs: float) -> tuple[np.ndarray, np.nda
     Returns:
         tuple[np.ndarray, np.ndarray]: A tuple containing:
             - f_axis (np.ndarray): The Doppler frequency axis, [-PRF/2, PRF/2) [Hz].
-            - R_axis (np.ndarray): The range axis [delta_r, R_ambigious] [m].
+            - R_axis (np.ndarray): The range axis `[delta_r, R_ambigious]` [m].
     """
     N_r, N_p = datacube.shape
     prf = fs / N_r

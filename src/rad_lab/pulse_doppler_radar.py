@@ -112,7 +112,7 @@ def frequency_aliased(freq: float, fs: float) -> float:
         fs (float): Sampling frequency [Hz]
 
     Returns:
-        float: Aliased frequency within [-fs/2, fs/2] [Hz]
+        float: Aliased frequency within `[-fs/2, fs/2]` [Hz]
     """
     f = freq % fs
     if f > fs / 2:
@@ -143,7 +143,7 @@ def range_rate_aliased_rrmax(range_rate: float, range_rate_max: float) -> float:
         range_rate_max (float): Maximum unambiguous range rate magnitude [m/s]
 
     Returns:
-        float: Aliased range rate within [-range_rate_max, range_rate_max] [m/s]
+        float: Aliased range rate within `[-range_rate_max, range_rate_max]` [m/s]
     """
     r = range_rate % (2 * range_rate_max)
     if r > range_rate_max:
