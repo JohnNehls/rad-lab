@@ -13,7 +13,7 @@ Key takeaways:
 
 import numpy as np
 import matplotlib.pyplot as plt
-from rad_lab.waveform_helpers import plot_pulse_and_spectrum, plot_pulse_and_xcorrelation
+from rad_lab.waveform_helpers import plot_pulse_and_spectrum, plot_pulse_and_autocorrelation
 from rad_lab.waveform import uncoded_pulse, barker_coded_pulse, random_coded_pulse, lfm_pulse
 
 np.random.seed(0)  # reproducible random-coded pulse
@@ -26,7 +26,7 @@ bw = 1
 print("## uncoded example ##")
 t_u, mag_u = uncoded_pulse(sample_rate, bw, normalize=False)
 plot_pulse_and_spectrum(t_u, mag_u, f"S3P1 uncoded pulse: {sample_rate=}, {bw=}", n_pad=500)
-plot_pulse_and_xcorrelation(t_u, mag_u, f"uncoded pulse: {sample_rate=}, {bw=}")
+plot_pulse_and_autocorrelation(t_u, mag_u, f"uncoded pulse: {sample_rate=}, {bw=}")
 
 # -- Barker-coded pulse: phase-coded with low autocorrelation sidelobes --
 print("## Barker example ##")
@@ -35,7 +35,7 @@ t_b, mag_b = barker_coded_pulse(sample_rate, bw, nchip, normalize=False)
 plot_pulse_and_spectrum(
     t_b, mag_b, f"S3P1 Barker coded pulse: {nchip=}, {sample_rate=}, {bw=}", n_pad=500
 )
-plot_pulse_and_xcorrelation(t_b, mag_b, f"Barker coded pulse: {nchip=}, {sample_rate=}, {bw=}")
+plot_pulse_and_autocorrelation(t_b, mag_b, f"Barker coded pulse: {nchip=}, {sample_rate=}, {bw=}")
 
 # -- Random-coded pulse: phase-coded with random ±1 chips --
 print("## random code example  ##")
@@ -44,7 +44,7 @@ t_r, mag_r = random_coded_pulse(sample_rate, bw, nchip, normalize=False)
 plot_pulse_and_spectrum(
     t_r, mag_r, f"S3P1 random coded pulse: {nchip=}, {sample_rate=}, {bw=}", n_pad=500
 )
-plot_pulse_and_xcorrelation(
+plot_pulse_and_autocorrelation(
     t_r, mag_r, f"S3P1 random coded pulse: {nchip=}, {sample_rate=}, {bw=}"
 )
 
@@ -57,7 +57,7 @@ fig, ax = plot_pulse_and_spectrum(
     t_lfm, mag_lfm, f"S3P1 LFM pulse: {chirp_up_down=}, {T=}, {sample_rate=}, {bw=}", n_pad=500
 )
 
-plot_pulse_and_xcorrelation(
+plot_pulse_and_autocorrelation(
     t_lfm, mag_lfm, f"S3P1 LFM pulse: {chirp_up_down=}, {T=}, {sample_rate=}, {bw=}"
 )
 plt.show()

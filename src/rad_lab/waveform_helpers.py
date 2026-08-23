@@ -233,7 +233,7 @@ def autocorrelate_waveform(waveform: np.ndarray) -> tuple[np.ndarray, np.ndarray
     return autoCor, index_shift
 
 
-def plot_pulse_and_xcorrelation(
+def plot_pulse_and_autocorrelation(
     t: np.ndarray,
     mag: np.ndarray,
     title: str | None = None,
@@ -274,9 +274,9 @@ def plot_pulse_and_xcorrelation(
     ax[0].set_ylabel("baseband signal")
     ax[0].grid()
 
-    xcor, index_shift = autocorrelate_waveform(mag)
+    autocorr, index_shift = autocorrelate_waveform(mag)
     lag = index_shift * dt
-    val = abs(xcor)
+    val = abs(autocorr)
     val = val / val.max()
     ax[1].plot(lag, val, "-o")
     ax[1].set_xlabel("lag [s]")
@@ -289,10 +289,10 @@ def plot_pulse_and_xcorrelation(
     plt.tight_layout()
 
     if print_width:
-        print("\txcor:")
-        PW, f_start, f_end = find_width(lag, abs(xcor))
+        print("\tautocorr:")
+        PW, f_start, f_end = find_width(lag, abs(autocorr))
         print(f"\t{PW=:.1f} {f_start=:.1f} {f_end=:.1f}")
-        PW_av, f_start_av, f_end_av = find_width(lag, moving_average(abs(xcor), 3))
+        PW_av, f_start_av, f_end_av = find_width(lag, moving_average(abs(autocorr), 3))
         print(f"\t{PW_av=:.1f} {f_start_av=:.1f} {f_end_av=:.1f}")
 
     return fig, ax
