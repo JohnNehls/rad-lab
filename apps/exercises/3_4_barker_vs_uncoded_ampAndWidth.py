@@ -67,7 +67,7 @@ print(f"-3 dB mainlobe width: uncoded={width_u} samples, barker13={width_b} samp
 ax[1].plot(iu, conv_u, "-o", label="uncoded")
 ax[1].plot(ib, conv_b, "-x", label="barker13")
 ax[1].set_xlabel("index shift")
-ax[1].set_ylabel("matched filter")
+ax[1].set_ylabel("matched filter output")
 ax[1].legend()
 plt.tight_layout()
 for a in ax:

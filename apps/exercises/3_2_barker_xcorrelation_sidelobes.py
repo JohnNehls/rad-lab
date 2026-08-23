@@ -45,7 +45,7 @@ conv_u = abs(conv_u)
 ax[1].plot(iu, conv_u, "-x", label="uncoded")
 ax[1].set_xlabel("index offset")
 ax[1].set_ylabel("magnitude")
-ax[1].set_title("xcorrelation")
+ax[1].set_title("autocorrelation")
 
 # -- Loop over all Barker code lengths and overlay results --
 # For each code, measure the peak-to-max-sidelobe ratio.  Barker codes have

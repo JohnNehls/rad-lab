@@ -44,7 +44,7 @@ fig.suptitle("test datacube processing")
 ax[0].set_title("unprocessed datacube")
 im = ax[0].imshow(abs(dc), origin="lower")
 ax[0].set_xlabel("slow time [PRI]")
-ax[0].set_ylabel("fast time [fs]")
+ax[0].set_ylabel("fast time [samples]")
 fig.colorbar(im, ax=ax[0])
 
 # Doppler process: FFT along slow-time axis (modifies dc in-place)

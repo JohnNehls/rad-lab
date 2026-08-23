@@ -154,7 +154,7 @@ plt.plot(f0_ar * 1e-9, apparent_rangeRate_ar, "o", label=r"apparent $\dot{r}$")
 plt.plot(f0_ar * 1e-9, rangeRate_max_ar, "--r", label=r"unambiguous $\dot{r}$")
 plt.plot(f0_ar * 1e-9, -rangeRate_max_ar, "--r")
 plt.xlabel("operation frequency [GHz]")
-plt.ylabel("apparent rangeRate [m/s]")
+plt.ylabel("apparent range rate [m/s]")
 plt.legend()
 plt.grid()
 

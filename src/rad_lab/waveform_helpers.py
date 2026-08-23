@@ -275,12 +275,12 @@ def plot_pulse_and_xcorrelation(
     ax[0].grid()
 
     xcor, index_shift = autocorrelate_waveform(mag)
-    time_shift = index_shift * dt
+    lag = index_shift * dt
     val = abs(xcor)
     val = val / val.max()
-    ax[1].plot(time_shift, val, "-o")
-    ax[1].set_xlabel("time shift [s]")
-    ax[1].set_ylabel("cross correlation mag")
+    ax[1].plot(lag, val, "-o")
+    ax[1].set_xlabel("lag [s]")
+    ax[1].set_ylabel("autocorrelation mag")
     ax[1].grid()
 
     if title:
@@ -290,9 +290,9 @@ def plot_pulse_and_xcorrelation(
 
     if print_width:
         print("\txcor:")
-        PW, f_start, f_end = find_width(time_shift, abs(xcor))
+        PW, f_start, f_end = find_width(lag, abs(xcor))
         print(f"\t{PW=:.1f} {f_start=:.1f} {f_end=:.1f}")
-        PW_av, f_start_av, f_end_av = find_width(time_shift, moving_average(abs(xcor), 3))
+        PW_av, f_start_av, f_end_av = find_width(lag, moving_average(abs(xcor), 3))
         print(f"\t{PW_av=:.1f} {f_start_av=:.1f} {f_end_av=:.1f}")
 
     return fig, ax

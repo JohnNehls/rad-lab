@@ -60,7 +60,7 @@ for index, Pt in enumerate(Pt_ar):
     )
     ax[index].set_title(f"Pt={Pt * 1e-3:.1f}[kW]")
     ax[index].set_xlabel("target distance [km]")
-    ax[index].set_ylabel("SNR dB")
+    ax[index].set_ylabel("SNR [dB]")
     ax[index].grid()
 
 handles, labels = ax[0].get_legend_handles_labels()
@@ -94,7 +94,7 @@ for index, Tcpi in enumerate(Tcpi_ar):
     )
     ax[index].set_title(f"CPI={Tcpi * 1e3:.1f}[ms]")
     ax[index].set_xlabel("target distance [km]")
-    ax[index].set_ylabel("SNR dB")
+    ax[index].set_ylabel("SNR [dB]")
     ax[index].grid()
 
 handles, labels = ax[0].get_legend_handles_labels()
