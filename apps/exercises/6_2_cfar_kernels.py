@@ -6,18 +6,20 @@ detection threshold is a surface you cannot see directly.  Strip the problem
 down to a single range profile so the threshold is a *line* drawn on top of
 the signal, making the kernel arithmetic visible:
 
-Each cell under test (CUT) estimates the local noise from N training cells
-on each side (a guard band around the CUT is excluded).  The three kernels
-combine the leading and lagging halves differently:
+Each cell under test (CUT) estimates the local noise from N_TRAIN training
+cells on each side (a guard band around the CUT is excluded).  The three
+kernels combine the leading and lagging halves differently:
 
-    CA    noise = mean(all 2N training cells)
+    CA    noise = mean(all 2*N_TRAIN training cells)
     GOCA  noise = max(mean(leading half), mean(lagging half))
     SOCA  noise = min(mean(leading half), mean(lagging half))
 
-The threshold is ``alpha * noise`` with the same CA multiplier used in
-`cfar_2d`.  That multiplier is exact only for CA; GOCA
-and SOCA reuse it as an approximation (their exact multipliers have no
-closed form), so their realised false-alarm rate drifts from ``Pfa``.
+The threshold is ``alpha * noise``, where ``noise`` is the training-cell
+power estimate and ``alpha`` is the multiplier that sets it high enough for a
+noise-only cell's exceedance probability to equal ``Pfa`` (exact for CA under
+exponential, square-law noise).  This is the same CA multiplier used in
+`cfar_2d`; GOCA and SOCA reuse it as an approximation (their exact multipliers
+have no closed form), so their realised false-alarm rate drifts from ``Pfa``.
 
 The profile contains two features that expose the trade-offs:
 
@@ -52,7 +54,8 @@ EDGE = 130  # clutter step location [cell]
 def cfar_1d(power, method):
     """1-D CFAR threshold at every cell.
 
-    Cells too close to either end for a full window are left as NaN.
+    Cells too close to either end for a full window are left as NaN.  Reads the
+    module-level ``N_TRAIN``, ``N_GUARD``, and ``PFA`` constants.
 
     Args:
         power: 1-D array of cell powers (square-law detector output).
@@ -65,7 +68,8 @@ def cfar_1d(power, method):
     thr = np.full(n, np.nan)
     half = N_GUARD + N_TRAIN
     n_train = 2 * N_TRAIN
-    # Exact CA multiplier for exponential noise: alpha = N*(Pfa^(-1/N) - 1)
+    # Exact for CA: alpha = n_train*(Pfa^(-1/n_train) - 1), where
+    # n_train = 2*N_TRAIN is the total training-cell count (both sides).
     alpha = n_train * (PFA ** (-1.0 / n_train) - 1)
     for i in range(half, n - half):
         lead = power[i - half : i - N_GUARD]  # N_TRAIN cells before the guard band
@@ -85,8 +89,9 @@ mean_power = np.ones(N)
 mean_power[EDGE:] = 30.0  # clutter step: ~15 dB above the clear-region floor
 power = rng.exponential(mean_power)
 
-# Two closely-spaced targets in the clear region (6 cells apart, inside the
-# +/-12-cell window): the strong one contaminates one half of the weak one's
+# Two closely-spaced targets in the clear region: 6 cells apart, which is
+# outside the N_GUARD guard band but inside the N_GUARD+N_TRAIN training
+# half-window, so the strong one contaminates one half of the weak one's
 # training window.
 power[45] = 400.0  # strong target, ~26 dB
 power[51] = 120.0  # weak target, ~21 dB -- the one at risk of masking
