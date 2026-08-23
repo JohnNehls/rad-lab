@@ -1391,7 +1391,7 @@ the pulse-compression (TB) gain.</p>
 <p>Pass <code>window</code> to weight the replica for range-sidelobe control: this
 suppresses the ~-13.2 dB LFM sidelobes that a CFAR detector would otherwise
 flag as spurious targets around a strong return, at the cost of a broader
-mainlobe and a small SNR loss.  See :func:<code>range_window</code> and Richards,
+mainlobe and a small SNR loss.  See <code>range_window</code> and Richards,
 <em>FRSP</em> 2nd ed., Ch. 4.</p>
 
 
@@ -1433,7 +1433,7 @@ modified in-place.</p>
             <td>
               <div class="doc-md-description">
                 <p>1D transmitted pulse template (unit-amplitude convention,
-see :class:<code>rad_lab.waveform.WaveformSample</code>).</p>
+see <code>WaveformSample</code>).</p>
               </div>
             </td>
             <td>
@@ -1467,7 +1467,7 @@ use FFT-based convolution.  Defaults to True.</p>
             <td>
               <div class="doc-md-description">
                 <p>Range weighting applied to the replica.  <code>"none"</code> (default)
-reproduces the plain matched filter.  See :func:<code>range_window</code>
+reproduces the plain matched filter.  See <code>range_window</code>
 for the other options.</p>
               </div>
             </td>
@@ -1600,18 +1600,18 @@ for the other options.</p>
 <span class="sd">    Pass ``window`` to weight the replica for range-sidelobe control: this</span>
 <span class="sd">    suppresses the ~-13.2 dB LFM sidelobes that a CFAR detector would otherwise</span>
 <span class="sd">    flag as spurious targets around a strong return, at the cost of a broader</span>
-<span class="sd">    mainlobe and a small SNR loss.  See :func:`range_window` and Richards,</span>
+<span class="sd">    mainlobe and a small SNR loss.  See `range_window` and Richards,</span>
 <span class="sd">    *FRSP* 2nd ed., Ch. 4.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        datacube: 2D time-domain datacube with shape (N_range_bins, N_pulses),</span>
 <span class="sd">            modified in-place.</span>
 <span class="sd">        pulse_wvf: 1D transmitted pulse template (unit-amplitude convention,</span>
-<span class="sd">            see :class:`rad_lab.waveform.WaveformSample`).</span>
+<span class="sd">            see `WaveformSample`).</span>
 <span class="sd">        pedantic: If True, use the iterative time-domain helper; if False,</span>
 <span class="sd">            use FFT-based convolution.  Defaults to True.</span>
 <span class="sd">        window: Range weighting applied to the replica.  ``"none"`` (default)</span>
-<span class="sd">            reproduces the plain matched filter.  See :func:`range_window`</span>
+<span class="sd">            reproduces the plain matched filter.  See `range_window`</span>
 <span class="sd">            for the other options.</span>
 <span class="sd">        window_kwargs: Optional dict forwarded to the window function.</span>
 
@@ -1911,7 +1911,7 @@ sidelobes of the compressed pulse:</p>
 <li>Normalising to unit mean keeps the coherent peak gain at <code>N_taps</code>, so
   the loss shows up as a raised noise floor, not a rescaled peak.</li>
 </ul>
-<p>Window vocabulary matches :func:<code>rad_lab._rdm_internals.create_window</code>.</p>
+<p>Window vocabulary matches <code>create_window</code>.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2081,7 +2081,7 @@ pulse compression, and range-sidelobe reduction by weighting.</p>
 <span class="sd">    - Normalising to unit mean keeps the coherent peak gain at ``N_taps``, so</span>
 <span class="sd">      the loss shows up as a raised noise floor, not a rescaled peak.</span>
 
-<span class="sd">    Window vocabulary matches :func:`rad_lab._rdm_internals.create_window`.</span>
+<span class="sd">    Window vocabulary matches `create_window`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        n_taps: Length of the taper (number of replica samples).</span>

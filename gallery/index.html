@@ -1874,6 +1874,14 @@
 <h2 id="exercises">Exercises</h2>
 <h3 id="1_0_range_equationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/1_0_range_equation.py"><code>1_0_range_equation.py</code></a></h3>
 <p>Radar range equation exercises.</p>
+<ul>
+<li><strong>Problem 1:</strong> Plot SNR vs range for a BPSK waveform across different transmit
+  powers and target RCS values.</li>
+<li><strong>Problem 2:</strong> Plot SNR vs range using the duty-factor form of the range
+  equation across different CPI lengths and duty factors.</li>
+<li><strong>Problem 3:</strong> Compute maximum detection range as a 2D function of (Tx power,
+  RCS) and (CPI time, RCS), visualized as heatmaps.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_1_0_range_equation.py_fig0.png" data-desc-position="bottom"><img alt="1_0_range_equation figure" src="figures/apps_exercises_1_0_range_equation.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_1_0_range_equation.py_fig1.png" data-desc-position="bottom"><img alt="1_0_range_equation figure" src="figures/apps_exercises_1_0_range_equation.py_fig1.png"></a>
@@ -1882,6 +1890,13 @@
 </div>
 <h3 id="2_0_pulse_doppler_radarpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/2_0_pulse_doppler_radar.py"><code>2_0_pulse_doppler_radar.py</code></a></h3>
 <p>Pulse-Doppler radar ambiguity exercises.</p>
+<ul>
+<li><strong>Problem 1:</strong> Unambiguous range vs PRF.</li>
+<li><strong>Problem 2:</strong> Unambiguous range rate vs PRF for several carrier frequencies.</li>
+<li><strong>Problem 3:</strong> Range aliasing — where a 15.5 km target appears at various PRFs.</li>
+<li><strong>Problem 4:</strong> Doppler and range-rate aliasing vs PRF.</li>
+<li><strong>Problem 5:</strong> Range-rate aliasing vs carrier frequency at fixed PRF.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig0.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig1.png" data-desc-position="bottom"><img alt="2_0_pulse_doppler_radar figure" src="figures/apps_exercises_2_0_pulse_doppler_radar.py_fig1.png"></a>
@@ -1891,6 +1906,14 @@
 </div>
 <h3 id="3_1_waveforms_xcorrelationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_1_waveforms_xcorrelation.py"><code>3_1_waveforms_xcorrelation.py</code></a></h3>
 <p>Waveform cross-correlation exercises.</p>
+<p>Generate uncoded, Barker-coded, random-coded, and LFM pulses, then visualize
+each pulse's time-domain shape, power spectral density, and auto-correlation.</p>
+<p>Key takeaways:</p>
+<ul>
+<li>BPSK bandwidth is set by the chip width (same as a single-chip pulse), but
+  the PSD gets noisier with more chips.</li>
+<li>LFM spreads energy uniformly across the bandwidth.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig0.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig1.png" data-desc-position="bottom"><img alt="3_1_waveforms_xcorrelation figure" src="figures/apps_exercises_3_1_waveforms_xcorrelation.py_fig1.png"></a>
@@ -1903,11 +1926,24 @@
 </div>
 <h3 id="3_2_barker_xcorrelation_sidelobespy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_2_barker_xcorrelation_sidelobes.py"><code>3_2_barker_xcorrelation_sidelobes.py</code></a></h3>
 <p>Barker code autocorrelation sidelobe comparison.</p>
+<p>Compare the autocorrelation (matched-filter output) of an uncoded pulse to
+every standard Barker code length. Barker codes are prized because their
+autocorrelation sidelobes are at most 1/N of the peak, giving clean detection
+with minimal range ambiguity.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_2_barker_xcorrelation_sidelobes.py_fig0.png" data-desc-position="bottom"><img alt="3_2_barker_xcorrelation_sidelobes figure" src="figures/apps_exercises_3_2_barker_xcorrelation_sidelobes.py_fig0.png"></a></p>
 </div>
 <h3 id="3_3_noisy_xcorrelationspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_3_noisy_xcorrelations.py"><code>3_3_noisy_xcorrelations.py</code></a></h3>
 <p>Noisy cross-correlation (matched filter) exercises.</p>
+<p>Show how a matched filter detects pulses buried in noise:</p>
+<ul>
+<li><strong>Case 1:</strong> Single uncoded pulse at 20 dB SNR.</li>
+<li><strong>Case 2:</strong> Three uncoded pulses at different SNRs (15, 30, 20 dB).</li>
+<li><strong>Case 3:</strong> An LFM pulse and a Barker-13 BPSK pulse in the same noise — each
+  matched filter responds only to its own waveform.</li>
+</ul>
+<p>Key takeaway: the matched-filter peak appears at the center of the pulse (not
+the leading edge) and scales with the pulse's processing gain.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig0.png" data-desc-position="bottom"><img alt="3_3_noisy_xcorrelations figure" src="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig1.png" data-desc-position="bottom"><img alt="3_3_noisy_xcorrelations figure" src="figures/apps_exercises_3_3_noisy_xcorrelations.py_fig1.png"></a>
@@ -1916,11 +1952,35 @@
 </div>
 <h3 id="3_4_barker_vs_uncoded_ampandwidthpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_4_barker_vs_uncoded_ampAndWidth.py"><code>3_4_barker_vs_uncoded_ampAndWidth.py</code></a></h3>
 <p>Compare Barker-13 vs uncoded pulse amplitude and matched-filter width.</p>
+<p>Both pulses use the same chip bandwidth, so Barker-13 is 13x longer in time.
+Both are normalized to unit energy and scaled to the same SNR.</p>
+<p>Key takeaways:</p>
+<ul>
+<li>Same energy spread over 13 chips at 1/sqrt(13) the amplitude, so the
+  matched-filter peaks and -3 dB mainlobe widths come out identical.</li>
+<li>Barker reaches that energy at 13x lower peak power (easier on the
+  transmitter), at the cost of autocorrelation sidelobes.</li>
+<li>The uncoded pulse has a clean triangular autocorrelation with none.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_4_barker_vs_uncoded_ampAndWidth.py_fig0.png" data-desc-position="bottom"><img alt="3_4_barker_vs_uncoded_ampAndWidth figure" src="figures/apps_exercises_3_4_barker_vs_uncoded_ampAndWidth.py_fig0.png"></a></p>
 </div>
 <h3 id="3_5_ambiguity_functionpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/3_5_ambiguity_function.py"><code>3_5_ambiguity_function.py</code></a></h3>
 <p>Ambiguity function exercises.</p>
+<p>Compute and display the ambiguity function for three waveform types: uncoded,
+Barker-coded, and LFM. Plot each waveform's ambiguity surface and zero-delay /
+zero-Doppler cuts to illustrate the range-Doppler resolution tradeoffs.</p>
+<p>Key takeaways:</p>
+<ul>
+<li>Uncoded pulse: triangular in delay (width set by the pulse length) and a
+  sinc ridge in Doppler — a short pulse tolerates large Doppler shifts but
+  resolves velocity poorly.</li>
+<li>Barker-coded pulse: same delay mainlobe width as a single chip but the
+  surface approaches a "thumbtack" — energy is spread into low pedestal
+  sidelobes across both delay and Doppler, sharpening joint resolution.</li>
+<li>LFM pulse: a diagonal ridge showing range-Doppler coupling.  Narrow in both
+  dimensions, but a target's apparent range shifts with its Doppler frequency.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig0.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_3_5_ambiguity_function.py_fig1.png" data-desc-position="bottom"><img alt="3_5_ambiguity_function figure" src="figures/apps_exercises_3_5_ambiguity_function.py_fig1.png"></a>
@@ -1931,11 +1991,29 @@
 </div>
 <h3 id="4_1_datacube_process_testpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/4_1_datacube_process_test.py"><code>4_1_datacube_process_test.py</code></a></h3>
 <p>Datacube processing test.</p>
+<p>Build a raw RF datacube, inject a tone at a known range bin and Doppler
+frequency, then apply Doppler processing (FFT across slow time) to verify
+the signal appears in the correct range-Doppler cell.</p>
+<p>The datacube has two axes:</p>
+<ul>
+<li><strong>Fast time</strong> (rows): samples within a single PRI — maps to range.</li>
+<li><strong>Slow time</strong> (columns): one sample per pulse — maps to Doppler frequency.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_1_datacube_process_test.py_fig0.png" data-desc-position="bottom"><img alt="4_1_datacube_process_test figure" src="figures/apps_exercises_4_1_datacube_process_test.py_fig0.png"></a></p>
 </div>
 <h3 id="4_4_windowing_comparisonpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/4_4_windowing_comparison.py"><code>4_4_windowing_comparison.py</code></a></h3>
 <p>Window function comparison on a rectangular pulse.</p>
+<p>Apply Chebyshev, Blackman-Harris, and Taylor windows to an uncoded pulse and
+compare the resulting spectra. Windowing reduces spectral sidelobes at the
+cost of widening the mainlobe (lower range resolution).</p>
+<p>Key takeaways:</p>
+<ul>
+<li><strong>Unwindowed</strong> (rectangular): narrowest mainlobe, highest sidelobes (~-13 dB).</li>
+<li><strong>Chebyshev:</strong> equi-ripple sidelobes at the specified level (60 dB here).</li>
+<li><strong>Blackman-Harris:</strong> very low sidelobes, but widest mainlobe.</li>
+<li><strong>Taylor:</strong> compromise — low near-in sidelobes with moderate mainlobe widening.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_4_windowing_comparison.py_fig0.png" data-desc-position="bottom"><img alt="4_4_windowing_comparison figure" src="figures/apps_exercises_4_4_windowing_comparison.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_4_windowing_comparison.py_fig1.png" data-desc-position="bottom"><img alt="4_4_windowing_comparison figure" src="figures/apps_exercises_4_4_windowing_comparison.py_fig1.png"></a>
@@ -1944,17 +2022,55 @@
 </div>
 <h3 id="4_5_complex_tonepy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/4_5_complex_tone.py"><code>4_5_complex_tone.py</code></a></h3>
 <p>Complex tone windowing exercise.</p>
+<p>Generate a complex tone (single-frequency sinusoid) and show how spectral
+leakage from the rectangular window is suppressed by applying a Chebyshev
+window before computing the spectrum.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_5_complex_tone.py_fig0.png" data-desc-position="bottom"><img alt="4_5_complex_tone figure" src="figures/apps_exercises_4_5_complex_tone.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_4_5_complex_tone.py_fig1.png" data-desc-position="bottom"><img alt="4_5_complex_tone figure" src="figures/apps_exercises_4_5_complex_tone.py_fig1.png"></a></p>
 </div>
 <h3 id="5_0_stationary_rdm_snapshotpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/5_0_stationary_rdm_snapshot.py"><code>5_0_stationary_rdm_snapshot.py</code></a></h3>
 <p>Stationary target RDM snapshot with SNR check.</p>
+<p>Generate a range-Doppler map for a single stationary target (range_rate=0)
+using an LFM waveform and verify the SNR matches the range equation prediction.</p>
+<p>Notes:</p>
+<ul>
+<li>The Matlab reference solution underestimates SNR because it omits the
+    time-bandwidth product gain from pulse compression.</li>
+<li>Range walk-off is negligible here since the target is stationary.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_5_0_stationary_rdm_snapshot.py_fig0.png" data-desc-position="bottom"><img alt="5_0_stationary_rdm_snapshot figure" src="figures/apps_exercises_5_0_stationary_rdm_snapshot.py_fig0.png"></a></p>
 </div>
 <h3 id="6_1_detection_theorypy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/6_1_detection_theory.py"><code>6_1_detection_theory.py</code></a></h3>
 <p>Detection theory fundamentals.</p>
+<p>Demonstrate the relationship between SNR, probability of false alarm (Pfa),
+and probability of detection (Pd) for non-fluctuating and fluctuating targets.</p>
+<p>Produces four figures:</p>
+<ol>
+<li>Pd vs SNR for Swerling 0, I, and III at a fixed Pfa.</li>
+<li>ROC curves (Pd vs Pfa) for Swerling 0 at several SNR values.</li>
+<li>Required SNR vs number of non-coherently integrated pulses,
+   comparing exact numerical results with Albersheim's approximation.</li>
+<li>Pd vs per-pulse SNR comparing coherent integration and non-coherent
+   integration of the same N pulses.</li>
+</ol>
+<p>Key takeaways:</p>
+<ul>
+<li>A non-fluctuating target (Swerling 0) has the steepest Pd-vs-SNR curve.
+  Fluctuating targets (Swerling I, III) require higher average SNR for the
+  same Pd because the instantaneous RCS can be much lower than the average.</li>
+<li>Swerling III (4 DOF) performs better than Swerling I (2 DOF) because
+  its RCS is less likely to fade to zero.</li>
+<li>Integrating N pulses either way beats a single pulse, but coherent
+  integration gains the full factor of N in SNR while NCI gains less
+  (roughly N^0.7-0.8 here).  The NCI loss grows with N: about 1.3 dB at
+  N=5 and 3 dB at N=20 for Pd = 0.9, Pfa = 1e-6.</li>
+<li>Albersheim's closed-form approximation tracks the exact numerical result
+  to within a fraction of a dB over most of its stated validity range
+  (0.1 &lt;= Pd &lt;= 0.9, 1e-7 &lt;= Pfa &lt;= 1e-3, 1 &lt;= N &lt;= 8096), degrading only
+  toward the low-Pd / high-Pfa corner.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_1_detection_theory.py_fig0.png" data-desc-position="bottom"><img alt="6_1_detection_theory figure" src="figures/apps_exercises_6_1_detection_theory.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_1_detection_theory.py_fig1.png" data-desc-position="bottom"><img alt="6_1_detection_theory figure" src="figures/apps_exercises_6_1_detection_theory.py_fig1.png"></a>
@@ -1963,22 +2079,117 @@
 </div>
 <h3 id="6_2_cfar_kernelspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/6_2_cfar_kernels.py"><code>6_2_cfar_kernels.py</code></a></h3>
 <p>CFAR kernels in 1-D: how CA, GOCA, and SOCA differ.</p>
+<p>The applied CFAR exercise (6_3) runs on a 2-D range-Doppler map, where the
+detection threshold is a surface you cannot see directly.  Strip the problem
+down to a single range profile so the threshold is a <em>line</em> drawn on top of
+the signal, making the kernel arithmetic visible:</p>
+<p>Each cell under test (CUT) estimates the local noise from N training cells
+on each side (a guard band around the CUT is excluded).  The three kernels
+combine the leading and lagging halves differently:</p>
+<pre><code>CA    noise = mean(all 2N training cells)
+GOCA  noise = max(mean(leading half), mean(lagging half))
+SOCA  noise = min(mean(leading half), mean(lagging half))
+</code></pre>
+<p>The threshold is <code>alpha * noise</code> with the same CA multiplier used in
+<code>cfar_2d</code>.  That multiplier is exact only for CA; GOCA
+and SOCA reuse it as an approximation (their exact multipliers have no
+closed form), so their realised false-alarm rate drifts from <code>Pfa</code>.</p>
+<p>The profile contains two features that expose the trade-offs:</p>
+<ol>
+<li>Two closely-spaced targets, near enough that each sits in the other's
+   training window.</li>
+<li>A clutter edge — a step up in noise power.</li>
+</ol>
+<p>Key takeaways:</p>
+<ul>
+<li>Target masking: the strong target inflates one half of the weaker
+  target's window.  CA averages it in and GOCA keys on that inflated half,
+  raising the threshold until the weak target is MASKED.  SOCA keys on the
+  clean half and still detects it.</li>
+<li>Clutter edge: SOCA clings to the low (clear) side as the window crosses
+  the edge, so its threshold lags and it fires false alarms just inside the
+  clutter.  GOCA keys on the high side and stays clean; CA ramps between.</li>
+<li>No kernel wins everywhere: SOCA resists mutual-target masking but is worst
+  at clutter edges; GOCA is the reverse; CA is the compromise.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_2_cfar_kernels.py_fig0.png" data-desc-position="bottom"><img alt="6_2_cfar_kernels figure" src="figures/apps_exercises_6_2_cfar_kernels.py_fig0.png"></a></p>
 </div>
 <h3 id="6_3_cfar_lfm_sidelobespy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/6_3_cfar_lfm_sidelobes.py"><code>6_3_cfar_lfm_sidelobes.py</code></a></h3>
 <p>CA-CFAR on an unweighted LFM RDM: detections land on the range sidelobes.</p>
+<p>An LFM (chirp) pulse compresses to a sinc-like range response whose peak
+sidelobes sit only ~-13.2 dB below the mainlobe.  CFAR sets its threshold from
+the local noise floor and knows nothing of pulse shape, so around a strong
+target it fires not just on the mainlobe but on the sidelobes too -- a column
+of spurious "targets" in range where there is really one.</p>
+<p>This is the problem.  Exercise 6_4 (LFM range windowing) is the fix, and 6_5
+carries the fix into the CFAR-variant comparison.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_3_cfar_lfm_sidelobes.py_fig0.png" data-desc-position="bottom"><img alt="6_3_cfar_lfm_sidelobes figure" src="figures/apps_exercises_6_3_cfar_lfm_sidelobes.py_fig0.png"></a></p>
 </div>
 <h3 id="6_4_lfm_range_windowingpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/6_4_lfm_range_windowing.py"><code>6_4_lfm_range_windowing.py</code></a></h3>
 <p>LFM range-sidelobe suppression by matched-filter weighting.</p>
+<p>The problem:</p>
+<ul>
+<li>An LFM (chirp) compresses to a sinc-like range response with peak
+    sidelobes only ~-13.2 dB below the mainlobe.</li>
+<li>CFAR thresholds off the local noise floor and knows nothing of pulse
+    shape, so around a strong target it fires on those sidelobes -- a smear
+    of spurious "targets" where there is really one.</li>
+<li>CFAR cannot fix this itself: a -13 dB sidelobe <em>is</em> a real power excess.</li>
+</ul>
+<p>The fix (one stage earlier, in pulse compression): weight the matched-filter
+replica.  An LFM's frequency is linear in time, so tapering the replica in
+time tapers the swept-spectrum edges -- the frequency weighting Richards uses
+for range-sidelobe control.  Sidelobes drop below threshold; the cost is a
+broader mainlobe (coarser range resolution) and a small SNR loss.</p>
+<p>Produces two figures:</p>
+<ul>
+<li><strong>Fig 1:</strong> noiseless range point-spread (rectangular vs Taylor vs Chebyshev)
+  — the -13.2 dB pedestal buried, the mainlobe widened.</li>
+<li><strong>Fig 2:</strong> CA-CFAR on the noisy RDM — the spurious sidelobe detections
+  vanish.</li>
+</ul>
+<p>Printed per window: peak sidelobe level, -3 dB mainlobe width, weighting loss,
+CFAR detection count.</p>
+<p>Reference: Richards, M. A., <em>Fundamentals of Radar Signal Processing</em>, 2nd
+ed., McGraw-Hill, 2014, Ch. 4 (Radar Waveforms) -- matched filter, LFM pulse
+compression, the ~-13.2 dB sidelobes, and their reduction by amplitude
+weighting with the attendant processing-gain loss.  CFAR is Ch. 7.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_4_lfm_range_windowing.py_fig0.png" data-desc-position="bottom"><img alt="6_4_lfm_range_windowing figure" src="figures/apps_exercises_6_4_lfm_range_windowing.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_4_lfm_range_windowing.py_fig1.png" data-desc-position="bottom"><img alt="6_4_lfm_range_windowing figure" src="figures/apps_exercises_6_4_lfm_range_windowing.py_fig1.png"></a></p>
 </div>
 <h3 id="6_5_cfar_detectionpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/6_5_cfar_detection.py"><code>6_5_cfar_detection.py</code></a></h3>
 <p>CFAR detection on a range-Doppler map (with LFM range weighting).</p>
+<p>Generate an RDM with three targets at different ranges and velocities, then
+apply Cell-Averaging CFAR (CA-CFAR) to detect them.  The matched filter is
+Taylor-weighted for range-sidelobe control (see exercise 6_4), so the LFM's
+~-13.2 dB range sidelobes stay below the CFAR threshold and do not clutter the
+map with spurious detections -- isolating the behaviour of the CFAR variants
+themselves.  The exercise produces four figures:</p>
+<ol>
+<li>The raw RDM with noise floor and target peaks.</li>
+<li>CA-CFAR detection markers overlaid on the RDM.</li>
+<li>A comparison of CA-CFAR, GOCA-CFAR, and SOCA-CFAR on the same RDM.</li>
+<li>A clutter-edge scene where the variants actually differ: GOCA suppresses
+   the false alarms CA and SOCA fire along the edge, while SOCA detects a
+   weak target near the edge that clutter in the training window masks from
+   CA and GOCA.</li>
+</ol>
+<p>Key takeaways:</p>
+<ul>
+<li>CFAR adapts the detection threshold to the local noise level, maintaining a
+  constant false alarm rate without requiring a fixed threshold.</li>
+<li>Guard cells prevent signal energy from leaking into the noise estimate.</li>
+<li>In homogeneous noise the variants only shift the threshold (SOCA lowest,
+  GOCA highest); their real differences appear at a clutter edge.  Inside the
+  clutter, a window straddling the edge drags the CA threshold down (false
+  alarms; SOCA far worse), while GOCA keys on the clutter half and stays
+  clean.  Just outside the clutter, the same straddling inflates the CA and
+  GOCA thresholds (masking weak targets), while SOCA keys on the clear half
+  and still detects.  CA is the compromise; no variant wins everywhere.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_5_cfar_detection.py_fig0.png" data-desc-position="bottom"><img alt="6_5_cfar_detection figure" src="figures/apps_exercises_6_5_cfar_detection.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_6_5_cfar_detection.py_fig1.png" data-desc-position="bottom"><img alt="6_5_cfar_detection figure" src="figures/apps_exercises_6_5_cfar_detection.py_fig1.png"></a>
@@ -1986,12 +2197,43 @@
 </div>
 <h3 id="7_0_linear_array_studiespy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_0_linear_array_studies.py"><code>7_0_linear_array_studies.py</code></a></h3>
 <p>Uniform linear array (ULA) studies.</p>
+<p>Background: each element receives the signal with a phase shift proportional
+to <code>d*sin(theta)/lambda</code>, where d is the element spacing.</p>
+<ul>
+<li><strong>Study 1 — constant length, varying element spacing:</strong> as long as
+  <code>dx &lt;= lambda/2</code> (no grating lobes), the array-factor shape is set by the
+  total length <code>N*dx</code>, not the element count. Adding elements only raises the
+  peak (more coherent sum). Beamwidth scales as <code>0.886/(N*dx)</code> radians, so
+  equal <code>N*dx</code> means equal beamwidth.</li>
+<li><strong>Study 2 — constant spacing (lambda/2), varying element count:</strong> a longer
+  array gives a narrower mainlobe (higher angular resolution) — the
+  Fourier-transform duality, like a longer time signal giving a narrower
+  spectral peak.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_0_linear_array_studies.py_fig0.png" data-desc-position="bottom"><img alt="7_0_linear_array_studies figure" src="figures/apps_exercises_7_0_linear_array_studies.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_0_linear_array_studies.py_fig1.png" data-desc-position="bottom"><img alt="7_0_linear_array_studies figure" src="figures/apps_exercises_7_0_linear_array_studies.py_fig1.png"></a></p>
 </div>
 <h3 id="7_1-3_linear_arrays_figs24_28py"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_1-3_linear_arrays_figs24_28.py"><code>7_1-3_linear_arrays_figs24_28.py</code></a></h3>
 <p>Recreate textbook figures 24-28 for uniform linear arrays.</p>
+<ul>
+<li><strong>Figure 24:</strong> number of elements vs the array factor (lambda/2 spacing).</li>
+<li><strong>Figure 25:</strong> element spacing vs the array factor (10 elements); spacing &gt;
+  lambda/2 introduces grating lobes.</li>
+<li><strong>Figure 27:</strong> weighted array factors (Chebyshev, Taylor) vs unweighted —
+  weighting suppresses sidelobes at the cost of mainlobe width.</li>
+<li><strong>Figure 28:</strong> beam steering to 15, 45, and -60 degrees — steering broadens
+  the beam and lowers peak gain at large angles.</li>
+</ul>
+<p>Scaling note vs the reference document:</p>
+<ul>
+<li>These figures plot the voltage array factor in dB, <code>20*log10|AF|</code>, peaking
+  at <code>20*log10(N)</code>. The reference plots <code>10*log10</code> quantities (power gain,
+  dBi), so its unnormalized peaks sit at half our dB values — different
+  (voltage vs power) conventions, not a bug.</li>
+<li>Figures 27 and 28 are normalized to their peaks, so the convention cancels
+  and they match the document directly.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig0.png" data-desc-position="bottom"><img alt="7_1-3_linear_arrays_figs24_28 figure" src="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig1.png" data-desc-position="bottom"><img alt="7_1-3_linear_arrays_figs24_28 figure" src="figures/apps_exercises_7_1-3_linear_arrays_figs24_28.py_fig1.png"></a>
@@ -2000,34 +2242,93 @@
 </div>
 <h3 id="7_5_monopulse_snr_testpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_5_monopulse_snr_test.py"><code>7_5_monopulse_snr_test.py</code></a></h3>
 <p>Monopulse angle estimation accuracy vs SNR.</p>
+<p>Simulate a two-element array receiving a signal from a known angle, add noise
+at varying SNR levels, and measure how accurately the monopulse ratio estimates
+the target angle.</p>
+<p>Monopulse works by comparing the signals at two array elements (sum and
+difference channels). The ratio of difference to sum gives an angle estimate
+that is independent of signal amplitude.</p>
+<p>Key takeaways:</p>
+<ul>
+<li>Estimation accuracy improves dramatically with SNR.</li>
+<li>Accuracy also depends on the true target angle (closer to boresight is
+  better).</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test.py_fig0.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test figure" src="figures/apps_exercises_7_5_monopulse_snr_test.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test.py_fig1.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test figure" src="figures/apps_exercises_7_5_monopulse_snr_test.py_fig1.png"></a></p>
 </div>
 <h3 id="7_5_monopulse_snr_test_freqpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_5_monopulse_snr_test_freq.py"><code>7_5_monopulse_snr_test_freq.py</code></a></h3>
 <p>Monopulse angle estimation: time-domain vs frequency-domain comparison.</p>
+<p>Extend the basic monopulse SNR test (7_5) to show that monopulse angle
+estimation works identically in both domains. Compare four methods:</p>
+<ol>
+<li>Time-domain monopulse ratio (sum/difference of element signals)</li>
+<li>Time-domain phase-only estimate (only valid at baseband, not RF passband)</li>
+<li>Frequency-domain monopulse ratio (applied at the peak FFT bin)</li>
+<li>Frequency-domain phase-only estimate</li>
+</ol>
+<p>Key takeaways:</p>
+<ul>
+<li>The monopulse ratio gives the same accuracy in time and frequency domains.</li>
+<li>The phase-only method works at baseband but fails at RF passband.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig0.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test_freq figure" src="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig1.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test_freq figure" src="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig1.png"></a></p>
 </div>
 <h3 id="7_6_phase_center_locationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_6_phase_center_location.py"><code>7_6_phase_center_location.py</code></a></h3>
 <p>Array phase center calculation.</p>
+<p>Compute the phase center of a weighted linear array. The phase center is the
+weighted centroid of the element positions — it tells you the effective
+"electrical center" of the array, which matters for monopulse and
+interferometric processing.</p>
+<p>For a symmetric, uniformly-weighted array the phase center is at the geometric
+center. Asymmetric weighting shifts it toward the heavier-weighted elements.</p>
+<p>Note: the reference document has an error in the phase center equation —
+it omits the normalization by the sum of weights.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_6_phase_center_location.py_fig0.png" data-desc-position="bottom"><img alt="7_6_phase_center_location figure" src="figures/apps_exercises_7_6_phase_center_location.py_fig0.png"></a></p>
 </div>
 <h3 id="7_7_sub_array_sum_diffpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_7_sub_array_sum_diff.py"><code>7_7_sub_array_sum_diff.py</code></a></h3>
 <p>Sub-array sum and difference beam patterns for monopulse.</p>
+<p>Split a 20-element ULA into left and right halves (sub-arrays), compute each
+sub-array's gain pattern, then form the sum (Sigma) and difference (Delta)
+beams.</p>
+<p>The sum beam has maximum gain at boresight — used for detection and tracking.
+The difference beam has a null at boresight — used for angle estimation.
+The monopulse ratio (Delta/Sigma) gives a steep, monotonic curve near
+boresight that maps directly to target angle.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_7_sub_array_sum_diff.py_fig0.png" data-desc-position="bottom"><img alt="7_7_sub_array_sum_diff figure" src="figures/apps_exercises_7_7_sub_array_sum_diff.py_fig0.png"></a></p>
 </div>
 <h3 id="7_8_monopulse_tgt_doppler_cellpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/7_8_monopulse_tgt_doppler_cell.py"><code>7_8_monopulse_tgt_doppler_cell.py</code></a></h3>
 <p>Monopulse angle estimation on a range-Doppler map.</p>
+<p>Demonstrate that monopulse processing can be applied after Doppler processing
+(FFT along slow time). The workflow:</p>
+<ol>
+<li>Define a two-element array and compute steering vectors for the target angle.</li>
+<li>Generate a separate RDM for each array element (same noise seed so the
+     noise realization is identical — only the signal phase differs).</li>
+<li>Apply monopulse at the peak cell of the RDMs to estimate the target angle.</li>
+</ol>
+<p>This validates that the inter-element phase relationship is preserved through
+matched filtering and Doppler processing.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig0.png" data-desc-position="bottom"><img alt="7_8_monopulse_tgt_doppler_cell figure" src="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig1.png" data-desc-position="bottom"><img alt="7_8_monopulse_tgt_doppler_cell figure" src="figures/apps_exercises_7_8_monopulse_tgt_doppler_cell.py_fig1.png"></a></p>
 </div>
 <h3 id="8_1_stripmap_sar_validationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_1_stripmap_sar_validation.py"><code>8_1_stripmap_sar_validation.py</code></a></h3>
 <p>Validate an un-windowed stripmap SAR example.</p>
+<p>Generates three figures:</p>
+<ol>
+<li>Full SAR image from <code>sar.gen</code>.</li>
+<li>±150 m range, ±15 m cross-range zoom around each target — expect
+   sinc-like patterns along both the range and cross-range axes.</li>
+<li>Cross-range cuts through the peak range bin of each target — compares
+   the measured -3 dB mainlobe width to the theoretical resolution
+   λR/(2L) for an un-windowed SAR image.</li>
+</ol>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig0.png" data-desc-position="bottom"><img alt="8_1_stripmap_sar_validation figure" src="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig1.png" data-desc-position="bottom"><img alt="8_1_stripmap_sar_validation figure" src="figures/apps_exercises_8_1_stripmap_sar_validation.py_fig1.png"></a>
@@ -2035,11 +2336,29 @@
 </div>
 <h3 id="8_3_stripmap_vs_spotlightpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_3_stripmap_vs_spotlight.py"><code>8_3_stripmap_vs_spotlight.py</code></a></h3>
 <p>Side-by-side comparison of stripmap and spotlight SAR.</p>
+<p>Run both modes on the same scene and plot:</p>
+<ul>
+<li><strong>Top row:</strong> focused SAR images (stripmap vs spotlight).</li>
+<li><strong>Bottom row:</strong> cross-range cuts through the centre target, with -3 dB
+  width annotations.</li>
+</ul>
+<p>The spotlight aperture is 4× longer, yielding ~4× finer cross-range
+resolution.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_3_stripmap_vs_spotlight.py_fig0.png" data-desc-position="bottom"><img alt="8_3_stripmap_vs_spotlight figure" src="figures/apps_exercises_8_3_stripmap_vs_spotlight.py_fig0.png"></a></p>
 </div>
 <h3 id="8_4_rcmc_demonstrationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_4_rcmc_demonstration.py"><code>8_4_rcmc_demonstration.py</code></a></h3>
-<p>Demonstrates Range Cell Migration Correction (RCMC).</p>
+<p>Demonstrate Range Cell Migration Correction (RCMC).</p>
+<p>Run <code>sar.gen</code> twice on a long-aperture / close-range collection whose
+peak range migration spans multiple range cells, then print the
+azimuth peak position vs range bin offset for each.  Without RCMC the
+azimuth peak tilts across neighbouring range bins (the RCM signature);
+with RCMC it sits at a constant cross-range position.</p>
+<p>The first <code>rcmc=True</code> run is also called with <code>debug=True</code> so the
+range-Doppler map is plotted before and after the correction.  In the
+"before" panel each target traces a curved hyperbola across Doppler
+frequency; in the "after" panel those curves collapse to straight
+horizontal lines at each target's closest-approach range.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig0.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig1.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig1.png"></a>
@@ -2049,18 +2368,46 @@
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_4_rcmc_demonstration.py_fig5.png" data-desc-position="bottom"><img alt="8_4_rcmc_demonstration figure" src="figures/apps_exercises_8_4_rcmc_demonstration.py_fig5.png"></a></p>
 </div>
 <h3 id="8_5_rcmc_synthetic_validationpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/exercises/8_5_rcmc_synthetic_validation.py"><code>8_5_rcmc_synthetic_validation.py</code></a></h3>
-<p>Validates RCMC against the closed-form migration formula.</p>
+<p>Validate RCMC against the closed-form migration formula.</p>
+<p>Bypass <code>sar.gen</code> and synthesise a perfectly range-compressed signal:
+at each pulse <code>eta</code>, the target's energy is a unit sinc lobe centred on
+the analytic slant range <code>R(eta) = sqrt(R0^2 + v^2 eta^2)</code>, modulated
+by the two-way carrier phase <code>exp(-j 4 pi R(eta) / lambda)</code>.</p>
+<p>In the range-Doppler domain (azimuth FFT applied) the energy follows the
+exact parabolic curve</p>
+<pre><code>R(f_eta) = R0 / sqrt(1 - (lambda * f_eta / (2 v))^2)
+</code></pre>
+<p>which RCMC should straighten to a horizontal line at <code>R0</code>.  The figure
+overlays the measured trajectory before and after RCMC on this theory curve,
+and shows the range-Doppler map in dB before and after correction.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_8_5_rcmc_synthetic_validation.py_fig0.png" data-desc-position="bottom"><img alt="8_5_rcmc_synthetic_validation figure" src="figures/apps_exercises_8_5_rcmc_synthetic_validation.py_fig0.png"></a></p>
 </div>
 <h2 id="rdms">RDMs</h2>
 <h3 id="jammer_offsetpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/jammer_offset.py"><code>jammer_offset.py</code></a></h3>
 <p>Jammer with range and Doppler offset.</p>
+<p>Demonstrate a DRFM jammer that retransmits with offsets in both range and
+Doppler, pulling the apparent target away from its true position.</p>
+<p>EaPlatform offset parameters:</p>
+<ul>
+<li>range_offset: shifts the jammer response in range [m] (negative = closer).</li>
+<li>rdot_offset: shifts the VBM noise center in Doppler [m/s].</li>
+<li>rdot_delta: width of the VBM Doppler spread [m/s].</li>
+<li>delay: additional time delay before retransmission [s].</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_jammer_offset.py_fig0.png" data-desc-position="bottom"><img alt="jammer_offset figure" src="figures/apps_rdms_jammer_offset.py_fig0.png"></a></p>
 </div>
 <h3 id="kitchen_sinkpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/kitchen_sink.py"><code>kitchen_sink.py</code></a></h3>
 <p>Kitchen-sink example: demonstrates all major RDM generation options.</p>
+<p>This script shows how to combine:</p>
+<ul>
+<li>Different waveform types (uncoded, Barker, random-coded, LFM)</li>
+<li>A passive skin return (no jammer)</li>
+<li>A DRFM jammer return with range/Doppler offsets and a steering vector</li>
+<li>Debug and plotting options for rdm.gen()</li>
+</ul>
+<p>The last waveform assignment wins, so uncomment the one you want to try.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_kitchen_sink.py_fig0.png" data-desc-position="bottom"><img alt="kitchen_sink figure" src="figures/apps_rdms_kitchen_sink.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_kitchen_sink.py_fig1.png" data-desc-position="bottom"><img alt="kitchen_sink figure" src="figures/apps_rdms_kitchen_sink.py_fig1.png"></a>
@@ -2068,55 +2415,173 @@
 </div>
 <h3 id="readme_examplepy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/readme_example.py"><code>readme_example.py</code></a></h3>
 <p>Minimal range-Doppler map example (used in the README).</p>
+<p>Steps:</p>
+<ol>
+<li>Define a radar system (carrier, power, gains, timing).</li>
+<li>Choose a waveform (Barker-13 coded pulse).</li>
+<li>Define a target (range, range-rate, RCS).</li>
+<li>Generate the RDM — this builds the datacube, adds noise, applies the
+     matched filter, and Doppler-processes to produce the range-Doppler map.</li>
+</ol>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_readme_example.py_fig0.png" data-desc-position="bottom"><img alt="readme_example figure" src="figures/apps_rdms_readme_example.py_fig0.png"></a></p>
 </div>
 <h3 id="skin_snrpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/skin_snr.py"><code>skin_snr.py</code></a></h3>
 <p>Skin return with SNR verification.</p>
+<p>Generate an RDM for a single moving target using an LFM waveform, normalise
+to SNR voltage ratio with <code>to_snr</code>, and compare the measured peak
+SNR in the RDM to the range-equation prediction printed by
+<code>check_expected_snr</code>.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_skin_snr.py_fig0.png" data-desc-position="bottom"><img alt="skin_snr figure" src="figures/apps_rdms_skin_snr.py_fig0.png"></a></p>
 </div>
 <h3 id="vbmpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/vbm.py"><code>vbm.py</code></a></h3>
 <p>Velocity-Bin Masking (VBM) electronic attack example.</p>
+<p>VBM is a DRFM jamming technique that spreads energy across multiple Doppler
+bins to mask the true target velocity. The jammer modulates the phase of
+the retransmitted signal in slow time, creating a band of Doppler noise
+centered on the target's Doppler cell.</p>
+<p>Parameters:</p>
+<ul>
+<li>rdot_delta: width of the Doppler spread [m/s] — controls how many
+    velocity bins are contaminated.</li>
+<li>rdot_offset: offset of the noise band center from the target [m/s].</li>
+</ul>
+<p>The VBM noise appears as LFM in slow time. It is cleanest to observe
+when the target's range-rate is 0.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_vbm.py_fig0.png" data-desc-position="bottom"><img alt="vbm figure" src="figures/apps_rdms_vbm.py_fig0.png"></a></p>
 </div>
 <h3 id="vbm_w_lfmpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/rdms/vbm_w_lfm.py"><code>vbm_w_lfm.py</code></a></h3>
 <p>VBM electronic attack with an LFM waveform.</p>
+<p>Same concept as vbm.py but using an LFM (chirp) waveform instead of uncoded.
+LFM provides better range resolution via pulse compression, so the VBM
+Doppler noise band is spread across fewer range bins but the same Doppler
+extent.</p>
+<p>The target is stationary (range_rate=0) to isolate the VBM effect in the
+Doppler dimension.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_rdms_vbm_w_lfm.py_fig0.png" data-desc-position="bottom"><img alt="vbm_w_lfm figure" src="figures/apps_rdms_vbm_w_lfm.py_fig0.png"></a></p>
 </div>
 <h2 id="sar">SAR</h2>
 <h3 id="spotlight_point_targetspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/spotlight_point_targets.py"><code>spotlight_point_targets.py</code></a></h3>
 <p>Spotlight SAR example: three point targets with beam-pattern weighting.</p>
+<p>Demonstrates spotlight SAR by steering the antenna toward a scene centre
+and using a longer synthetic aperture than the stripmap example.  The
+longer aperture yields finer cross-range resolution at the cost of a
+larger datacube.</p>
+<p>Compared to stripmap_point_targets.py:</p>
+<ul>
+<li>aperture_length increased from 50 m to 200 m  (4× more pulses)</li>
+<li>scene_center set to the middle target's position</li>
+<li>beamwidth set from a notional 0.5 m antenna: λ/D ≈ 0.06 rad</li>
+</ul>
+<p>Cross-range resolution comparison (at ~5.8 km slant range):</p>
+<pre><code>Stripmap:  λR/(2L) = 0.03 × 5831 / (2 × 50)  ≈ 1.75 m
+Spotlight: λR/(2L) = 0.03 × 5831 / (2 × 200) ≈ 0.44 m  (~4× finer)
+</code></pre>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_spotlight_point_targets.py_fig0.png" data-desc-position="bottom"><img alt="spotlight_point_targets figure" src="figures/apps_sar_spotlight_point_targets.py_fig0.png"></a></p>
 </div>
 <h3 id="spotlight_ula_patternpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/spotlight_ula_pattern.py"><code>spotlight_ula_pattern.py</code></a></h3>
 <p>Spotlight SAR with a ULA-derived beam pattern.</p>
+<p>Replaces the default Gaussian beam pattern with a realistic array factor
+computed from a 20-element uniform linear array (λ/2 spacing).  The ULA
+pattern introduces sidelobes and nulls that affect how targets at different
+off-boresight angles are weighted.</p>
+<p>Compares Gaussian vs ULA beam patterns by running the same scene twice.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_spotlight_ula_pattern.py_fig0.png" data-desc-position="bottom"><img alt="spotlight_ula_pattern figure" src="figures/apps_sar_spotlight_ula_pattern.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_spotlight_ula_pattern.py_fig1.png" data-desc-position="bottom"><img alt="spotlight_ula_pattern figure" src="figures/apps_sar_spotlight_ula_pattern.py_fig1.png"></a></p>
 </div>
 <h3 id="stripmap_point_cloudpy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/stripmap_point_cloud.py"><code>stripmap_point_cloud.py</code></a></h3>
 <p>Stripmap SAR point-cloud example: rendering "rad-lab" as text in a SAR image.</p>
+<p>Demonstrates how a <em>point cloud</em> — many point scatterers arranged in a
+pattern — produces a recognizable shape in a focused SAR image.  Each
+letter of "rad-lab" is defined on a 3×5 pixel grid, then mapped to
+physical target coordinates.</p>
+<p>Parameter design summary:</p>
+<ul>
+<li>λ = 0.03 m (10 GHz carrier)</li>
+<li>Azimuth Nyquist: pulse_spacing = v/prf = 0.0125 m &lt; λ/2 = 0.015 m</li>
+<li>Range resolution: c/(2*bw) = 30 m</li>
+<li>Cross-range resolution: λ<em>R/(2</em>L) ≈ 1.06 m (at ~7 km slant range)</li>
+<li>Datacube: 1250 range bins × 8000 pulses</li>
+<li>aperture_length = 100 m (wider than default to fit 7 characters)</li>
+<li>Cross-range pixel pitch: 3 m (≫ 1.06 m resolution)</li>
+<li>Range pixel pitch: 60 m (2× the 30 m resolution)</li>
+<li>~70 point targets total, all at z = 0, rcs = 10 m²</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_stripmap_point_cloud.py_fig0.png" data-desc-position="bottom"><img alt="stripmap_point_cloud figure" src="figures/apps_sar_stripmap_point_cloud.py_fig0.png"></a></p>
 </div>
 <h3 id="stripmap_point_targetspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/sar/stripmap_point_targets.py"><code>stripmap_point_targets.py</code></a></h3>
 <p>Stripmap SAR example: three point targets at different positions.</p>
+<p>Demonstrates the basic SAR workflow:</p>
+<ol>
+<li>Define SAR system parameters (SarRadar) and an LFM waveform.</li>
+<li>Place point targets (SarTarget) in the scene.</li>
+<li>Call sar.gen() to simulate the collection and focus the image.</li>
+</ol>
+<p>The focused image should show three distinct peaks at the target positions.
+Cross-range resolution depends on the synthetic aperture length and range;
+range resolution depends on the waveform bandwidth.</p>
+<p>Parameter design summary:</p>
+<ul>
+<li>λ = 0.03 m (10 GHz carrier)</li>
+<li>Azimuth Nyquist: pulse_spacing = v/prf = 0.0125 m &lt; λ/2 = 0.015 m</li>
+<li>Range resolution: c/(2*bw) = 30 m</li>
+<li>Cross-range resolution: λ<em>R/(2</em>L) ≈ 1.5–2.1 m (varies with slant range)</li>
+<li>Datacube: 1250 range bins × 4000 pulses</li>
+<li>Targets at slant ranges ~5.0, 5.8, 7.1 km (separated by ~800+ m, ≫ 30 m res)
+    and along-track positions −5, 0, +5 m (separated by 5 m, &gt; 1.5–2.1 m res)</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_sar_stripmap_point_targets.py_fig0.png" data-desc-position="bottom"><img alt="stripmap_point_targets figure" src="figures/apps_sar_stripmap_point_targets.py_fig0.png"></a></p>
 </div>
 <h2 id="studies">Studies</h2>
 <h3 id="monopulse_considering_time_delay_between_elementspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/studies/monopulse_considering_time_delay_between_elements.py"><code>monopulse_considering_time_delay_between_elements.py</code></a></h3>
 <p>Study: does the inter-element time delay matter for monopulse?</p>
+<p>In a phased array, each element receives the signal at a slightly different
+time due to the wavefront arrival angle. The standard monopulse model only
+applies the carrier-frequency phase shift (exp(j<em>2</em>pi<em>d</em>sin(theta)/lambda_c)),
+ignoring the baseband time delay.</p>
+<p>This study compares two approaches:</p>
+<ol>
+<li>Phase-shift only (standard): multiply each element's datacube by the
+     steering vector phase at the carrier frequency.</li>
+<li>Phase-shift + time delay: also apply the true time delay to the baseband
+     signal, which shifts the waveform samples.</li>
+</ol>
+<p>Findings:</p>
+<ul>
+<li>When fcar &gt;&gt; bw, the time delay is negligible (lambda/2 at the carrier
+    is lambda/100 at IF frequencies — very little phase change).</li>
+<li>Regardless of fcar, the monopulse angle estimate is barely affected.</li>
+<li>The study uses fcar=1 GHz with bw=200 MHz (ratio=5) to stress-test this.</li>
+</ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig0.png" data-desc-position="bottom"><img alt="monopulse_considering_time_delay_between_elements figure" src="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig1.png" data-desc-position="bottom"><img alt="monopulse_considering_time_delay_between_elements figure" src="figures/apps_studies_monopulse_considering_time_delay_between_elements.py_fig1.png"></a></p>
 </div>
 <h3 id="vbm_methodspy"><a href="https://github.com/JohnNehls/rad-lab/blob/main/apps/studies/vbm_methods.py"><code>vbm_methods.py</code></a></h3>
 <p>Compare VBM noise generation methods.</p>
+<p>The VBM (Velocity-Bin Masking) jammer spreads energy across Doppler bins by
+modulating the retransmitted signal's phase in slow time. There are several
+ways to generate that phase modulation, listed here from simplest to most
+physically accurate:</p>
+<ol>
+<li>random_phase: each pulse gets an independent random phase — produces
+     flat Doppler noise but doesn't respect the prescribed bandwidth.</li>
+<li>uniform_bandwidth_phase: random phase filtered to a uniform spectral
+     shape within the target bandwidth.</li>
+<li>gaussian_bandwidth_phase: random phase filtered to a Gaussian spectral
+     shape — more realistic but doesn't match the prescribed width exactly.</li>
+<li>gaussian_bandwidth_phase_normalized: same as (3) but normalized.</li>
+<li>lfm_phase: slow-time LFM chirp — the only method that precisely matches
+     the prescribed rdot_delta bandwidth.</li>
+</ol>
+<p>Each method generates an RDM so you can visually compare the Doppler spread.</p>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig0.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig0.png"></a>
 <a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_studies_vbm_methods.py_fig1.png" data-desc-position="bottom"><img alt="vbm_methods figure" src="figures/apps_studies_vbm_methods.py_fig1.png"></a>

@@ -954,11 +954,11 @@
     <div class="doc doc-contents first">
 
         <p>SAR image generation and plotting (stripmap and spotlight modes).</p>
-<p>Provides the :func:<code>gen</code> entry point that simulates a full synthetic aperture —
+<p>Provides the <code>gen</code> entry point that simulates a full synthetic aperture —
 transmitting pulses along a straight flight path, injecting point-target
 returns, range-compressing, and azimuth-focusing to produce a SAR image.
 Spotlight mode is activated by setting <code>scene_center</code> and <code>beamwidth</code>
-on the :class:<code>~rad_lab.sar_radar.SarRadar</code> instance.</p>
+on the <code>SarRadar</code> instance.</p>
 
 
 
@@ -999,7 +999,7 @@ compression, azimuth windowing, and azimuth matched-filter focusing.</p>
 <p><strong>Stripmap</strong> mode (default): leave <code>sar_radar.scene_center</code> as
 <code>None</code>.  Optionally set <code>sar_radar.beamwidth</code> to apply
 broadside beam-pattern weighting (body-fixed antenna).</p>
-<p><strong>Spotlight</strong> mode: set both fields on the :class:<code>SarRadar</code> instance.
+<p><strong>Spotlight</strong> mode: set both fields on the <code>SarRadar</code> instance.
 The antenna beam is steered toward <code>scene_center</code> each pulse, and
 target amplitudes are weighted by a two-way Gaussian beam pattern.</p>
 
@@ -1030,7 +1030,7 @@ target amplitudes are weighted by a two-way Gaussian beam pattern.</p>
             <td>
               <div class="doc-md-description">
                 <p>SAR system parameters.
-See :class:<code>rad_lab.sar_radar.SarRadar</code>.</p>
+See <code>SarRadar</code>.</p>
               </div>
             </td>
             <td>
@@ -1052,7 +1052,7 @@ See :class:<code>rad_lab.sar_radar.SarRadar</code>.</p>
             <td>
               <div class="doc-md-description">
                 <p>WaveformSample created by a factory function
-(e.g. :func:<code>rad_lab.waveform.lfm_waveform</code>).</p>
+(e.g. <code>lfm_waveform</code>).</p>
               </div>
             </td>
             <td>
@@ -1073,7 +1073,7 @@ See :class:<code>rad_lab.sar_radar.SarRadar</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>List of :class:<code>~rad_lab.sar_radar.SarTarget</code> point
+                <p>List of <code>SarTarget</code> point
 scatterers.</p>
               </div>
             </td>
@@ -1158,7 +1158,7 @@ focusing.  One of <code>"chebyshev"</code> (default),
             <td>
               <div class="doc-md-description">
                 <p>Optional dict forwarded to the window function.
-See :func:<code>._rdm_internals.create_window</code>.</p>
+See <code>create_window</code>.</p>
               </div>
             </td>
             <td>
@@ -1197,7 +1197,7 @@ bins, especially at long aperture or large slant range).</p>
                 <p>Optional callable that maps off-boresight angles
 [rad] to amplitude weights.  Overrides the default Gaussian
 in spotlight mode.  See
-:func:<code>~rad_lab.uniform_linear_arrays.ula_pattern</code> for a
+<code>ula_pattern</code> for a
 convenient way to build one from a ULA specification.</p>
               </div>
             </td>
@@ -1408,16 +1408,16 @@ convenient way to build one from a ULA specification.</p>
 <span class="sd">    ``None``.  Optionally set ``sar_radar.beamwidth`` to apply</span>
 <span class="sd">    broadside beam-pattern weighting (body-fixed antenna).</span>
 
-<span class="sd">    **Spotlight** mode: set both fields on the :class:`SarRadar` instance.</span>
+<span class="sd">    **Spotlight** mode: set both fields on the `SarRadar` instance.</span>
 <span class="sd">    The antenna beam is steered toward ``scene_center`` each pulse, and</span>
 <span class="sd">    target amplitudes are weighted by a two-way Gaussian beam pattern.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        sar_radar: SAR system parameters.</span>
-<span class="sd">            See :class:`rad_lab.sar_radar.SarRadar`.</span>
+<span class="sd">            See `SarRadar`.</span>
 <span class="sd">        waveform: WaveformSample created by a factory function</span>
-<span class="sd">            (e.g. :func:`rad_lab.waveform.lfm_waveform`).</span>
-<span class="sd">        target_list: List of :class:`~rad_lab.sar_radar.SarTarget` point</span>
+<span class="sd">            (e.g. `lfm_waveform`).</span>
+<span class="sd">        target_list: List of `SarTarget` point</span>
 <span class="sd">            scatterers.</span>
 <span class="sd">        seed: Random number generator seed for reproducibility.</span>
 <span class="sd">        plot: If True, plots the focused SAR image.</span>
@@ -1427,7 +1427,7 @@ convenient way to build one from a ULA specification.</p>
 <span class="sd">            focusing.  One of ``"chebyshev"`` (default),</span>
 <span class="sd">            ``"blackman-harris"``, ``"taylor"``, or ``"none"``.</span>
 <span class="sd">        window_kwargs: Optional dict forwarded to the window function.</span>
-<span class="sd">            See :func:`._rdm_internals.create_window`.</span>
+<span class="sd">            See `create_window`.</span>
 <span class="sd">        rcmc: If True (default), apply Range Cell Migration Correction</span>
 <span class="sd">            after range compression and before azimuth focusing.  Disable</span>
 <span class="sd">            to study the effect of uncorrected range migration on the</span>
@@ -1436,7 +1436,7 @@ convenient way to build one from a ULA specification.</p>
 <span class="sd">        beam_pattern: Optional callable that maps off-boresight angles</span>
 <span class="sd">            [rad] to amplitude weights.  Overrides the default Gaussian</span>
 <span class="sd">            in spotlight mode.  See</span>
-<span class="sd">            :func:`~rad_lab.uniform_linear_arrays.ula_pattern` for a</span>
+<span class="sd">            `ula_pattern` for a</span>
 <span class="sd">            convenient way to build one from a ULA specification.</span>
 
 <span class="sd">    Returns:</span>

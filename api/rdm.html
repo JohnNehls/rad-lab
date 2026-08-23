@@ -1020,7 +1020,7 @@
     <div class="doc doc-contents first">
 
         <p>Range-Doppler map (RDM) generation and plotting.</p>
-<p>Provides the :func:<code>gen</code> entry point that simulates a full CPI — adding skin
+<p>Provides the <code>gen</code> entry point that simulates a full CPI — adding skin
 and jammer returns to a datacube, applying matched filtering, Doppler
 windowing, and the slow-time FFT — and a set of plot helpers for RTMs and RDMs.</p>
 
@@ -1060,7 +1060,7 @@ windowing, and the slow-time FFT — and a set of plot helpers for RTMs and RDMs
 range rates and processes it to produce an RDM, accounting for radar system
 parameters, waveform characteristics, and noise.</p>
 <p>Output amplitudes are in Volts (at the receiver load).  To view the RDM
-in SNR voltage ratio, pass the returned datacube through :func:<code>to_snr</code>.
+in SNR voltage ratio, pass the returned datacube through <code>to_snr</code>.
 To get a noiseless RDM for peak-finding or PSF inspection, set
 <code>radar.op_temp = 0</code> (thermal noise scales with temperature).</p>
 
@@ -1091,7 +1091,7 @@ To get a noiseless RDM for peak-finding or PSF inspection, set
             <td>
               <div class="doc-md-description">
                 <p>Radar system parameters. See
-:class:<code>rad_lab.pulse_doppler_radar.Radar</code> for required keys and units.</p>
+<code>Radar</code> for required keys and units.</p>
               </div>
             </td>
             <td>
@@ -1113,7 +1113,7 @@ To get a noiseless RDM for peak-finding or PSF inspection, set
             <td>
               <div class="doc-md-description">
                 <p>WaveformSample created by a factory function
-(e.g. :func:<code>rad_lab.waveform.lfm_waveform</code>).</p>
+(e.g. <code>lfm_waveform</code>).</p>
               </div>
             </td>
             <td>
@@ -1129,7 +1129,7 @@ To get a noiseless RDM for peak-finding or PSF inspection, set
             </td>
             <td>
               <div class="doc-md-description">
-                <p>List of :class:<code>rad_lab.returns.Return</code> objects, each
+                <p>List of <code>Return</code> objects, each
 describing one simulated target or jammer.</p>
               </div>
             </td>
@@ -1218,7 +1218,7 @@ One of <code>"chebyshev"</code> (default), <code>"blackman-harris"</code>,
 <code>window_kwargs={"at": 80}</code> sets Chebyshev attenuation to
 80 dB; <code>window_kwargs={"nbar": 5, "sll": 35}</code> tunes the
 Taylor window (<code>sll</code> is a positive suppression in dB). See
-:func:<code>._rdm_internals.create_window</code>.</p>
+<code>create_window</code>.</p>
               </div>
             </td>
             <td>
@@ -1239,7 +1239,7 @@ sidelobe control (fast-time), analogous to <code>window</code> in Doppler.
 <code>"none"</code> (default) is the plain matched filter, leaving the LFM's
 ~-13.2 dB range sidelobes.  One of <code>"none"</code>, <code>"chebyshev"</code>,
 <code>"blackman-harris"</code>, <code>"taylor"</code>.  See
-:func:<code>rad_lab.rf_datacube.range_window</code>.</p>
+<code>range_window</code>.</p>
               </div>
             </td>
             <td>
@@ -1429,16 +1429,16 @@ function (e.g. <code>{"at": 60}</code> for Chebyshev).</p>
 <span class="sd">    parameters, waveform characteristics, and noise.</span>
 
 <span class="sd">    Output amplitudes are in Volts (at the receiver load).  To view the RDM</span>
-<span class="sd">    in SNR voltage ratio, pass the returned datacube through :func:`to_snr`.</span>
+<span class="sd">    in SNR voltage ratio, pass the returned datacube through `to_snr`.</span>
 <span class="sd">    To get a noiseless RDM for peak-finding or PSF inspection, set</span>
 <span class="sd">    ``radar.op_temp = 0`` (thermal noise scales with temperature).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        radar: Radar system parameters. See</span>
-<span class="sd">            :class:`rad_lab.pulse_doppler_radar.Radar` for required keys and units.</span>
+<span class="sd">            `Radar` for required keys and units.</span>
 <span class="sd">        waveform: WaveformSample created by a factory function</span>
-<span class="sd">            (e.g. :func:`rad_lab.waveform.lfm_waveform`).</span>
-<span class="sd">        return_list: List of :class:`rad_lab.returns.Return` objects, each</span>
+<span class="sd">            (e.g. `lfm_waveform`).</span>
+<span class="sd">        return_list: List of `Return` objects, each</span>
 <span class="sd">            describing one simulated target or jammer.</span>
 <span class="sd">        seed: Random number generator seed for reproducibility. Defaults to 0.</span>
 <span class="sd">        plot: If True, plots the final RDM. Defaults to True.</span>
@@ -1452,13 +1452,13 @@ function (e.g. <code>{"at": 60}</code> for Chebyshev).</p>
 <span class="sd">            ``window_kwargs={"at": 80}`` sets Chebyshev attenuation to</span>
 <span class="sd">            80 dB; ``window_kwargs={"nbar": 5, "sll": 35}`` tunes the</span>
 <span class="sd">            Taylor window (``sll`` is a positive suppression in dB). See</span>
-<span class="sd">            :func:`._rdm_internals.create_window`.</span>
+<span class="sd">            `create_window`.</span>
 <span class="sd">        range_window: Weighting on the matched-filter replica for *range*</span>
 <span class="sd">            sidelobe control (fast-time), analogous to ``window`` in Doppler.</span>
 <span class="sd">            ``"none"`` (default) is the plain matched filter, leaving the LFM's</span>
 <span class="sd">            ~-13.2 dB range sidelobes.  One of ``"none"``, ``"chebyshev"``,</span>
 <span class="sd">            ``"blackman-harris"``, ``"taylor"``.  See</span>
-<span class="sd">            :func:`rad_lab.rf_datacube.range_window`.</span>
+<span class="sd">            `range_window`.</span>
 <span class="sd">        range_window_kwargs: Optional dict forwarded to the range-window</span>
 <span class="sd">            function (e.g. ``{"at": 60}`` for Chebyshev).</span>
 
@@ -2189,7 +2189,7 @@ axis and pulse number (slow-time) on the other.</p>
         <p>Convert a Volt-domain RDM to SNR voltage ratio.</p>
 <p>Normalises so the peak magnitude equals the range-equation SNR voltage
 and the off-peak noise floor has voltage standard deviation of 1.  Use
-:func:<code>~rad_lab._rdm_extras.verify_snr</code> to verify against theory.</p>
+<code>verify_snr</code> to verify against theory.</p>
 <p>Derivation, with unit-amplitude pulse template (<code>|p|=1</code> over duration
 <code>T</code>, <code>N_taps = T·fs</code> samples) and raw (unscaled) matched filter:</p>
 <ul>
@@ -2222,7 +2222,7 @@ and the off-peak noise floor has voltage standard deviation of 1.  Use
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Processed RDM returned by :func:<code>gen</code>, in Volts.</p>
+                <p>Processed RDM returned by <code>gen</code>, in Volts.</p>
               </div>
             </td>
             <td>
@@ -2334,7 +2334,7 @@ and the off-peak noise floor has voltage standard deviation of 1.  Use
 
 <span class="sd">    Normalises so the peak magnitude equals the range-equation SNR voltage</span>
 <span class="sd">    and the off-peak noise floor has voltage standard deviation of 1.  Use</span>
-<span class="sd">    :func:`~rad_lab._rdm_extras.verify_snr` to verify against theory.</span>
+<span class="sd">    `verify_snr` to verify against theory.</span>
 
 <span class="sd">    Derivation, with unit-amplitude pulse template (``|p|=1`` over duration</span>
 <span class="sd">    ``T``, ``N_taps = T·fs`` samples) and raw (unscaled) matched filter:</span>
@@ -2348,7 +2348,7 @@ and the off-peak noise floor has voltage standard deviation of 1.  Use
 <span class="sd">    So dividing by ``fs · sqrt(N · R·N₀·T)`` yields the SNR voltage ratio.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        datacube: Processed RDM returned by :func:`gen`, in Volts.</span>
+<span class="sd">        datacube: Processed RDM returned by `gen`, in Volts.</span>
 <span class="sd">        radar: Same radar used to generate the RDM.</span>
 <span class="sd">        waveform: Same waveform used to generate the RDM.</span>
 

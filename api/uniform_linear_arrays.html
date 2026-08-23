@@ -1681,7 +1681,7 @@ Defaults to False.</p>
         <p>Calculates the array-factor pattern in dB for a uniform linear array.</p>
 <p>This function defines the array geometry based on the number of elements
 and their uniform spacing, then returns <code>20*log10(|AF|)</code>.  This is the
-voltage array factor in dB, not dBi (see :func:<code>linear_antenna_gain</code>).</p>
+voltage array factor in dB, not dBi (see <code>linear_antenna_gain</code>).</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1877,7 +1877,7 @@ Defaults to False.</p>
 
 <span class="sd">    This function defines the array geometry based on the number of elements</span>
 <span class="sd">    and their uniform spacing, then returns ``20*log10(|AF|)``.  This is the</span>
-<span class="sd">    voltage array factor in dB, not dBi (see :func:`linear_antenna_gain`).</span>
+<span class="sd">    voltage array factor in dB, not dBi (see `linear_antenna_gain`).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        N_el (int): The number of antenna array elements.</span>
@@ -2284,10 +2284,10 @@ angle as measured at each element of the array.</p>
     <div class="doc doc-contents ">
 
         <p>Creates a beam-pattern callable from a ULA for use with SAR spotlight.</p>
-<p>Precomputes the array factor via :func:<code>linear_antenna_gain</code>, normalises
+<p>Precomputes the array factor via <code>linear_antenna_gain</code>, normalises
 to unit peak, and returns a function that maps off-boresight angles
 (in radians) to amplitude weights.  The returned callable is directly
-compatible with the <code>beam_pattern</code> parameter of :func:<code>rad_lab.sar.gen</code>.</p>
+compatible with the <code>beam_pattern</code> parameter of <code>gen</code>.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -2441,10 +2441,10 @@ model the round-trip amplitude.</p>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">"""Creates a beam-pattern callable from a ULA for use with SAR spotlight.</span>
 
-<span class="sd">    Precomputes the array factor via :func:`linear_antenna_gain`, normalises</span>
+<span class="sd">    Precomputes the array factor via `linear_antenna_gain`, normalises</span>
 <span class="sd">    to unit peak, and returns a function that maps off-boresight angles</span>
 <span class="sd">    (in radians) to amplitude weights.  The returned callable is directly</span>
-<span class="sd">    compatible with the ``beam_pattern`` parameter of :func:`rad_lab.sar.gen`.</span>
+<span class="sd">    compatible with the ``beam_pattern`` parameter of `gen`.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        el_pos: Element positions normalised by wavelength.</span>
