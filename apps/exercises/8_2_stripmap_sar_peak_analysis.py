@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-"""Numerical peak analysis: prints peak locations and azimuth peak drift vs range bin.
+"""Numerical peak analysis of a stripmap SAR image.
 
-For each target, finds the peak position and then shows how the azimuth peak
-shifts across neighboring range bins.  A tilt-free PSF will have constant
-azimuth peak position across range bins.
+For each target, print the peak position and show how the azimuth peak shifts
+across neighboring range bins. A tilt-free PSF has constant azimuth peak
+position across range bins.
 """
 
 import numpy as np

@@ -140,7 +140,7 @@ def linear_antenna_gain_N_db(
 
     This function defines the array geometry based on the number of elements
     and their uniform spacing, then returns ``20*log10(|AF|)``.  This is the
-    voltage array factor in dB, not dBi (see :func:`linear_antenna_gain`).
+    voltage array factor in dB, not dBi (see `linear_antenna_gain`).
 
     Args:
         N_el (int): The number of antenna array elements.
@@ -230,10 +230,10 @@ def ula_pattern(
 ) -> Callable[[np.ndarray], np.ndarray]:
     """Creates a beam-pattern callable from a ULA for use with SAR spotlight.
 
-    Precomputes the array factor via :func:`linear_antenna_gain`, normalises
+    Precomputes the array factor via `linear_antenna_gain`, normalises
     to unit peak, and returns a function that maps off-boresight angles
     (in radians) to amplitude weights.  The returned callable is directly
-    compatible with the ``beam_pattern`` parameter of :func:`rad_lab.sar.gen`.
+    compatible with the ``beam_pattern`` parameter of `gen`.
 
     Args:
         el_pos: Element positions normalised by wavelength.

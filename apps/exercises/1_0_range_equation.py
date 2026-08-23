@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 """Radar range equation exercises.
 
-Problem 1: Plot SNR vs range for a BPSK waveform across different transmit
-           powers and target RCS values.
-Problem 2: Plot SNR vs range using the duty-factor form of the range equation
-           across different CPI lengths and duty factors.
-Problem 3: Compute maximum detection range as a 2D function of (Tx power, RCS)
-           and (CPI time, RCS), visualized as heatmaps.
+- **Problem 1:** Plot SNR vs range for a BPSK waveform across different transmit
+  powers and target RCS values.
+- **Problem 2:** Plot SNR vs range using the duty-factor form of the range
+  equation across different CPI lengths and duty factors.
+- **Problem 3:** Compute maximum detection range as a 2D function of (Tx power,
+  RCS) and (CPI time, RCS), visualized as heatmaps.
 """
 
 import numpy as np

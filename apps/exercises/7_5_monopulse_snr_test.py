@@ -9,9 +9,11 @@ Monopulse works by comparing the signals at two array elements (sum and
 difference channels). The ratio of difference to sum gives an angle estimate
 that is independent of signal amplitude.
 
-Key observations:
-  - Estimation accuracy improves dramatically with SNR.
-  - Accuracy also depends on the true target angle (closer to boresight = better).
+Key takeaways:
+
+- Estimation accuracy improves dramatically with SNR.
+- Accuracy also depends on the true target angle (closer to boresight is
+  better).
 """
 
 import numpy as np

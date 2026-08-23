@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 """Monopulse angle estimation: time-domain vs frequency-domain comparison.
 
-Extends the basic monopulse SNR test (7_5) to show that monopulse angle
-estimation works identically in both domains. Four methods are compared:
+Extend the basic monopulse SNR test (7_5) to show that monopulse angle
+estimation works identically in both domains. Compare four methods:
 
   1. Time-domain monopulse ratio (sum/difference of element signals)
   2. Time-domain phase-only estimate (only valid at baseband, not RF passband)
   3. Frequency-domain monopulse ratio (applied at the peak FFT bin)
   4. Frequency-domain phase-only estimate
 
-Key result: the monopulse ratio gives the same accuracy in time and frequency
-domains. The phase-only method works at baseband but fails at RF passband.
+Key takeaways:
+
+- The monopulse ratio gives the same accuracy in time and frequency domains.
+- The phase-only method works at baseband but fails at RF passband.
 """
 
 import numpy as np

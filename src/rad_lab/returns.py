@@ -1,7 +1,7 @@
 """Target and electronic-attack return models.
 
-Defines :class:`Target` (kinematics and RCS), :class:`EaPlatform` (DRFM
-jammer transmitter parameters), and :class:`Return` (pairing of a target with
+Defines `Target` (kinematics and RCS), `EaPlatform` (DRFM
+jammer transmitter parameters), and `Return` (pairing of a target with
 an optional EA platform) used as inputs to the RDM generator.
 """
 

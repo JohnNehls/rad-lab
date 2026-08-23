@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Validates RCMC against the closed-form migration formula.
+"""Validate RCMC against the closed-form migration formula.
 
-Bypasses ``sar.gen`` and synthesises a perfectly range-compressed signal:
+Bypass ``sar.gen`` and synthesise a perfectly range-compressed signal:
 at each pulse ``eta``, the target's energy is a unit sinc lobe centred on
 the analytic slant range ``R(eta) = sqrt(R0^2 + v^2 eta^2)``, modulated
 by the two-way carrier phase ``exp(-j 4 pi R(eta) / lambda)``.
@@ -12,8 +12,8 @@ exact parabolic curve
     R(f_eta) = R0 / sqrt(1 - (lambda * f_eta / (2 v))^2)
 
 which RCMC should straighten to a horizontal line at ``R0``.  The figure
-overlays the measured trajectory before and after RCMC on this theory
-curve, and shows the range-Doppler map in dB before and after correction.
+overlays the measured trajectory before and after RCMC on this theory curve,
+and shows the range-Doppler map in dB before and after correction.
 """
 
 import matplotlib.pyplot as plt

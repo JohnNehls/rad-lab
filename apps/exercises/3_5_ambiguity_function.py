@@ -2,9 +2,8 @@
 """Ambiguity function exercises.
 
 Compute and display the ambiguity function for three waveform types: uncoded,
-Barker-coded, and LFM.  Each waveform's ambiguity surface and zero-delay /
-zero-Doppler cuts are plotted to illustrate the range-Doppler resolution
-tradeoffs.
+Barker-coded, and LFM. Plot each waveform's ambiguity surface and zero-delay /
+zero-Doppler cuts to illustrate the range-Doppler resolution tradeoffs.
 
 Key takeaways:
 - Uncoded pulse: triangular in delay (width set by the pulse length) and a

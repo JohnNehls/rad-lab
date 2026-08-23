@@ -2,9 +2,9 @@
 """CFAR kernels in 1-D: how CA, GOCA, and SOCA differ.
 
 The applied CFAR exercise (6_3) runs on a 2-D range-Doppler map, where the
-detection threshold is a surface you cannot see directly.  This exercise
-strips the problem down to a single range profile so the threshold is a
-*line* drawn on top of the signal, making the kernel arithmetic visible:
+detection threshold is a surface you cannot see directly.  Strip the problem
+down to a single range profile so the threshold is a *line* drawn on top of
+the signal, making the kernel arithmetic visible:
 
 Each cell under test (CUT) estimates the local noise from N training cells
 on each side (a guard band around the CUT is excluded).  The three kernels
@@ -15,7 +15,7 @@ combine the leading and lagging halves differently:
     SOCA  noise = min(mean(leading half), mean(lagging half))
 
 The threshold is ``alpha * noise`` with the same CA multiplier used in
-:func:`rad_lab.cfar.cfar_2d`.  That multiplier is exact only for CA; GOCA
+`cfar_2d`.  That multiplier is exact only for CA; GOCA
 and SOCA reuse it as an approximation (their exact multipliers have no
 closed form), so their realised false-alarm rate drifts from ``Pfa``.
 

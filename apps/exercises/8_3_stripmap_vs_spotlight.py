@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 """Side-by-side comparison of stripmap and spotlight SAR.
 
-Runs both modes on the same scene and plots:
-  - Top row: focused SAR images (stripmap vs spotlight)
-  - Bottom row: cross-range cuts through the centre target with -3 dB
-    width annotations
+Run both modes on the same scene and plot:
+
+- **Top row:** focused SAR images (stripmap vs spotlight).
+- **Bottom row:** cross-range cuts through the centre target, with -3 dB
+  width annotations.
 
 The spotlight aperture is 4× longer, yielding ~4× finer cross-range
 resolution.

@@ -12,8 +12,9 @@ Compared to stripmap_point_targets.py:
   - beamwidth set from a notional 0.5 m antenna: λ/D ≈ 0.06 rad
 
 Cross-range resolution comparison (at ~5.8 km slant range):
-  Stripmap:  λR/(2L) = 0.03 × 5831 / (2 × 50)  ≈ 1.75 m
-  Spotlight: λR/(2L) = 0.03 × 5831 / (2 × 200) ≈ 0.44 m  (~4× finer)
+
+    Stripmap:  λR/(2L) = 0.03 × 5831 / (2 × 50)  ≈ 1.75 m
+    Spotlight: λR/(2L) = 0.03 × 5831 / (2 × 200) ≈ 0.44 m  (~4× finer)
 """
 
 import numpy as np

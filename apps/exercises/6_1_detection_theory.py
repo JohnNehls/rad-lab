@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Detection theory fundamentals.
 
-Demonstrates the relationship between SNR, probability of false alarm (Pfa),
+Demonstrate the relationship between SNR, probability of false alarm (Pfa),
 and probability of detection (Pd) for non-fluctuating and fluctuating targets.
 
 Produces four figures:

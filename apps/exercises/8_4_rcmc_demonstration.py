@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-"""Demonstrates Range Cell Migration Correction (RCMC).
+"""Demonstrate Range Cell Migration Correction (RCMC).
 
-Runs ``sar.gen`` twice on a long-aperture / close-range collection whose
-peak range migration spans multiple range cells, then prints the
+Run ``sar.gen`` twice on a long-aperture / close-range collection whose
+peak range migration spans multiple range cells, then print the
 azimuth peak position vs range bin offset for each.  Without RCMC the
 azimuth peak tilts across neighbouring range bins (the RCM signature);
 with RCMC it sits at a constant cross-range position.

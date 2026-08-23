@@ -1,10 +1,10 @@
 """SAR image generation and plotting (stripmap and spotlight modes).
 
-Provides the :func:`gen` entry point that simulates a full synthetic aperture —
+Provides the `gen` entry point that simulates a full synthetic aperture —
 transmitting pulses along a straight flight path, injecting point-target
 returns, range-compressing, and azimuth-focusing to produce a SAR image.
 Spotlight mode is activated by setting ``scene_center`` and ``beamwidth``
-on the :class:`~rad_lab.sar_radar.SarRadar` instance.
+on the `SarRadar` instance.
 """
 
 from __future__ import annotations
@@ -55,16 +55,16 @@ def gen(
     ``None``.  Optionally set ``sar_radar.beamwidth`` to apply
     broadside beam-pattern weighting (body-fixed antenna).
 
-    **Spotlight** mode: set both fields on the :class:`SarRadar` instance.
+    **Spotlight** mode: set both fields on the `SarRadar` instance.
     The antenna beam is steered toward ``scene_center`` each pulse, and
     target amplitudes are weighted by a two-way Gaussian beam pattern.
 
     Args:
         sar_radar: SAR system parameters.
-            See :class:`rad_lab.sar_radar.SarRadar`.
+            See `SarRadar`.
         waveform: WaveformSample created by a factory function
-            (e.g. :func:`rad_lab.waveform.lfm_waveform`).
-        target_list: List of :class:`~rad_lab.sar_radar.SarTarget` point
+            (e.g. `lfm_waveform`).
+        target_list: List of `SarTarget` point
             scatterers.
         seed: Random number generator seed for reproducibility.
         plot: If True, plots the focused SAR image.
@@ -74,7 +74,7 @@ def gen(
             focusing.  One of ``"chebyshev"`` (default),
             ``"blackman-harris"``, ``"taylor"``, or ``"none"``.
         window_kwargs: Optional dict forwarded to the window function.
-            See :func:`._rdm_internals.create_window`.
+            See `create_window`.
         rcmc: If True (default), apply Range Cell Migration Correction
             after range compression and before azimuth focusing.  Disable
             to study the effect of uncorrected range migration on the
@@ -83,7 +83,7 @@ def gen(
         beam_pattern: Optional callable that maps off-boresight angles
             [rad] to amplitude weights.  Overrides the default Gaussian
             in spotlight mode.  See
-            :func:`~rad_lab.uniform_linear_arrays.ula_pattern` for a
+            `ula_pattern` for a
             convenient way to build one from a ULA specification.
 
     Returns:

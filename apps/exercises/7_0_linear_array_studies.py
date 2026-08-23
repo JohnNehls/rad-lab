@@ -1,22 +1,18 @@
 #!/usr/bin/env python
 """Uniform linear array (ULA) studies.
 
-Study 1: Constant array length, varying element spacing.
-  Shows that as long as dx <= lambda/2 (no grating lobes), the array factor
-  shape is determined by the total array length — adding more elements
-  only raises the array-factor peak (more coherent element sum), not the
-  beamwidth.  Length here is N*dx (each element occupies a dx-wide cell):
-  the beamwidth of a uniform array scales as 0.886/(N*dx) radians, so equal
-  N*dx means equal beamwidth even though the tip-to-tip span (N-1)*dx
-  differs slightly.
+Background: each element receives the signal with a phase shift proportional
+to `d*sin(theta)/lambda`, where d is the element spacing.
 
-Study 2: Constant element spacing (lambda/2), varying number of elements.
-  Demonstrates the Fourier-transform duality: a longer array produces a
-  narrower mainlobe (higher angular resolution), analogous to how a longer
-  time signal produces a narrower spectral peak.
-
-Background: each array element receives the signal with a phase shift
-  proportional to d*sin(theta)/lambda, where d is the element spacing.
+- **Study 1 — constant length, varying element spacing:** as long as
+  `dx <= lambda/2` (no grating lobes), the array-factor shape is set by the
+  total length `N*dx`, not the element count. Adding elements only raises the
+  peak (more coherent sum). Beamwidth scales as `0.886/(N*dx)` radians, so
+  equal `N*dx` means equal beamwidth.
+- **Study 2 — constant spacing (lambda/2), varying element count:** a longer
+  array gives a narrower mainlobe (higher angular resolution) — the
+  Fourier-transform duality, like a longer time signal giving a narrower
+  spectral peak.
 """
 
 import matplotlib.pyplot as plt

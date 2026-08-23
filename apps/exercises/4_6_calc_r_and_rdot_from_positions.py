@@ -3,8 +3,9 @@
 
 Given a radar and target each with a 3D position [x, y, z] and velocity
 [vx, vy, vz], compute:
-  - range: the Euclidean distance between them
-  - range-rate: the rate of change of that distance (radial velocity)
+
+- **range:** the Euclidean distance between them.
+- **range-rate:** the rate of change of that distance (radial velocity).
 
 Example: radar at origin, altitude 3048 m, moving east at 300 m/s;
          target at 5 km east, same altitude, moving west at 300 m/s.

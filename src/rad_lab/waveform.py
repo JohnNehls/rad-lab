@@ -1,6 +1,6 @@
 """Radar waveform definitions and factory functions.
 
-Provides the :class:`WaveformSample` dataclass and factory functions for four
+Provides the `WaveformSample` dataclass and factory functions for four
 waveform types: uncoded (rectangular), Barker-coded, random phase-coded, and
 linear frequency modulated (LFM) chirp.
 """
@@ -28,10 +28,10 @@ class WaveformType(StrEnum):
 class WaveformSample:
     """Container for a radar waveform and its key parameters.
 
-    Created by the factory functions (:func:`uncoded_waveform`,
-    :func:`barker_coded_waveform`, :func:`random_coded_waveform`,
-    :func:`lfm_waveform`). Call :meth:`set_sample` before passing to
-    :func:`rad_lab.rdm.gen` to generate the discrete pulse array at the
+    Created by the factory functions (`uncoded_waveform`,
+    `barker_coded_waveform`, `random_coded_waveform`,
+    `lfm_waveform`). Call `set_sample` before passing to
+    `gen` to generate the discrete pulse array at the
     radar's sample rate.
 
     Attributes:
@@ -47,9 +47,9 @@ class WaveformSample:
             Unit-amplitude (``|pulse_sample[n]| = 1`` over the pulse) — i.e.
             a physical 1-Volt transmit envelope, with no DSP normalisation
             applied.  The TB pulse-compression gain (``N_taps = T · fs``)
-            emerges naturally from :func:`rad_lab.rf_datacube.matchfilter`
+            emerges naturally from `matchfilter`
             as the coherent sum of ``N_taps`` unit-amplitude samples.
-            Populated by :meth:`set_sample`; not set at construction time.
+            Populated by `set_sample`; not set at construction time.
     """
 
     type: WaveformType

@@ -37,7 +37,7 @@ def verify_snr(snr_dc: np.ndarray, radar: Radar, target: Target, waveform: Wavef
     so expect small deviations from unity.
 
     Args:
-        snr_dc: RDM in SNR voltage ratio (output of :func:`rad_lab.rdm.to_snr`).
+        snr_dc: RDM in SNR voltage ratio (output of `to_snr`).
         radar: Radar system parameters.
         target: Target whose return is expected to dominate the RDM.
         waveform: WaveformSample used for the simulation.

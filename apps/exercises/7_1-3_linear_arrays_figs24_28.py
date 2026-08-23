@@ -1,21 +1,22 @@
 #!/usr/bin/env python
 """Recreate textbook figures 24-28 for uniform linear arrays.
 
-Figure 24: Effect of number of elements on the array factor (lambda/2 spacing).
-Figure 25: Effect of element spacing on the array factor (10 elements).
-           Note: spacing > lambda/2 introduces grating lobes.
-Figure 27: Weighted array factors (Chebyshev and Taylor) vs unweighted.
-           Weighting suppresses sidelobes at the cost of mainlobe width.
-Figure 28: Beam steering to 15, 45, and -60 degrees.
-           Steering broadens the beam and reduces peak gain at large angles.
+- **Figure 24:** number of elements vs the array factor (lambda/2 spacing).
+- **Figure 25:** element spacing vs the array factor (10 elements); spacing >
+  lambda/2 introduces grating lobes.
+- **Figure 27:** weighted array factors (Chebyshev, Taylor) vs unweighted —
+  weighting suppresses sidelobes at the cost of mainlobe width.
+- **Figure 28:** beam steering to 15, 45, and -60 degrees — steering broadens
+  the beam and lowers peak gain at large angles.
 
 Scaling note vs the reference document:
-  - These figures plot the voltage array factor in dB, 20*log10|AF|, which
-    peaks at 20*log10(N).  The reference document plots 10*log10 quantities
-    (power gain, dBi), so its unnormalized peaks sit at half our dB values.
-    Neither is a bug — they are different (voltage vs power) conventions.
-  - Figures 27 and 28 are normalized to their peaks, so the convention
-    cancels and they match the document directly.
+
+- These figures plot the voltage array factor in dB, `20*log10|AF|`, peaking
+  at `20*log10(N)`. The reference plots `10*log10` quantities (power gain,
+  dBi), so its unnormalized peaks sit at half our dB values — different
+  (voltage vs power) conventions, not a bug.
+- Figures 27 and 28 are normalized to their peaks, so the convention cancels
+  and they match the document directly.
 """
 
 import numpy as np

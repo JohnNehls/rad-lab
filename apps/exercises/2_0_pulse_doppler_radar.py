@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 """Pulse-Doppler radar ambiguity exercises.
 
-Problem 1: Unambiguous range vs PRF.
-Problem 2: Unambiguous range rate vs PRF for several carrier frequencies.
-Problem 3: Range aliasing — where a 15.5 km target appears at various PRFs.
-Problem 4: Doppler and range-rate aliasing vs PRF.
-Problem 5: Range-rate aliasing vs carrier frequency at fixed PRF.
+- **Problem 1:** Unambiguous range vs PRF.
+- **Problem 2:** Unambiguous range rate vs PRF for several carrier frequencies.
+- **Problem 3:** Range aliasing — where a 15.5 km target appears at various PRFs.
+- **Problem 4:** Doppler and range-rate aliasing vs PRF.
+- **Problem 5:** Range-rate aliasing vs carrier frequency at fixed PRF.
 """
 
 import numpy as np

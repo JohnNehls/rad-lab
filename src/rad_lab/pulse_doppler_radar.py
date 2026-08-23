@@ -1,6 +1,6 @@
 """Pulse-Doppler radar system parameter model.
 
-Defines the :class:`Radar` dataclass that collects all system-level parameters
+Defines the `Radar` dataclass that collects all system-level parameters
 (carrier frequency, transmit power, gains, noise figure, PRF, dwell time, etc.)
 and derives secondary quantities such as number of pulses and unambiguous range.
 """

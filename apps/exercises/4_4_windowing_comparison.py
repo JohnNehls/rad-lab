@@ -5,11 +5,12 @@ Apply Chebyshev, Blackman-Harris, and Taylor windows to an uncoded pulse and
 compare the resulting spectra. Windowing reduces spectral sidelobes at the
 cost of widening the mainlobe (lower range resolution).
 
-Key observations:
-  - Unwindowed (rectangular): narrowest mainlobe, highest sidelobes (~-13 dB).
-  - Chebyshev: equi-ripple sidelobes at the specified level (60 dB here).
-  - Blackman-Harris: very low sidelobes, but widest mainlobe.
-  - Taylor: compromise — low near-in sidelobes with moderate mainlobe widening.
+Key takeaways:
+
+- **Unwindowed** (rectangular): narrowest mainlobe, highest sidelobes (~-13 dB).
+- **Chebyshev:** equi-ripple sidelobes at the specified level (60 dB here).
+- **Blackman-Harris:** very low sidelobes, but widest mainlobe.
+- **Taylor:** compromise — low near-in sidelobes with moderate mainlobe widening.
 """
 
 from scipy import signal

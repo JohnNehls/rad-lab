@@ -9,18 +9,16 @@ coherent processor (matched filter + Doppler FFT).  The input SNR is the
 **post-integration** signal-to-noise ratio — for coherent integration of
 *N* pulses, this is *N* times the single-pulse SNR.
 
-Swerling model summary
-----------------------
-==========  =============================  =============================
-Model       RCS fluctuation                Decorrelation
-==========  =============================  =============================
-0 (or V)    Non-fluctuating (constant)     —
-I           Chi-squared, 2 DOF (Rayleigh)  Scan-to-scan (slow)
-III         Chi-squared, 4 DOF             Scan-to-scan (slow)
-==========  =============================  =============================
+### Swerling model summary
 
-References
-----------
+| Model    | RCS fluctuation               | Decorrelation       |
+| -------- | ----------------------------- | ------------------- |
+| 0 (or V) | Non-fluctuating (constant)    | —                   |
+| I        | Chi-squared, 2 DOF (Rayleigh) | Scan-to-scan (slow) |
+| III      | Chi-squared, 4 DOF            | Scan-to-scan (slow) |
+
+### References
+
 Richards, M. A., *Fundamentals of Radar Signal Processing*, 2nd ed.,
 McGraw-Hill, 2014, Ch. 5–6.
 """
@@ -214,7 +212,7 @@ def required_snr(pd, pfa, model="swerling0"):
 def required_snr_nci(pd, pfa, n_pulses):
     r"""Required single-pulse SNR for non-coherent integration (Swerling 0).
 
-    Numerically inverts :func:`pd_swerling0_nci` to find the per-pulse
+    Numerically inverts `pd_swerling0_nci` to find the per-pulse
     SNR that achieves the target :math:`P_d` after non-coherently
     integrating *n_pulses* independent looks.
 
@@ -262,7 +260,7 @@ def albersheim(pd, pfa, n_pulses=1):
         inverse it agrees to ~0.3 dB over most of that region but degrades
         toward the low-:math:`P_d` / high-:math:`P_{fa}` corner (several dB
         at :math:`P_d = 0.1`, :math:`P_{fa} = 10^{-3}`).  Use
-        :func:`required_snr` or :func:`required_snr_nci` for exact results.
+        `required_snr` or `required_snr_nci` for exact results.
 
     Args:
         pd: Desired detection probability.
@@ -388,7 +386,7 @@ def plot_required_snr_vs_n(
 ):
     r"""Plot required single-pulse SNR vs number of non-coherently integrated pulses.
 
-    Uses the exact numerical inverse (:func:`required_snr_nci`) and
+    Uses the exact numerical inverse (`required_snr_nci`) and
     overlays Albersheim's closed-form approximation for comparison.
 
     Args:

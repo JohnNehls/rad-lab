@@ -99,7 +99,7 @@ def add_sar_returns(
         datacube: 2-D complex array of shape ``(n_range_bins, n_pulses)``.
         waveform: Waveform containing the discrete pulse samples.
         sar_radar: SAR system parameters.
-        target_list: List of :class:`SarTarget` point scatterers.
+        target_list: List of `SarTarget` point scatterers.
         platform_positions: Platform positions ``(n_pulses, 3)`` [m].
         beam_weights_fn: Optional callable that accepts a target position
             ``[x, y, z]`` and returns per-pulse amplitude weights
@@ -202,7 +202,7 @@ def rcmc(
 
     This function shifts each range column by ``-dR / dR_grid`` bins
     (sub-bin precision via 8-tap Hann-windowed sinc interpolation), in
-    place.  After RCMC, :func:`azimuth_matched_filter` correlates with
+    place.  After RCMC, `azimuth_matched_filter` correlates with
     its exact hyperbolic reference and produces a sharp PSF.
 
     Args:

@@ -4,9 +4,11 @@
 Generate uncoded, Barker-coded, random-coded, and LFM pulses, then visualize
 each pulse's time-domain shape, power spectral density, and auto-correlation.
 
-Key takeaway: BPSK bandwidth is set by the chip width (same as a single chip
-pulse), but the PSDs become noisier with more chips. LFM spreads energy
-uniformly across the bandwidth.
+Key takeaways:
+
+- BPSK bandwidth is set by the chip width (same as a single-chip pulse), but
+  the PSD gets noisier with more chips.
+- LFM spreads energy uniformly across the bandwidth.
 """
 
 import numpy as np

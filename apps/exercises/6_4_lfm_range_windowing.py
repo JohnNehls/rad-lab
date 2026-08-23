@@ -15,12 +15,15 @@ time tapers the swept-spectrum edges -- the frequency weighting Richards uses
 for range-sidelobe control.  Sidelobes drop below threshold; the cost is a
 broader mainlobe (coarser range resolution) and a small SNR loss.
 
-This script shows:
-  - Fig 1  Noiseless range point-spread (rectangular vs Taylor vs Chebyshev):
-           the -13.2 dB pedestal buried, the mainlobe widened.
-  - Fig 2  CA-CFAR on the noisy RDM: the spurious sidelobe detections vanish.
-Printed per window: peak sidelobe level, -3 dB mainlobe width, weighting
-loss, CFAR detection count.
+Produces two figures:
+
+- **Fig 1:** noiseless range point-spread (rectangular vs Taylor vs Chebyshev)
+  — the -13.2 dB pedestal buried, the mainlobe widened.
+- **Fig 2:** CA-CFAR on the noisy RDM — the spurious sidelobe detections
+  vanish.
+
+Printed per window: peak sidelobe level, -3 dB mainlobe width, weighting loss,
+CFAR detection count.
 
 Reference: Richards, M. A., *Fundamentals of Radar Signal Processing*, 2nd
 ed., McGraw-Hill, 2014, Ch. 4 (Radar Waveforms) -- matched filter, LFM pulse

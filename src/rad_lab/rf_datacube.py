@@ -112,7 +112,7 @@ def range_window(
     - Normalising to unit mean keeps the coherent peak gain at ``N_taps``, so
       the loss shows up as a raised noise floor, not a rescaled peak.
 
-    Window vocabulary matches :func:`rad_lab._rdm_internals.create_window`.
+    Window vocabulary matches `create_window`.
 
     Args:
         n_taps: Length of the taper (number of replica samples).
@@ -175,18 +175,18 @@ def matchfilter(
     Pass ``window`` to weight the replica for range-sidelobe control: this
     suppresses the ~-13.2 dB LFM sidelobes that a CFAR detector would otherwise
     flag as spurious targets around a strong return, at the cost of a broader
-    mainlobe and a small SNR loss.  See :func:`range_window` and Richards,
+    mainlobe and a small SNR loss.  See `range_window` and Richards,
     *FRSP* 2nd ed., Ch. 4.
 
     Args:
         datacube: 2D time-domain datacube with shape (N_range_bins, N_pulses),
             modified in-place.
         pulse_wvf: 1D transmitted pulse template (unit-amplitude convention,
-            see :class:`rad_lab.waveform.WaveformSample`).
+            see `WaveformSample`).
         pedantic: If True, use the iterative time-domain helper; if False,
             use FFT-based convolution.  Defaults to True.
         window: Range weighting applied to the replica.  ``"none"`` (default)
-            reproduces the plain matched filter.  See :func:`range_window`
+            reproduces the plain matched filter.  See `range_window`
             for the other options.
         window_kwargs: Optional dict forwarded to the window function.
 

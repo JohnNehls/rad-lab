@@ -1,7 +1,7 @@
 """SAR system parameters and target models.
 
-Defines :class:`SarRadar` (SAR platform and system parameters for stripmap
-and spotlight modes) and :class:`SarTarget` (a point scatterer in 3-D space).
+Defines `SarRadar` (SAR platform and system parameters for stripmap
+and spotlight modes) and `SarTarget` (a point scatterer in 3-D space).
 """
 
 import math

@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 """Noisy cross-correlation (matched filter) exercises.
 
-Demonstrate how a matched filter detects pulses buried in noise:
-  Case 1: Single uncoded pulse at 20 dB SNR.
-  Case 2: Three uncoded pulses at different SNRs (15, 30, 20 dB).
-  Case 3: An LFM pulse and a Barker-13 BPSK pulse in the same noise,
-          showing that each matched filter only responds to its own waveform.
+Show how a matched filter detects pulses buried in noise:
 
-Key takeaway: the matched-filter peak appears at the center of the pulse
-(not the leading edge), and scales with the pulse's processing gain.
+- **Case 1:** Single uncoded pulse at 20 dB SNR.
+- **Case 2:** Three uncoded pulses at different SNRs (15, 30, 20 dB).
+- **Case 3:** An LFM pulse and a Barker-13 BPSK pulse in the same noise — each
+  matched filter responds only to its own waveform.
+
+Key takeaway: the matched-filter peak appears at the center of the pulse (not
+the leading edge) and scales with the pulse's processing gain.
 """
 
 import numpy as np

@@ -6,8 +6,9 @@ frequency, then apply Doppler processing (FFT across slow time) to verify
 the signal appears in the correct range-Doppler cell.
 
 The datacube has two axes:
-  - Fast time (rows): samples within a single PRI — maps to range.
-  - Slow time (columns): one sample per pulse — maps to Doppler frequency.
+
+- **Fast time** (rows): samples within a single PRI — maps to range.
+- **Slow time** (columns): one sample per pulse — maps to Doppler frequency.
 """
 
 import numpy as np

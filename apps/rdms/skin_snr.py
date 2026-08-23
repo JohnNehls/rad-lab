@@ -2,9 +2,9 @@
 """Skin return with SNR verification.
 
 Generate an RDM for a single moving target using an LFM waveform, normalise
-to SNR voltage ratio with :func:`rdm.to_snr`, and compare the measured peak
+to SNR voltage ratio with `to_snr`, and compare the measured peak
 SNR in the RDM to the range-equation prediction printed by
-:func:`check_expected_snr`.
+`check_expected_snr`.
 """
 
 import matplotlib.pyplot as plt

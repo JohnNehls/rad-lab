@@ -4,8 +4,8 @@ Provides cell-averaging CFAR (CA-CFAR) and its variants (greatest-of and
 smallest-of) for adaptive threshold detection across a 2-D RDM.  Guard and
 training cells slide over the map in both range and Doppler dimensions.
 
-References
-----------
+### References
+
 Richards, M. A., *Fundamentals of Radar Signal Processing*, 2nd ed.,
 McGraw-Hill, 2014, Ch. 7 (Constant False Alarm Rate Detection).
 """
@@ -152,7 +152,7 @@ def plot_cfar(
         rdot_axis: 1-D range-rate axis [m/s].
         r_axis: 1-D range axis [m].
         rdm: 2-D complex RDM (magnitude is plotted in dB).
-        detections: Boolean detection mask from :func:`cfar_2d`.
+        detections: Boolean detection mask from `cfar_2d`.
         title: Plot title.
 
     Returns:

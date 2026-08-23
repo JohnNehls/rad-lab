@@ -6,7 +6,7 @@ apply Cell-Averaging CFAR (CA-CFAR) to detect them.  The matched filter is
 Taylor-weighted for range-sidelobe control (see exercise 6_4), so the LFM's
 ~-13.2 dB range sidelobes stay below the CFAR threshold and do not clutter the
 map with spurious detections -- isolating the behaviour of the CFAR variants
-themselves.  The exercise shows:
+themselves.  The exercise produces four figures:
 
 1. The raw RDM with noise floor and target peaks.
 2. CA-CFAR detection markers overlaid on the RDM.

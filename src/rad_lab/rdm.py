@@ -1,6 +1,6 @@
 """Range-Doppler map (RDM) generation and plotting.
 
-Provides the :func:`gen` entry point that simulates a full CPI — adding skin
+Provides the `gen` entry point that simulates a full CPI — adding skin
 and jammer returns to a datacube, applying matched filtering, Doppler
 windowing, and the slow-time FFT — and a set of plot helpers for RTMs and RDMs.
 """
@@ -39,16 +39,16 @@ def gen(
     parameters, waveform characteristics, and noise.
 
     Output amplitudes are in Volts (at the receiver load).  To view the RDM
-    in SNR voltage ratio, pass the returned datacube through :func:`to_snr`.
+    in SNR voltage ratio, pass the returned datacube through `to_snr`.
     To get a noiseless RDM for peak-finding or PSF inspection, set
     ``radar.op_temp = 0`` (thermal noise scales with temperature).
 
     Args:
         radar: Radar system parameters. See
-            :class:`rad_lab.pulse_doppler_radar.Radar` for required keys and units.
+            `Radar` for required keys and units.
         waveform: WaveformSample created by a factory function
-            (e.g. :func:`rad_lab.waveform.lfm_waveform`).
-        return_list: List of :class:`rad_lab.returns.Return` objects, each
+            (e.g. `lfm_waveform`).
+        return_list: List of `Return` objects, each
             describing one simulated target or jammer.
         seed: Random number generator seed for reproducibility. Defaults to 0.
         plot: If True, plots the final RDM. Defaults to True.
@@ -62,13 +62,13 @@ def gen(
             ``window_kwargs={"at": 80}`` sets Chebyshev attenuation to
             80 dB; ``window_kwargs={"nbar": 5, "sll": 35}`` tunes the
             Taylor window (``sll`` is a positive suppression in dB). See
-            :func:`._rdm_internals.create_window`.
+            `create_window`.
         range_window: Weighting on the matched-filter replica for *range*
             sidelobe control (fast-time), analogous to ``window`` in Doppler.
             ``"none"`` (default) is the plain matched filter, leaving the LFM's
             ~-13.2 dB range sidelobes.  One of ``"none"``, ``"chebyshev"``,
             ``"blackman-harris"``, ``"taylor"``.  See
-            :func:`rad_lab.rf_datacube.range_window`.
+            `range_window`.
         range_window_kwargs: Optional dict forwarded to the range-window
             function (e.g. ``{"at": 60}`` for Chebyshev).
 
@@ -141,7 +141,7 @@ def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.n
 
     Normalises so the peak magnitude equals the range-equation SNR voltage
     and the off-peak noise floor has voltage standard deviation of 1.  Use
-    :func:`~rad_lab._rdm_extras.verify_snr` to verify against theory.
+    `verify_snr` to verify against theory.
 
     Derivation, with unit-amplitude pulse template (``|p|=1`` over duration
     ``T``, ``N_taps = T·fs`` samples) and raw (unscaled) matched filter:
@@ -155,7 +155,7 @@ def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.n
     So dividing by ``fs · sqrt(N · R·N₀·T)`` yields the SNR voltage ratio.
 
     Args:
-        datacube: Processed RDM returned by :func:`gen`, in Volts.
+        datacube: Processed RDM returned by `gen`, in Volts.
         radar: Same radar used to generate the RDM.
         waveform: Same waveform used to generate the RDM.
 

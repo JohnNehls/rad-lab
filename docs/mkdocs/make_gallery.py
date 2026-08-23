@@ -30,12 +30,43 @@ CATEGORIES = {
 }
 
 FIGURE_RE = re.compile(r"^apps_(?P<rest>.+)\.py_fig(?P<index>\d+)\.png$")
+LIST_MARKER_RE = re.compile(r"^\s*(?:[-*+]|\d+[.)])\s")
 
 
-def script_summary(script_path):
-    """Return the first line of the module docstring, or '' if absent."""
-    docstring = ast.get_docstring(ast.parse(script_path.read_text()))
-    return docstring.splitlines()[0].strip() if docstring else ""
+def _blank_line_before_lists(text):
+    """Insert the blank line Python-Markdown needs before a list.
+
+    MkDocs renders these docstrings with Python-Markdown, which will not let a
+    list interrupt a paragraph: a docstring like ``"takeaways:\\n- a\\n- b"``
+    renders the bullets as literal text. We insert a blank line before any list
+    that directly follows a paragraph line so authors can keep writing plain,
+    readable docstrings without hand-tuning them for the Markdown parser. A line
+    already inside a list (previous line is a list item or an indented
+    continuation) is left alone.
+    """
+    out = []
+    for line in text.splitlines():
+        if (
+            LIST_MARKER_RE.match(line)
+            and out
+            and out[-1].strip()  # previous line is a non-blank paragraph line...
+            and not out[-1].startswith((" ", "\t"))  # ...not a list continuation...
+            and not LIST_MARKER_RE.match(out[-1])  # ...and not itself a list item
+        ):
+            out.append("")
+        out.append(line)
+    return "\n".join(out)
+
+
+def script_docstring(script_path):
+    """Return the full module docstring with indentation cleaned, or '' if absent.
+
+    ``ast.get_docstring`` runs the text through ``inspect.cleandoc``, so the
+    docstring's own Markdown (paragraphs, lists, etc.) survives intact and is
+    rendered by MkDocs on the gallery page.
+    """
+    docstring = ast.get_docstring(ast.parse(script_path.read_text())) or ""
+    return _blank_line_before_lists(docstring)
 
 
 def collect_figures():
@@ -79,10 +110,10 @@ def main():
         lines += [f"## {heading}", ""]
         for stem in scripts:
             script_rel = f"apps/{category}/{stem}.py"
-            summary = script_summary(REPO_ROOT / script_rel)
+            docstring = script_docstring(REPO_ROOT / script_rel)
             lines += [f"### [`{stem}.py`]({GITHUB_BLOB_URL}/{script_rel})", ""]
-            if summary:
-                lines += [summary, ""]
+            if docstring:
+                lines += [docstring, ""]
             lines.append('<div class="grid-gallery" markdown>')
             for png in groups[(category, stem)]:
                 shutil.copy2(png, figures_out / png.name)
