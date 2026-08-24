@@ -2083,17 +2083,19 @@ and probability of detection (Pd) for non-fluctuating and fluctuating targets.</
 detection threshold is a surface you cannot see directly.  Strip the problem
 down to a single range profile so the threshold is a <em>line</em> drawn on top of
 the signal, making the kernel arithmetic visible:</p>
-<p>Each cell under test (CUT) estimates the local noise from N training cells
-on each side (a guard band around the CUT is excluded).  The three kernels
-combine the leading and lagging halves differently:</p>
-<pre><code>CA    noise = mean(all 2N training cells)
+<p>Each cell under test (CUT) estimates the local noise from N_TRAIN training
+cells on each side (a guard band around the CUT is excluded).  The three
+kernels combine the leading and lagging halves differently:</p>
+<pre><code>CA    noise = mean(all 2*N_TRAIN training cells)
 GOCA  noise = max(mean(leading half), mean(lagging half))
 SOCA  noise = min(mean(leading half), mean(lagging half))
 </code></pre>
-<p>The threshold is <code>alpha * noise</code> with the same CA multiplier used in
-<code>cfar_2d</code>.  That multiplier is exact only for CA; GOCA
-and SOCA reuse it as an approximation (their exact multipliers have no
-closed form), so their realised false-alarm rate drifts from <code>Pfa</code>.</p>
+<p>The threshold is <code>alpha * noise</code>, where <code>noise</code> is the training-cell
+power estimate and <code>alpha</code> is the multiplier that sets it high enough for a
+noise-only cell's exceedance probability to equal <code>Pfa</code> (exact for CA under
+exponential, square-law noise).  This is the same CA multiplier used in
+<code>cfar_2d</code>; GOCA and SOCA reuse it as an approximation (their exact multipliers
+have no closed form), so their realised false-alarm rate drifts from <code>Pfa</code>.</p>
 <p>The profile contains two features that expose the trade-offs:</p>
 <ol>
 <li>Two closely-spaced targets, near enough that each sits in the other's
