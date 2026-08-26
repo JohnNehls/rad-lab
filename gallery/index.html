@@ -2268,12 +2268,27 @@ estimation works identically in both domains. Compare four methods:</p>
 <li>Time-domain monopulse ratio (sum/difference of element signals)</li>
 <li>Time-domain phase-only estimate (only valid at baseband, not RF passband)</li>
 <li>Frequency-domain monopulse ratio (applied at the peak FFT bin)</li>
-<li>Frequency-domain phase-only estimate</li>
+<li>Frequency-domain phase-only estimate (survives at RF: the peak bin
+     demodulates the tone)</li>
 </ol>
+<p>There is no pulse train here: the record is a single dwell of N complex
+samples of one tone.  "Coherent integration" means summing those N samples,
+which gives ~10*log10(N) of SNR gain.  Both domains do exactly that same sum
+before forming the ratio -- the time domain adds the samples directly (at RF,
+after demodulating the tone), and the frequency domain reads the peak FFT bin,
+which is that identical sum written in the frequency domain (bit-for-bit equal
+when unwindowed).  Errors are averaged over Monte Carlo noise trials at each
+SNR.</p>
 <p>Key takeaways:</p>
 <ul>
-<li>The monopulse ratio gives the same accuracy in time and frequency domains.</li>
-<li>The phase-only method works at baseband but fails at RF passband.</li>
+<li>The monopulse ratio gives the same accuracy in time and frequency domains,
+  because both apply the one coherent sum over the N-sample dwell (the
+  time-domain sum equals the peak FFT bin).</li>
+<li>The naive phase-only estimate reads the angle straight from the
+  inter-element phase difference.  It works at baseband, but the time-domain
+  version fails at RF passband (summing the spinning carrier destroys the
+  signal); the frequency-domain version survives because reading the peak bin
+  demodulates the tone.</li>
 </ul>
 <div class="grid-gallery">
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig0.png" data-desc-position="bottom"><img alt="7_5_monopulse_snr_test_freq figure" src="figures/apps_exercises_7_5_monopulse_snr_test_freq.py_fig0.png"></a>
