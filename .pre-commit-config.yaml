@@ -8,3 +8,16 @@
                 args: [--fix]
             # Run the formatter.
             -   id: ruff-format
+    -   repo: local
+        hooks:
+            # Fast unit tests: quick local feedback on every commit.
+            # The slow apps regression is left to CI (python-app.yml), which
+            # gates merges into main via branch protection.
+            -   id: pytest-unit
+                name: unit tests (pytest)
+                entry: python -m pytest tests/ -q
+                language: system
+                types: [python]
+                pass_filenames: false
+                always_run: true
+                stages: [pre-commit]

@@ -39,7 +39,7 @@ import rad_lab.monopulse as mp
 from rad_lab.noise import unity_variance_complex_noise
 
 
-plt.rcParams["text.usetex"] = True
+plt.rcParams["mathtext.fontset"] = "cm"
 
 # -- Signal configuration --
 BASEBAND = True  # True: signal at DC; False: oscillating at RF

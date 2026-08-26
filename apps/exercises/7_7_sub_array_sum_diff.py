@@ -17,7 +17,7 @@ import rad_lab.uniform_linear_arrays as ula
 import rad_lab.constants as c
 
 
-plt.rcParams["text.usetex"] = True
+plt.rcParams["mathtext.fontset"] = "cm"
 
 # -- Array parameters --
 fc = 10e9  # carrier frequency [Hz]
