@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 from rad_lab import pulse_doppler_radar as pdr
 
 
-plt.rcParams["text.usetex"] = True
+plt.rcParams["mathtext.fontset"] = "cm"
 
 ## Problem 1: Unambiguous range vs PRF ######################################
 # Higher PRF => shorter PRI => less time for echoes => shorter unambiguous range.

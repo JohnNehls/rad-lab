@@ -24,7 +24,7 @@ from rad_lab.noise import unity_variance_complex_noise
 
 np.random.seed(0)  # reproducible noise realizations
 
-plt.rcParams["text.usetex"] = True
+plt.rcParams["mathtext.fontset"] = "cm"
 
 # -- Generate a test signal (single-frequency complex sinusoid) --
 N_samples = 1000

@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 import rad_lab.uniform_linear_arrays as ula
 
 
-plt.rcParams["text.usetex"] = True
+plt.rcParams["mathtext.fontset"] = "cm"
 
 # -- Define a 40-element array with Chebyshev weights --
 Nel = 40

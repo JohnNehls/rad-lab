@@ -6,7 +6,7 @@ name: Python application
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main" ]
 
@@ -16,7 +16,10 @@ permissions:
 jobs:
   test:
 
-    runs-on: ubuntu-latest
+    # Pinned (not ubuntu-latest) so the apps figure baselines compare against a
+    # stable rendering environment. Figures render from matplotlib's bundled
+    # freetype/fonts (no host LaTeX), so pixels are reproducible run to run.
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -30,14 +33,11 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
-        sudo apt install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended cm-super dvipng
         python -m pip install --upgrade pip
         pip install ".[dev]"
     - name: Test with pytest
       run: |
         python -m pytest tests/ -v
-    - name: Apps regression (stdout + figure count; pixel image diff skipped in CI)
-      env:
-        RADLAB_SKIP_FIGURE_COMPARE: "1"
+    - name: Apps regression (stdout + full pixel figure comparison)
       run: |
         python -m pytest -m apps -v

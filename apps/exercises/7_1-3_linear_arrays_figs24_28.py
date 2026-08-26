@@ -25,7 +25,7 @@ import matplotlib.pyplot as plt
 import rad_lab.uniform_linear_arrays as ula
 
 
-plt.rcParams["text.usetex"] = True
+plt.rcParams["mathtext.fontset"] = "cm"
 
 ## Figure 24: Unweighted, lambda/2 spacing, 10 vs 40 elements ##############
 fig, axs = plt.subplots(1, 2)

@@ -22,8 +22,6 @@ git clone https://github.com/JohnNehls/rad-lab
 pip install -e ./rad-lab
 ```
 
-> A few exercises use LaTeX for plot labels — LaTeX must be installed for those to run.
-
 ## Usage
 
 ### RDM Generation
@@ -113,7 +111,24 @@ deliberately omits.
 
 Contributions are welcome. Please fork the repository and submit a pull request.
 
-To run the test suite:
+### Git hooks
+
+This repo uses [pre-commit](https://pre-commit.com/) for ruff linting/formatting
+and the fast unit tests. After cloning, install the hooks once:
+
+```shell
+pip install pre-commit
+pre-commit install
+```
+
+Ruff and the unit tests then run on every `git commit`. The slower apps
+regression runs in CI (see `.github/workflows/python-app.yml`), which runs the
+full suite on `main`/`dev` pushes and on pull requests, and gates merges into
+`main` via branch protection.
+
+### Testing
+
+To run the test suite manually:
 
 ```shell
 python -m pytest tests/ -v  # unit tests (fast; apps regression is deselected)
