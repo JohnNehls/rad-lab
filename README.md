@@ -111,6 +111,19 @@ deliberately omits.
 
 Contributions are welcome. Please fork the repository and submit a pull request.
 
+### Code style and layout
+
+rad-lab is an educational library — the priority is code that reads clearly and
+builds intuition. **Prefer readability over performance**: the explicit loops
+over targets and pulses are intentional and should not be vectorized at the cost
+of clarity.
+
+The public API is re-exported from `src/rad_lab/__init__.py` (`Radar`, `Target`,
+`Return`, the waveform builders, `rdm`, `sar`, `stap`, ...). Modules whose names
+start with an underscore (e.g. `_rdm_internals.py`, `_sar_internals.py`) are
+private implementation detail. Formatting and linting are handled by ruff
+(line length 99, double quotes) via the pre-commit hooks below.
+
 ### Git hooks
 
 This repo uses [pre-commit](https://pre-commit.com/) for ruff linting/formatting
