@@ -1,8 +1,9 @@
-# GitLab counterpart of .github/workflows/ruff.yml and python-app.yml.
+# GitLab counterpart of .github/workflows/ruff.yml, python-app.yml and docs.yml.
 # Commits arrive via the GitHub -> GitLab mirror (.github/workflows/gitlab-mirror.yml).
-# Docs deploy and PyPI publish stay GitHub-only.
+# Docs are hosted on GitLab Pages independently of the GitHub Pages deploy; PyPI
+# publish stays GitHub-only.
 
-stages: [lint, test]
+stages: [lint, test, docs]
 
 ruff:
   stage: lint
@@ -28,3 +29,25 @@ test:
     - pip install ".[dev]"
     - python -m pytest tests/ -v
     - python -m pytest -m apps -v  # Apps regression (stdout + full pixel figure comparison)
+
+.docs-build:
+  stage: docs
+  image: python:3.11
+  script:
+    - pip install -e ".[docs]"
+    - python docs/mkdocs/make_gallery.py
+    # Built to public/ as an artifact (no branch push), so it never touches GitHub's gh-pages
+    - mkdocs build --strict -f docs/mkdocs/mkdocs.yml -d "$CI_PROJECT_DIR/public"
+
+docs-check:
+  extends: .docs-build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+pages:
+  extends: .docs-build
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  artifacts:
+    paths: [public]
