@@ -1,0 +1,26 @@
+# Mirror every branch and tag push to GitLab so its CI pipeline (.gitlab-ci.yml) runs there too.
+# GitHub is the source of truth: the push is forced, so never commit directly on GitLab.
+# Requires the GITLAB_TOKEN repo secret (GitLab project access token, write_repository scope).
+
+name: Mirror to GitLab
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["**"]
+
+permissions:
+  contents: read
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Push to GitLab
+        env:
+          GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
+        run: |
+          git push --force "https://oauth2:${GITLAB_TOKEN}@gitlab.com/JohnNehls/rad-lab.git" "${GITHUB_REF}:${GITHUB_REF}"

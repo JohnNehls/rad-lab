@@ -1,0 +1,30 @@
+# GitLab counterpart of .github/workflows/ruff.yml and python-app.yml.
+# Commits arrive via the GitHub -> GitLab mirror (.github/workflows/gitlab-mirror.yml).
+# Docs deploy and PyPI publish stay GitHub-only.
+
+stages: [lint, test]
+
+ruff:
+  stage: lint
+  image: python:3.12
+  script:
+    - pip install ruff==0.15.8  # Keep in sync with ruff.yml
+    - ruff check .
+    - ruff format --diff .
+
+test:
+  stage: test
+  # Debian-based image rather than the pinned ubuntu-24.04 runner used on GitHub. Figures
+  # render from matplotlib's bundled freetype/fonts, so the apps baselines should still match.
+  image: python:${PY}
+  parallel:
+    matrix:
+      - PY: ["3.11", "3.12", "3.13"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "dev"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  script:
+    - python -m pip install --upgrade pip
+    - pip install ".[dev]"
+    - python -m pytest tests/ -v
+    - python -m pytest -m apps -v  # Apps regression (stdout + full pixel figure comparison)
