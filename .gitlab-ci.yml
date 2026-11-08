@@ -48,6 +48,7 @@ docs-check:
 pages:
   extends: .docs-build
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    # Explicit, not $CI_DEFAULT_BRANCH: GitLab makes the first mirrored branch (dev) the default
+    - if: $CI_COMMIT_BRANCH == "main"
   artifacts:
     paths: [public]
