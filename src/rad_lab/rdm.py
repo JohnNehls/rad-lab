@@ -11,12 +11,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from . import constants as c
-from .rf_datacube import range_axis, data_cube
+from .rf_datacube import range_axis
 from .rf_datacube import matchfilter, doppler_process
 from .range_equation import noise_power
 from .noise import unity_variance_complex_noise
 from .utilities import zero_to_smallest_float
-from ._rdm_internals import add_returns, create_window, staggered_rtm
+from ._rdm_internals import create_window, returns_rtm
 from ._rdm_extras import noise_checks
 from .pulse_doppler_radar import Radar, range_rate_from_doppler
 from .waveform import WaveformSample
@@ -189,11 +189,7 @@ def _simulate_rtm(
     waveform.set_sample(radar.sample_rate)  # set the recorded sample
 
     ########## Returns + noise #####################################################################
-    if radar.pri_stagger is None:
-        datacube = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
-        add_returns(datacube, waveform, return_list, radar)
-    else:
-        datacube = staggered_rtm(waveform, return_list, radar)
+    datacube = returns_rtm(waveform, return_list, radar)
 
     ########## Create range axis for plotting ######################################################
     r_axis = range_axis(radar.sample_rate, datacube.shape[0])

@@ -1,8 +1,10 @@
+import dataclasses
 import numpy as np
 import pytest
 import rad_lab.pulse_doppler_radar as pdr
 from rad_lab import rdm, Radar, Clutter, uncoded_waveform
-from rad_lab._rdm_internals import clutter_cell_rcs, gaussian_spectrum_sequence
+from rad_lab._rdm_internals import clutter_cell_rcs, gaussian_spectrum_factor
+from rad_lab.noise import unity_variance_complex_noise
 
 BW = 10e6
 PRF = 20e3
@@ -40,26 +42,27 @@ def test_cell_rcs_is_constant_gamma():
     assert clutter_cell_rcs(CLUTTER, 2 * R, dR) == pytest.approx(2 * expected)
 
 
+@pytest.mark.parametrize("pri_stagger", [None, (23, 27, 24, 26)])
+def test_gaussian_spectrum_factor_covariance(pri_stagger):
+    times = dataclasses.replace(RADAR, pri_stagger=pri_stagger).pulse_tx_times
+    doppler_std = 500.0
+    factor = gaussian_spectrum_factor(times, doppler_std)
+    tau = times[:, None] - times[None, :]
+    expected = np.exp(-2 * np.pi**2 * doppler_std**2 * tau**2)
+    assert np.allclose(factor @ factor.conj().T, expected, atol=1e-10)
+
+
 def test_gaussian_spectrum_sequence_has_unit_power():
     np.random.seed(0)
-    seqs = np.array([gaussian_spectrum_sequence(64, PRF, 500.0) for _ in range(2000)])
+    factor = gaussian_spectrum_factor(RADAR.pulse_tx_times, 500.0)
+    seqs = factor @ unity_variance_complex_noise((RADAR.n_pulses, 2000))
     assert np.mean(np.abs(seqs) ** 2) == pytest.approx(1.0, rel=0.05)
-
-
-def test_gaussian_spectrum_sequence_spectral_width():
-    np.random.seed(0)
-    n, doppler_std = 256, 1e3
-    psd = np.zeros(n)
-    for _ in range(500):
-        psd += np.abs(np.fft.fft(gaussian_spectrum_sequence(n, PRF, doppler_std))) ** 2
-    freqs = np.fft.fftfreq(n, d=1 / PRF)
-    measured_std = np.sqrt(np.sum(psd * freqs**2) / np.sum(psd))
-    assert measured_std == pytest.approx(doppler_std, rel=0.05)
 
 
 def test_zero_spread_sequence_is_constant():
     np.random.seed(0)
-    seq = gaussian_spectrum_sequence(64, PRF, 0.0)
+    factor = gaussian_spectrum_factor(RADAR.pulse_tx_times, 0.0)
+    seq = factor @ unity_variance_complex_noise(RADAR.n_pulses)
     assert np.allclose(seq, seq[0])
 
 

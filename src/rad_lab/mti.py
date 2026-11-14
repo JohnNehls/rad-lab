@@ -87,10 +87,7 @@ def frequency_response(
         np.ndarray: Power gain at each frequency [linear].
     """
     coeffs = canceller_coefficients(order)
-    if pri_stagger is None:
-        pris = np.array([1 / prf])
-    else:
-        pris = stagger_pris(prf, pri_stagger)
+    pris = stagger_pris(prf, pri_stagger or (1,))  # a constant PRI is a one-ratio stagger
 
     # Pulse times covering every position in the cycle plus the filter history.
     times = np.concatenate([[0], np.cumsum(np.resize(pris, len(pris) + order - 1))])
@@ -123,9 +120,9 @@ def blind_speeds(
     Returns:
         np.ndarray: Blind range rates ``v_1 .. v_n`` [m/s].
     """
-    if pri_stagger is not None:
-        prf = prf * np.mean(pri_stagger) / np.gcd.reduce(pri_stagger)
-    return np.arange(1, n + 1) * c.C * prf / (2 * fcar)
+    ratios = pri_stagger or (1,)
+    blind_prf = prf * np.mean(ratios) / np.gcd.reduce(ratios)
+    return np.arange(1, n + 1) * c.C * blind_prf / (2 * fcar)
 
 
 def noise_gain(order: int) -> float:

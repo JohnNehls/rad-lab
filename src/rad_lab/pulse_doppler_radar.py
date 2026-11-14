@@ -71,17 +71,32 @@ class Radar:
         return self.sample_rate / (self.prf * np.mean(self.pri_stagger))
 
     @property
-    def stagger_pri_samples(self) -> np.ndarray:
-        """One stagger cycle of PRIs in samples, ``pri_stagger * T0``."""
+    def pri_samples(self) -> np.ndarray:
+        """One cycle of PRIs in samples: ``pri_stagger * T0``, or ``[int(fs / prf)]``.
+
+        A constant PRI is a one-ratio stagger, so code that walks the cycle
+        handles both.
+        """
+        if self.pri_stagger is None:
+            return np.array([int(self.sample_rate / self.prf)])
         return np.array(self.pri_stagger) * round(self._stagger_base_samples)
 
     @property
+    def pulse_tx_samples(self) -> np.ndarray:
+        """Transmit sample index of each pulse in the CPI."""
+        pris = np.resize(self.pri_samples, self.n_pulses - 1)
+        return np.concatenate([[0], np.cumsum(pris)])
+
+    @property
     def pulse_tx_times(self) -> np.ndarray:
-        """Transmit time of each pulse in the CPI [s]."""
+        """Transmit time of each pulse in the CPI [s].
+
+        For a constant PRI this is exactly ``n / prf``, even when ``fs / prf``
+        is not a whole number of samples.
+        """
         if self.pri_stagger is None:
             return np.arange(self.n_pulses) / self.prf
-        pris = np.resize(self.stagger_pri_samples, self.n_pulses - 1)
-        return np.concatenate([[0], np.cumsum(pris)]) / self.sample_rate
+        return self.pulse_tx_samples / self.sample_rate
 
 
 def range_unambiguous(prf: float) -> float:

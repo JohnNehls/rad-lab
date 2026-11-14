@@ -3,7 +3,8 @@ import pytest
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, uncoded_waveform
 from rad_lab import constants as c
 from rad_lab import pulse_doppler_radar as pdr
-from rad_lab._rdm_internals import gaussian_spectrum_sequence
+from rad_lab._rdm_internals import gaussian_spectrum_factor
+from rad_lab.noise import unity_variance_complex_noise
 
 BW = 10e6
 PRF = 20e3
@@ -85,7 +86,8 @@ def test_improvement_factor_matches_simulated_clutter(order):
     np.random.seed(0)
     range_rate_std = 3.0
     doppler_std = 2 * range_rate_std * FCAR / c.C
-    clutter = np.array([gaussian_spectrum_sequence(256, PRF, doppler_std) for _ in range(400)])
+    factor = gaussian_spectrum_factor(np.arange(256) / PRF, doppler_std)
+    clutter = (factor @ unity_variance_complex_noise((256, 400))).T
 
     clutter_gain = np.mean(np.abs(mti.apply_canceller(clutter, order)) ** 2) / np.mean(
         np.abs(clutter) ** 2

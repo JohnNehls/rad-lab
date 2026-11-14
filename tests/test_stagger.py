@@ -3,7 +3,8 @@ import numpy as np
 import pytest
 from rad_lab import rdm, mti, Radar, Target, Return, EaPlatform, lfm_waveform
 from rad_lab import pulse_doppler_radar as pdr
-from rad_lab._rdm_internals import gaussian_spectrum_factor
+from rad_lab._rdm_internals import add_returns, returns_rtm
+from rad_lab.rf_datacube import data_cube
 
 BW = 10e6
 T = 1e-6
@@ -30,11 +31,26 @@ def test_stagger_base_must_be_whole_samples():
 
 
 def test_pulse_tx_times_cycle_the_stagger():
-    assert np.array_equal(RADAR.stagger_pri_samples, np.array(STAGGER) * 40)
+    assert np.array_equal(RADAR.pri_samples, np.array(STAGGER) * 40)
     pris = np.diff(RADAR.pulse_tx_times) * RADAR.sample_rate
     assert np.allclose(pris, np.resize(np.array(STAGGER) * 40, RADAR.n_pulses - 1))
     uniform = dataclasses.replace(RADAR, pri_stagger=None)
     assert np.array_equal(uniform.pulse_tx_times, np.arange(uniform.n_pulses) / uniform.prf)
+
+
+def test_constant_pri_rtm_matches_flat_datacube():
+    """A constant PRI is a one-ratio stagger: the windows tile the recording."""
+    radar = dataclasses.replace(RADAR, pri_stagger=None)
+    waveform = lfm_waveform(BW, T, 1)
+    waveform.set_sample(radar.sample_rate)
+    # The second target is beyond the 7.5 km unambiguous range and folds back.
+    returns = [
+        Return(target=Target(range=3e3, range_rate=100, rcs=1)),
+        Return(target=Target(range=9e3, range_rate=-50, rcs=1)),
+    ]
+    datacube = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
+    add_returns(datacube, waveform, returns, radar)
+    assert np.array_equal(returns_rtm(waveform, returns, radar), datacube)
 
 
 def test_gen_rejects_stagger():
@@ -84,17 +100,6 @@ def test_stagger_blind_speed():
     response = mti.frequency_response(1, 20e3, doppler, pri_stagger=STAGGER)
     assert response[0] > 0.1  # old blind speed is passed
     assert response[1] < 1e-20  # true blind speed is cancelled
-
-
-def test_gaussian_spectrum_factor_covariance():
-    times = RADAR.pulse_tx_times
-    doppler_std = 500.0
-    factor = gaussian_spectrum_factor(times, doppler_std)
-    tau = times[:, None] - times[None, :]
-    expected = np.exp(-2 * np.pi**2 * doppler_std**2 * tau**2)
-    assert np.allclose(factor @ factor.conj().T, expected, atol=1e-10)
-    stationary = gaussian_spectrum_factor(times, 0.0) @ np.ones(len(times))
-    assert np.allclose(stationary, stationary[0])  # one amplitude for every pulse
 
 
 def test_doppler_bank_matches_fft_for_constant_pri():

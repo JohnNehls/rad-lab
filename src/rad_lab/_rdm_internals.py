@@ -223,35 +223,14 @@ def clutter_cell_rcs(clutter: Clutter, range: float, range_spacing: float) -> fl
     return clutter.gamma * np.sin(psi) * area
 
 
-def gaussian_spectrum_sequence(n_pulses: int, prf: float, doppler_std: float) -> np.ndarray:
-    """Unit-power complex Gaussian slow-time sequence with a Gaussian Doppler spectrum.
-
-    White complex noise is shaped in the frequency domain by the square root of
-    a zero-mean Gaussian PSD with standard deviation ``doppler_std``, then
-    normalised so the expected power per pulse is 1.  ``doppler_std = 0`` gives
-    a perfectly stationary cell: one random complex amplitude for every pulse.
-
-    Args:
-        n_pulses: Sequence length.
-        prf: Pulse repetition frequency [Hz].
-        doppler_std: Standard deviation of the Doppler spectrum [Hz].
-    """
-    if doppler_std == 0:
-        return np.full(n_pulses, unity_variance_complex_noise(1)[0])
-
-    freqs = np.fft.fftfreq(n_pulses, d=1 / prf)
-    amplitude_response = np.exp(-(freqs**2) / (4 * doppler_std**2))  # sqrt of Gaussian PSD
-    amplitude_response /= np.sqrt(np.mean(amplitude_response**2))  # unit expected power
-    white = unity_variance_complex_noise(n_pulses)
-    return np.fft.ifft(np.fft.fft(white) * amplitude_response)
-
-
 def gaussian_spectrum_factor(times: np.ndarray, doppler_std: float) -> np.ndarray:
     """Factor ``L`` with ``L @ L^H = R`` for a Gaussian-spectrum process sampled at ``times``.
 
-    The counterpart of `gaussian_spectrum_sequence` for unevenly spaced pulses
-    (staggered PRI), where the FFT shaping does not apply.  A zero-mean
-    Gaussian PSD of standard deviation ``sigma_f`` has autocorrelation
+    Works for any pulse spacing (constant or staggered PRI).  Sampling the
+    continuous-time autocorrelation, rather than shaping an FFT, also aliases
+    a spectrum wider than the PRF correctly and avoids a circular (periodic)
+    sequence.  A zero-mean Gaussian PSD of standard deviation ``sigma_f`` has
+    autocorrelation
     ``R(tau) = exp(-2 pi^2 sigma_f^2 tau^2)``, so ``L @ w`` for unit-variance
     white ``w`` is a unit-power sequence with that spectrum.  ``L`` comes from
     an eigendecomposition rather than Cholesky because ``R`` is nearly
@@ -278,11 +257,10 @@ def add_clutter(
     The clutter band is split into one cell per range sample.  Each cell is
     injected like a skin return moving at ``clutter.range_rate_mean`` (same
     stop-and-hop delay and phase as `add_skin`), but its per-pulse amplitude is
-    a random sequence from `gaussian_spectrum_sequence` scaled by the
+    a unit-power random sequence, ``L @ w`` with ``L`` from
+    `gaussian_spectrum_factor` at the pulse times, scaled by the
     range-equation voltage of the cell's constant-gamma RCS.  The random
     sequence spreads the cell's energy over the clutter Doppler spectrum.
-    With a staggered PRI the sequence comes from `gaussian_spectrum_factor`
-    at the actual pulse times instead.
 
     Args:
         datacube: 2D complex array to which the clutter is added.
@@ -298,17 +276,13 @@ def add_clutter(
     wavelength = c.C / radar.fcar
     doppler_std = 2 * clutter.range_rate_std / wavelength
     pulse_tx_times = radar.pulse_tx_times
-    if radar.pri_stagger is not None:
-        stagger_factor = gaussian_spectrum_factor(pulse_tx_times, doppler_std)
+    spectrum_factor = gaussian_spectrum_factor(pulse_tx_times, doppler_std)
+    # One unit-power slow-time sequence per cell (column), in a single product.
+    slow_times = spectrum_factor @ unity_variance_complex_noise((radar.n_pulses, len(cell_ranges)))
 
-    for cell_range in cell_ranges:
+    for cell_range, slow_time in zip(cell_ranges, slow_times.T):
         cell_rcs = clutter_cell_rcs(clutter, cell_range, range_spacing)
         cell_voltage = radar_signal_voltage(radar, cell_rcs, cell_range)
-
-        if radar.pri_stagger is None:
-            slow_time = gaussian_spectrum_sequence(radar.n_pulses, radar.prf, doppler_std)
-        else:
-            slow_time = stagger_factor @ unity_variance_complex_noise(radar.n_pulses)
 
         cell_range_per_pulse = cell_range + clutter.range_rate_mean * pulse_tx_times
         two_way_delays = 2 * cell_range_per_pulse / c.C
@@ -440,29 +414,31 @@ def add_returns(
             add_jammer(datacube, waveform, radar, item, amp)
 
 
-def staggered_rtm(waveform: WaveformSample, return_list: list, radar: Radar) -> np.ndarray:
-    """Range-time matrix of the returns for a staggered-PRI radar (no noise).
+def returns_rtm(waveform: WaveformSample, return_list: list, radar: Radar) -> np.ndarray:
+    """Range-time matrix of the returns (no noise).
 
     Returns are injected by absolute arrival time into one continuous
-    recording, exactly as for a constant PRI, and each pulse's listening
-    window is then cut from it starting at that pulse's transmit sample.  The
-    window (range gate) is the shortest PRI, so every pulse has the same
-    number of range bins.  Echoes from beyond the gate are not modelled
-    separately: they land in a later window like any other sample.
+    recording, and each pulse's listening window is then cut from it
+    starting at that pulse's transmit sample.  The window (range gate) is
+    the shortest PRI, so every pulse has the same number of range bins.  For
+    a constant PRI the windows tile the recording, giving the usual datacube
+    in which echoes from beyond the unambiguous range fold into later
+    pulses.  With ``pri_stagger`` such echoes are not modelled separately
+    either: they land in a later window like any other sample.
 
     Args:
         waveform: WaveformSample with the sampled pulse set.
         return_list: A list of Return and Clutter objects.
-        radar: Radar with ``pri_stagger`` set.
+        radar: Radar system parameters.
 
     Returns:
         np.ndarray: Complex RTM, shape ``(min PRI in samples, n_pulses)``.
     """
-    tx_samples = np.round(radar.pulse_tx_times * radar.sample_rate).astype(int)
-    pris = radar.stagger_pri_samples
+    tx_samples = radar.pulse_tx_samples
+    pris = radar.pri_samples
     gate = pris.min()
     # An (n, 1) array flattens to the recording itself, so the flat-buffer
-    # injection used for constant-PRI datacubes works unchanged.
+    # injection used for SAR datacubes works unchanged.
     recording = np.zeros(
         (tx_samples[-1] + pris[(radar.n_pulses - 1) % len(pris)], 1), np.complex64
     )

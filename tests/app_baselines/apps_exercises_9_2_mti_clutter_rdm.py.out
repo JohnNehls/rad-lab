@@ -1,13 +1,13 @@
 MTI order 0:
   target SNR       = 30.0 dB
-  peak clutter CNR = 50.9 dB
+  peak clutter CNR = 50.0 dB
 MTI order 1:
   target SNR       = 25.6 dB
-  peak clutter CNR = 16.2 dB
+  peak clutter CNR = 16.5 dB
 MTI order 2:
   target SNR       = 19.1 dB
-  peak clutter CNR = -9.6 dB
+  peak clutter CNR = -14.2 dB
 
 improvement factor (measured vs. theory):
-  order 1: 27.3 dB vs 27.1 dB
-  order 2: 51.4 dB vs 51.1 dB
+  order 1: 27.1 dB vs 27.1 dB
+  order 2: 51.3 dB vs 51.1 dB

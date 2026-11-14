@@ -1,12 +1,12 @@
 MTI order 0:
-  clutter background / noise  =  12.2 dB
-  target / background         =   1.9 dB
-  blind target / background   =  -2.1 dB
+  clutter background / noise  =  11.6 dB
+  target / background         =   1.8 dB
+  blind target / background   =  -0.6 dB
   target gain vs noise, theory =   0.0 dB
 MTI order 1:
   clutter background / noise  =   0.2 dB
   target / background         =  13.0 dB
-  blind target / background   =   0.0 dB
+  blind target / background   =  -0.0 dB
   target gain vs noise, theory =   2.6 dB
 MTI order 2:
   clutter background / noise  =  -0.1 dB
