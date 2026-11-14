@@ -31,7 +31,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, detection, Radar, Target, Return, lfm_waveform
 from rad_lab import constants as c
-from rad_lab.range_equation import snr_range_eqn
+from rad_lab.range_equation import radar_snr
 
 bw = 10e6  # waveform bandwidth [Hz]
 T = 1.0e-6  # pulse width [s]
@@ -56,19 +56,7 @@ range_bin = c.C / (2 * radar.sample_rate)  # 7.5 m
 def pinned_target(range: float, snr_db: float) -> Target:
     """Target on the nearest range-bin centre with the given single-pulse SNR."""
     range = round(range / range_bin) * range_bin
-    snr_per_m2 = snr_range_eqn(
-        radar.tx_power,
-        radar.tx_gain,
-        radar.rx_gain,
-        1.0,
-        c.C / radar.fcar,
-        range,
-        bw,
-        radar.noise_factor,
-        radar.total_losses,
-        radar.op_temp,
-        bw * T,
-    )
+    snr_per_m2 = radar_snr(radar, waveform, 1.0, range)
     return Target(range=range, range_rate=40, rcs=10 ** (snr_db / 10) / snr_per_m2)
 
 

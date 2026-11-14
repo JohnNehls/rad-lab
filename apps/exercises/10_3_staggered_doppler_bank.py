@@ -42,9 +42,8 @@ import dataclasses
 import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, lfm_waveform
-from rad_lab import constants as c
 from rad_lab import pulse_doppler_radar as pdr
-from rad_lab.range_equation import snr_range_eqn
+from rad_lab.range_equation import radar_snr
 from rad_lab.rf_datacube import taper
 
 bw = 10e6  # waveform bandwidth [Hz]
@@ -121,19 +120,7 @@ fig.tight_layout()
 
 # -- Coherent gain: noiseless target, filter at its exact Doppler --
 target = Target(range=4005, range_rate=120, rcs=1)
-snr_1 = snr_range_eqn(
-    radar.tx_power,
-    radar.tx_gain,
-    radar.rx_gain,
-    target.rcs,
-    c.C / radar.fcar,
-    target.range,
-    bw,
-    radar.noise_factor,
-    radar.total_losses,
-    radar.op_temp,
-    bw * T,
-)
+snr_1 = radar_snr(radar, waveform, target.rcs, target.range)
 print(f"\ncoherent gain, {radar.n_pulses} pulses (theory {10 * np.log10(radar.n_pulses):.1f} dB):")
 for label, stagger in staggers.items():
     quiet = dataclasses.replace(radar, op_temp=0, pri_stagger=stagger)

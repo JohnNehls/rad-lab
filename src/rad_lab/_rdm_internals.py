@@ -5,7 +5,7 @@ from . import constants as c
 from .waveform_helpers import add_waveform_at_index
 from .rf_datacube import taper
 from .utilities import phase_negpi_pospi
-from .range_equation import signal_range_eqn, signal_range_eqn_one_way
+from .range_equation import radar_signal_voltage, signal_range_eqn_one_way
 from .noise import unity_variance_complex_noise
 from . import vbm
 from .pulse_doppler_radar import Radar, frequency_delta_doppler
@@ -302,16 +302,8 @@ def add_clutter(
         stagger_factor = gaussian_spectrum_factor(pulse_tx_times, doppler_std)
 
     for cell_range in cell_ranges:
-        cell_power = signal_range_eqn(
-            radar.tx_power,
-            radar.tx_gain,
-            radar.rx_gain,
-            clutter_cell_rcs(clutter, cell_range, range_spacing),
-            wavelength,
-            cell_range,
-            radar.total_losses,
-        )
-        cell_voltage = np.sqrt(c.RADAR_LOAD * cell_power)
+        cell_rcs = clutter_cell_rcs(clutter, cell_range, range_spacing)
+        cell_voltage = radar_signal_voltage(radar, cell_rcs, cell_range)
 
         if radar.pri_stagger is None:
             slow_time = gaussian_spectrum_sequence(radar.n_pulses, radar.prf, doppler_std)
@@ -380,30 +372,6 @@ def create_window(
     return window_matrix
 
 
-def skin_voltage_amplitude(radar: Radar, target: Target) -> float:
-    """Calculates the received voltage amplitude of a skin return.
-
-    Args:
-        radar: Radar system parameters.
-        target: Target kinematics and scattering parameters.
-
-    Returns:
-        The received voltage amplitude.
-    """
-    return np.sqrt(
-        c.RADAR_LOAD
-        * signal_range_eqn(
-            radar.tx_power,
-            radar.tx_gain,
-            radar.rx_gain,
-            target.rcs,
-            c.C / radar.fcar,
-            target.range,
-            radar.total_losses,
-        )
-    )
-
-
 def jammer_voltage_amplitude(platform: EaPlatform, radar: Radar, target: Target) -> float:
     """Calculates the received voltage amplitude of a DRFM jammer return.
 
@@ -464,7 +432,7 @@ def add_returns(
             continue
 
         if item.target.rcs is not None:
-            amp = skin_voltage_amplitude(radar, item.target)
+            amp = radar_signal_voltage(radar, item.target.rcs, item.target.range)
             add_skin(datacube, waveform, item.target, radar, amp)
 
         if item.platform is not None:

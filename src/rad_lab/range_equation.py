@@ -2,9 +2,14 @@
 
 Implements the two-way radar range equation (received signal power and SNR)
 and the one-way Friis transmission equation used for jammer link budgets.
+`radar_signal_voltage` and `radar_snr` evaluate the two-way equation for a
+`Radar` (and waveform) instead of loose parameters.
 """
 
+import math
 from . import constants as c
+from .pulse_doppler_radar import Radar
+from .waveform import WaveformSample
 
 
 def signal_range_eqn(
@@ -369,3 +374,53 @@ def max_target_detection_range_dutyfactor_cp(
     """
     one_pulse = max_target_detection_range(Pt, Gt, Gr, sigma, wavelength, SNR_thresh, 1, F, L, T)
     return one_pulse * (Tcpi * tau_df) ** (1 / 4)
+
+
+def radar_signal_voltage(radar: Radar, rcs: float, range: float) -> float:
+    """Received voltage amplitude [V] at the receiver load from a reflector.
+
+    `signal_range_eqn` with the `Radar` parameters, as ``sqrt(R_load * P)``.
+
+    Args:
+        radar: Radar system parameters.
+        rcs: Radar cross section [m^2].
+        range: Range to the reflector [m].
+    """
+    power = signal_range_eqn(
+        radar.tx_power,
+        radar.tx_gain,
+        radar.rx_gain,
+        rcs,
+        c.C / radar.fcar,
+        range,
+        radar.total_losses,
+    )
+    return math.sqrt(c.RADAR_LOAD * power)
+
+
+def radar_snr(radar: Radar, waveform: WaveformSample, rcs: float, range: float) -> float:
+    """Single-pulse SNR after pulse compression [linear].
+
+    `snr_range_eqn` with the `Radar` parameters and the waveform's bandwidth
+    and time-bandwidth product.  Multiply by the number of pulses for the
+    coherently integrated SNR.
+
+    Args:
+        radar: Radar system parameters.
+        waveform: Transmitted waveform.
+        rcs: Radar cross section [m^2].
+        range: Range to the reflector [m].
+    """
+    return snr_range_eqn(
+        radar.tx_power,
+        radar.tx_gain,
+        radar.rx_gain,
+        rcs,
+        c.C / radar.fcar,
+        range,
+        waveform.bw,
+        radar.noise_factor,
+        radar.total_losses,
+        radar.op_temp,
+        waveform.time_bw_product,
+    )

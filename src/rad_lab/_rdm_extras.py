@@ -1,7 +1,6 @@
 import numpy as np
 from scipy import fft
-from . import constants as c
-from .range_equation import snr_range_eqn_cp
+from .range_equation import radar_snr
 from .pulse_doppler_radar import Radar
 from .waveform import WaveformSample
 from .returns import Target
@@ -44,20 +43,7 @@ def verify_snr(snr_dc: np.ndarray, radar: Radar, target: Target, waveform: Wavef
     """
     magnitude = np.abs(snr_dc)
     measured_db = 20 * np.log10(magnitude.max())
-    expected_linear = snr_range_eqn_cp(
-        radar.tx_power,
-        radar.tx_gain,
-        radar.rx_gain,
-        target.rcs,
-        c.C / radar.fcar,
-        target.range,
-        waveform.bw,
-        radar.noise_factor,
-        radar.total_losses,
-        radar.op_temp,
-        radar.n_pulses,
-        waveform.time_bw_product,
-    )
+    expected_linear = radar_snr(radar, waveform, target.rcs, target.range) * radar.n_pulses
     expected_db = 10 * np.log10(expected_linear)
 
     # Noise floor: complex-gaussian variance -> voltage RMS of |X| is sqrt(2*sigma^2)

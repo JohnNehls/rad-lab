@@ -2,8 +2,7 @@ import dataclasses
 import numpy as np
 import pytest
 from rad_lab import rdm, Radar, Target, Return, lfm_waveform
-from rad_lab import constants as c
-from rad_lab.range_equation import snr_range_eqn
+from rad_lab.range_equation import radar_snr
 from rad_lab.rf_datacube import doppler_process
 
 BW = 10e6
@@ -59,19 +58,7 @@ def test_rtm_peak_is_single_pulse_snr():
     quiet_radar = dataclasses.replace(RADAR, op_temp=0)
     r_axis, rtm = rdm.gen_rtm(quiet_radar, waveform, [Return(target=TARGET)])
     snr_rtm = rdm.rtm_to_snr(rtm, RADAR, waveform)  # normalise by the noisy radar's noise
-    expected = snr_range_eqn(
-        RADAR.tx_power,
-        RADAR.tx_gain,
-        RADAR.rx_gain,
-        TARGET.rcs,
-        c.C / RADAR.fcar,
-        TARGET.range,
-        BW,
-        RADAR.noise_factor,
-        RADAR.total_losses,
-        RADAR.op_temp,
-        BW * T,
-    )
+    expected = radar_snr(RADAR, waveform, TARGET.rcs, TARGET.range)
     i_r = np.argmin(abs(r_axis - TARGET.range))
     assert np.allclose(np.abs(snr_rtm[i_r]) ** 2, expected, rtol=1e-3)
     profile = rdm.noncoherent_integrate(snr_rtm)
