@@ -10,12 +10,18 @@ enhancements:
 - *Search radar, section 10 (range profiles, scanning, PPI):* follows
   section 9 (clutter and MTI).  Range profiles get their full introduction
   here rather than as a side figure in 9_2.
-  - 10_0 Range profiles and non-coherent integration: single pulse vs. N
-    pulses; check the integration gain against the theory in
-    =detection.py= (as 6_1 does for Pd).  The profile is the pulse-summed
-    power of the range-time matrix; with =window="none"= this equals the
-    RDM power summed over Doppler (Parseval), so a small helper may be
-    enough.
+  - 10_0 Range profiles and non-coherent integration: done
+    (=rdm.gen_rtm=, =rdm.rtm_to_snr=, =rdm.noncoherent_integrate=).
+  - Range straddle loss: not yet possible.  =_return_sample_indices=
+    rounds each return delay to the nearest sample, so every target
+    lands on a bin centre with the full matched-filter peak.  Needs
+    fractional-delay injection in =_inject_pulses= (integer-sample shift
+    plus a frequency-domain phase ramp for the remainder), shared by
+    skin, jammer and clutter returns.  Make it opt-in first (=Radar=
+    field or =gen= kwarg); switching the default shifts every RDM
+    baseline and makes moving targets slide smoothly across bins
+    (affects the 8_x RCMC and 6_0 keystone exercises).  Then add a
+    straddle exercise (SNR loss vs. sub-bin target offset).
   - 10_1 MTI on range profiles: with no Doppler FFT, the canceller is the
     only clutter filter.  Quick test (target 120 m/s, 3 m/s clutter
     spread, 9_2 radar): target rose from ~4 dB above the clutter

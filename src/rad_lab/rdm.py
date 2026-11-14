@@ -3,6 +3,8 @@
 Provides the `gen` entry point that simulates a full CPI — adding skin
 and jammer returns to a datacube, applying matched filtering, Doppler
 windowing, and the slow-time FFT — and a set of plot helpers for RTMs and RDMs.
+`gen_rtm` stops before the Doppler FFT, and `noncoherent_integrate` turns its
+range-time matrix into a range profile.
 """
 
 import numpy as np
@@ -87,6 +89,90 @@ def gen(
             - **r_axis** (*np.ndarray*): 1D range axis [m].
             - **datacube** (*np.ndarray*): 2D RDM (signal + noise), amplitude in Volts.
     """
+    r_axis, datacube, noise_dc = _simulate_rtm(
+        radar, waveform, return_list, seed, debug, range_window, range_window_kwargs, mti_order
+    )
+
+    ########### Doppler process ####################################################################
+    chwin_norm_mat = create_window(
+        datacube.shape, window=window, window_kwargs=window_kwargs, plot=False
+    )
+    datacube *= chwin_norm_mat
+
+    f_axis, _ = doppler_process(datacube, radar.sample_rate)  # r_axis is unchanged
+
+    # f = -2 fc/c * Rdot -> Rdot = -c f / (2 fc)
+    rdot_axis = -c.C * f_axis / (2 * radar.fcar)
+
+    ########## Plots and checks ####################################################################
+    if debug:
+        noise_checks(noise_dc, datacube)
+    if plot or debug:
+        plot_rdm(rdot_axis, r_axis, datacube, f"RDM for {waveform.type}")
+
+    return rdot_axis, r_axis, datacube
+
+
+def gen_rtm(
+    radar: Radar,
+    waveform: WaveformSample,
+    return_list: list,
+    seed: int = 0,
+    debug: bool = False,
+    range_window: str = "none",
+    range_window_kwargs: dict | None = None,
+    mti_order: int = 0,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Generate a range-time matrix (RTM) for a single CPI.
+
+    The first half of `gen`: returns plus noise, matched filter, and optional
+    MTI, but no Doppler window or slow-time FFT.  Use it where pulses are
+    integrated non-coherently (range profiles, search displays) rather than
+    coherently.  For the same arguments, applying `doppler_process` to the
+    output reproduces `gen` with ``window="none"``.
+
+    Output amplitudes are in Volts.  To get per-pulse SNR voltage ratio, pass
+    the RTM through `rtm_to_snr`.
+
+    Args:
+        radar: Radar system parameters.
+        waveform: WaveformSample created by a factory function.
+        return_list: List of `Return` and `Clutter` objects (see `gen`).
+        seed: Random number generator seed for reproducibility. Defaults to 0.
+        debug: If True, plots the RTM after each processing step.
+        range_window: Matched-filter replica weighting (see `gen`).
+        range_window_kwargs: Optional dict forwarded to the range-window function.
+        mti_order: Order of the MTI pulse canceller (see `gen`).  An
+            order-``n`` canceller drops the first ``n`` pulses.
+
+    Returns:
+        tuple: ``(r_axis, rtm)``:
+
+            - **r_axis** (*np.ndarray*): 1D range axis [m].
+            - **rtm** (*np.ndarray*): 2D RTM (signal + noise), shape
+              ``(n_range_bins, n_pulses - mti_order)``, amplitude in Volts.
+    """
+    r_axis, rtm, _ = _simulate_rtm(
+        radar, waveform, return_list, seed, debug, range_window, range_window_kwargs, mti_order
+    )
+    return r_axis, rtm
+
+
+def _simulate_rtm(
+    radar: Radar,
+    waveform: WaveformSample,
+    return_list: list,
+    seed: int,
+    debug: bool,
+    range_window: str,
+    range_window_kwargs: dict | None,
+    mti_order: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray | None]:
+    """Shared RTM simulation for `gen` and `gen_rtm`.
+
+    Also returns the raw noise datacube when ``debug`` is set (for
+    `noise_checks`), otherwise None.
+    """
     np.random.seed(seed)
 
     ########## Compute waveform and radar parameters ###############################################
@@ -110,7 +196,7 @@ def gen(
     if debug:
         plot_rtm(r_axis, datacube, "RTM: unprocessed")
     else:
-        del noise_dc  # free the cube-sized buffer before heavy processing
+        noise_dc = None  # free the cube-sized buffer before heavy processing
 
     ########## Match filter ########################################################################
     matchfilter(
@@ -130,24 +216,19 @@ def gen(
         if debug:
             plot_rtm(r_axis, datacube, f"RTM: order-{mti_order} MTI")
 
-    ########### Doppler process ####################################################################
-    chwin_norm_mat = create_window(
-        datacube.shape, window=window, window_kwargs=window_kwargs, plot=False
-    )
-    datacube *= chwin_norm_mat
+    return r_axis, datacube, noise_dc
 
-    f_axis, _ = doppler_process(datacube, radar.sample_rate)  # r_axis is unchanged
 
-    # f = -2 fc/c * Rdot -> Rdot = -c f / (2 fc)
-    rdot_axis = -c.C * f_axis / (2 * radar.fcar)
+def _pulse_noise_voltage(radar: Radar, waveform: WaveformSample, mti_order: int) -> float:
+    """Noise voltage std of one matched-filtered (and MTI'd) pulse sample.
 
-    ########## Plots and checks ####################################################################
-    if debug:
-        noise_checks(noise_dc, datacube)
-    if plot or debug:
-        plot_rdm(rdot_axis, r_axis, datacube, f"RDM for {waveform.type}")
-
-    return rdot_axis, r_axis, datacube
+    With a unit-amplitude template of ``N_taps = T·fs`` samples, the raw MF
+    output noise variance is ``N_taps · R·N₀·fs = R·N₀·T·fs²``, and the
+    canceller multiplies it by `mti.noise_gain`.
+    """
+    # noise_power(B=1, F, T) = k·T·F is the one-sided PSD N₀ [W/Hz].
+    n0_R = c.RADAR_LOAD * noise_power(1.0, radar.noise_factor, radar.op_temp)
+    return radar.sample_rate * np.sqrt(mti.noise_gain(mti_order) * n0_R * waveform.pulse_width)
 
 
 def to_snr(
@@ -182,13 +263,48 @@ def to_snr(
     Returns:
         np.ndarray: RDM normalised to SNR voltage ratio.
     """
-    # noise_power(B=1, F, T) = k·T·F is the one-sided PSD N₀ [W/Hz].
-    n0_R = c.RADAR_LOAD * noise_power(1.0, radar.noise_factor, radar.op_temp)
     n_pulses_out = radar.n_pulses - mti_order
-    noise_v_out = radar.sample_rate * np.sqrt(
-        n_pulses_out * mti.noise_gain(mti_order) * n0_R * waveform.pulse_width
-    )
+    noise_v_out = np.sqrt(n_pulses_out) * _pulse_noise_voltage(radar, waveform, mti_order)
     return datacube / noise_v_out
+
+
+def rtm_to_snr(
+    rtm: np.ndarray, radar: Radar, waveform: WaveformSample, mti_order: int = 0
+) -> np.ndarray:
+    """Convert a Volt-domain RTM to per-pulse SNR voltage ratio.
+
+    The single-pulse counterpart of `to_snr`: divides by the noise voltage of
+    one matched-filtered pulse, so each RTM sample has unit noise variance and
+    a target's peak ``|x|^2`` equals its single-pulse SNR.
+
+    Args:
+        rtm: RTM returned by `gen_rtm`, in Volts.
+        radar: Same radar used to generate the RTM.
+        waveform: Same waveform used to generate the RTM.
+        mti_order: Same ``mti_order`` passed to `gen_rtm`.  Defaults to 0.
+
+    Returns:
+        np.ndarray: RTM normalised to per-pulse SNR voltage ratio.
+    """
+    return rtm / _pulse_noise_voltage(radar, waveform, mti_order)
+
+
+def noncoherent_integrate(rtm: np.ndarray) -> np.ndarray:
+    """Range profile by non-coherent integration: ``sum_n |x[n]|^2`` over pulses.
+
+    The sum discards phase, so it needs no Doppler knowledge.  For an RTM from
+    `rtm_to_snr`, the noise-only output is a sum of ``N`` unit-mean
+    exponentials (chi-squared with ``2N`` DOF, halved), which is the statistic
+    `detection.threshold_factor_nci` thresholds: compare the profile directly
+    to ``threshold_factor_nci(pfa, N)``.
+
+    Args:
+        rtm: 2D RTM, shape ``(n_range_bins, n_pulses)``.
+
+    Returns:
+        np.ndarray: 1D integrated power profile, shape ``(n_range_bins,)``.
+    """
+    return np.sum(np.abs(rtm) ** 2, axis=1)
 
 
 def plot_rtm(r_axis: np.ndarray, data: np.ndarray, title: str) -> None:
