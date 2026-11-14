@@ -95,13 +95,12 @@ def doppler_process(datacube: np.ndarray, fs: float) -> tuple[np.ndarray, np.nda
     return f_axis, R_axis
 
 
-def range_window(
-    n_taps: int, window: str = "none", window_kwargs: dict | None = None
-) -> np.ndarray:
-    """Unit-mean amplitude taper for weighting a matched-filter replica.
+def taper(n_taps: int, window: str = "none", window_kwargs: dict | None = None) -> np.ndarray:
+    """Unit-mean amplitude taper, shared by range and Doppler weighting.
 
-    Weighting the replica across its ``N_taps`` samples suppresses the range
-    sidelobes of the compressed pulse:
+    In slow time it weights the pulses before the Doppler FFT (see
+    `create_window`).  In fast time it weights the matched-filter replica,
+    which suppresses the range sidelobes of the compressed pulse:
 
     - An LFM's frequency is linear in time, so a time taper tapers the
       swept-spectrum edges -- the frequency weighting Richards uses for
@@ -112,10 +111,8 @@ def range_window(
     - Normalising to unit mean keeps the coherent peak gain at ``N_taps``, so
       the loss shows up as a raised noise floor, not a rescaled peak.
 
-    Window vocabulary matches `create_window`.
-
     Args:
-        n_taps: Length of the taper (number of replica samples).
+        n_taps: Length of the taper (number of replica samples or pulses).
         window: Window type.  One of ``"none"`` (rectangular, default),
             ``"chebyshev"`` (accepts ``window_kwargs={"at": <dB>}``,
             default 60), ``"blackman-harris"``, or ``"taylor"`` (accepts
@@ -175,7 +172,7 @@ def matchfilter(
     Pass ``window`` to weight the replica for range-sidelobe control: this
     suppresses the ~-13.2 dB LFM sidelobes that a CFAR detector would otherwise
     flag as spurious targets around a strong return, at the cost of a broader
-    mainlobe and a small SNR loss.  See `range_window` and Richards,
+    mainlobe and a small SNR loss.  See `taper` and Richards,
     *FRSP* 2nd ed., Ch. 4.
 
     Args:
@@ -186,7 +183,7 @@ def matchfilter(
         pedantic: If True, use the iterative time-domain helper; if False,
             use FFT-based convolution.  Defaults to True.
         window: Range weighting applied to the replica.  ``"none"`` (default)
-            reproduces the plain matched filter.  See `range_window`
+            reproduces the plain matched filter.  See `taper`
             for the other options.
         window_kwargs: Optional dict forwarded to the window function.
 
@@ -195,7 +192,7 @@ def matchfilter(
     """
     replica = pulse_wvf
     if window.lower() != "none":
-        replica = range_window(pulse_wvf.size, window, window_kwargs) * pulse_wvf
+        replica = taper(pulse_wvf.size, window, window_kwargs) * pulse_wvf
 
     if pedantic:
         for j in range(datacube.shape[1]):

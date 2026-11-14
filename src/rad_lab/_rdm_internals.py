@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from contextlib import contextmanager
-from scipy import signal
 from . import constants as c
 from .waveform_helpers import add_waveform_at_index
+from .rf_datacube import taper
 from .utilities import phase_negpi_pospi
 from .range_equation import signal_range_eqn, signal_range_eqn_one_way
 from .noise import unity_variance_complex_noise
@@ -362,30 +362,11 @@ def create_window(
 
     Returns:
         The 2D window matrix of shape ``shape``, normalized so that its mean
-        is 1.0 (preserving coherent gain).
+        is 1.0 (preserving coherent gain).  Each row is `taper`.
     """
     assert len(shape) == 2, "Shape must be a 2-element tuple."
     num_range_bins, num_pulses = shape
-    kwargs = window_kwargs or {}
-
-    window_lower = window.lower()
-    if window_lower == "chebyshev":
-        at = kwargs.get("at", 60.0)
-        win_1d = signal.windows.chebwin(num_pulses, at)
-    elif window_lower == "blackman-harris":
-        win_1d = signal.windows.blackmanharris(num_pulses)
-    elif window_lower == "taylor":
-        win_1d = signal.windows.taylor(num_pulses, **kwargs)
-    elif window_lower == "none":
-        win_1d = np.ones(num_pulses)
-    else:
-        raise ValueError(
-            f"Unknown window type '{window}'. "
-            "Choose from: 'chebyshev', 'blackman-harris', 'taylor', 'none'."
-        )
-
-    normalized_win = win_1d / np.mean(win_1d)
-    window_matrix = np.tile(normalized_win, (num_range_bins, 1))
+    window_matrix = np.tile(taper(num_pulses, window, window_kwargs), (num_range_bins, 1))
 
     if plot:
         plt.figure()

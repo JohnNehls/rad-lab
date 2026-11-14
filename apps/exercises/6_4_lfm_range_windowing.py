@@ -40,7 +40,7 @@ from rad_lab import rdm
 from rad_lab.pulse_doppler_radar import Radar
 from rad_lab.waveform import lfm_waveform
 from rad_lab.returns import Target, Return
-from rad_lab.rf_datacube import range_window
+from rad_lab.rf_datacube import taper
 from rad_lab.cfar import cfar_2d
 
 # Windows to compare.  "none" is the plain matched filter; scipy's taylor()
@@ -129,7 +129,7 @@ def weighting_loss_db(n_taps, window, window_kwargs):
     relative to the matched (rectangular) filter is the mismatch ratio
     ``|sum w|^2 / (N * sum w^2)`` (Cauchy-Schwarz: 1 only when w is flat).
     """
-    w = range_window(n_taps, window, window_kwargs)
+    w = taper(n_taps, window, window_kwargs)
     ratio = np.abs(w.sum()) ** 2 / (n_taps * np.sum(w**2))
     return -10 * np.log10(ratio)  # report loss as a positive number of dB
 

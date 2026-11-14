@@ -41,11 +41,11 @@ Notes:
 import dataclasses
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import windows
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, lfm_waveform
 from rad_lab import constants as c
 from rad_lab import pulse_doppler_radar as pdr
 from rad_lab.range_equation import snr_range_eqn
+from rad_lab.rf_datacube import taper
 
 bw = 10e6  # waveform bandwidth [Hz]
 T = 1.0e-6  # pulse width [s]
@@ -161,11 +161,10 @@ for col, label in enumerate(map_staggers):
     staggered = dataclasses.replace(radar, pri_stagger=staggers[label])
     for row, order in enumerate([0, 1]):
         r_axis, rtm = rdm.gen_rtm(staggered, waveform, return_list, mti_order=order)
-        taper = windows.chebwin(rtm.shape[1], at=60)
-        snr_rtm = rdm.rtm_to_snr(rtm, radar, waveform, order) * taper
-        rdm_map = rdm.doppler_bank(snr_rtm, staggered.pulse_tx_times[order:], map_freqs) / np.sqrt(
-            np.sum(taper**2)
-        )  # unit noise variance
+        weights = taper(rtm.shape[1], "chebyshev", {"at": 60})
+        weights /= np.sqrt(np.sum(weights**2))  # unit noise variance out of the bank
+        snr_rtm = rdm.rtm_to_snr(rtm, staggered, waveform, order) * weights
+        rdm_map = rdm.doppler_bank(snr_rtm, staggered.pulse_tx_times[order:], map_freqs)
         snr_db = 20 * np.log10(np.abs(rdm_map) + 1e-12)
 
         i_t = np.argmin(abs(r_axis - target.range)), np.argmin(abs(rdot_axis - target.range_rate))

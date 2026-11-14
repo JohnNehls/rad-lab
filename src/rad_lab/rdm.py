@@ -73,7 +73,7 @@ def gen(
             ``"none"`` (default) is the plain matched filter, leaving the LFM's
             ~-13.2 dB range sidelobes.  One of ``"none"``, ``"chebyshev"``,
             ``"blackman-harris"``, ``"taylor"``.  See
-            `range_window`.
+            `taper`.
         range_window_kwargs: Optional dict forwarded to the range-window
             function (e.g. ``{"at": 60}`` for Chebyshev).
         mti_order: Order of the MTI pulse canceller applied along slow time
