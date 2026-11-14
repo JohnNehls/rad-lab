@@ -11,12 +11,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from . import constants as c
-from .rf_datacube import number_range_bins, range_axis, data_cube
+from .rf_datacube import range_axis, data_cube
 from .rf_datacube import matchfilter, doppler_process
 from .range_equation import noise_power
 from .noise import unity_variance_complex_noise
 from .utilities import zero_to_smallest_float
-from ._rdm_internals import add_returns, create_window
+from ._rdm_internals import add_returns, create_window, staggered_rtm
 from ._rdm_extras import noise_checks
 from .pulse_doppler_radar import Radar
 from .waveform import WaveformSample
@@ -88,7 +88,16 @@ def gen(
             - **rdot_axis** (*np.ndarray*): 1D range-rate (Doppler) axis [m/s].
             - **r_axis** (*np.ndarray*): 1D range axis [m].
             - **datacube** (*np.ndarray*): 2D RDM (signal + noise), amplitude in Volts.
+
+    Raises:
+        ValueError: If ``radar.pri_stagger`` is set; the Doppler FFT needs a
+            constant PRI.  Use `gen_rtm` for staggered radars.
     """
+    if radar.pri_stagger is not None:
+        raise ValueError(
+            "gen needs a constant PRI for the Doppler FFT; use gen_rtm with pri_stagger"
+        )
+
     r_axis, datacube, noise_dc = _simulate_rtm(
         radar, waveform, return_list, seed, debug, range_window, range_window_kwargs, mti_order
     )
@@ -151,6 +160,8 @@ def gen_rtm(
             - **r_axis** (*np.ndarray*): 1D range axis [m].
             - **rtm** (*np.ndarray*): 2D RTM (signal + noise), shape
               ``(n_range_bins, n_pulses - mti_order)``, amplitude in Volts.
+              With ``radar.pri_stagger`` the range gate (``n_range_bins``) is
+              the shortest PRI.
     """
     r_axis, rtm, _ = _simulate_rtm(
         radar, waveform, return_list, seed, debug, range_window, range_window_kwargs, mti_order
@@ -178,12 +189,15 @@ def _simulate_rtm(
     ########## Compute waveform and radar parameters ###############################################
     waveform.set_sample(radar.sample_rate)  # set the recorded sample
 
-    ########## Create range axis for plotting ######################################################
-    r_axis = range_axis(radar.sample_rate, number_range_bins(radar.sample_rate, radar.prf))
-
     ########## Returns + noise #####################################################################
-    datacube = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
-    add_returns(datacube, waveform, return_list, radar)
+    if radar.pri_stagger is None:
+        datacube = data_cube(radar.sample_rate, radar.prf, radar.n_pulses)
+        add_returns(datacube, waveform, return_list, radar)
+    else:
+        datacube = staggered_rtm(waveform, return_list, radar)
+
+    ########## Create range axis for plotting ######################################################
+    r_axis = range_axis(radar.sample_rate, datacube.shape[0])
 
     # Per-sample voltage variance from the receiver noise PSD: σ² = R · N₀ · fs,
     # so a band of width B has variance R · N₀ · B as in continuous-time analysis.

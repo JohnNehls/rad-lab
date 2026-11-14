@@ -26,7 +26,12 @@ enhancements:
     correlates noise across pulses, so the chi-squared NCI threshold is
     too low (measured Pfa 5x design for order 1, 12x for order 2).  A CFAR
     exercise on MTI'd range profiles is the natural fix.
-  - 10_2+ Beam scanning and PPI display: range profile per azimuth step,
+  - 10_2 Staggered PRI: done (=Radar.pri_stagger=, =gen_rtm= only).
+    Follow-ups: jammer returns under stagger (=add_jammer= raises);
+    echoes from beyond the range gate, which land at a different range
+    on every pulse and escape the canceller; CPI-to-CPI PRF switching
+    for pulse-Doppler (RDM) blind-speed and range-ambiguity resolution.
+  - 10_3+ Beam scanning and PPI display: range profile per azimuth step,
     antenna-pattern weighting from =uniform_linear_arrays=, clutter and
     MTI on the display.  Simulate a few pulses per beam position, not a
     full RDM, to keep the apps regression fast.

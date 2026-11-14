@@ -7,6 +7,11 @@ cancelled.  The order-``n`` canceller has binomial taps with alternating signs
 (order 1: ``[1, -1]``, order 2: ``[1, -2, 1]``) and magnitude response
 ``|H(f)|^2 = (2 sin(pi f / prf))^(2n)``.
 
+A staggered PRI (``pri_stagger``, integer ratios as on `Radar`) moves the
+first true blind speed out by ``mean(pri_stagger) / gcd(pri_stagger)``.  The
+taps are unchanged, but each output sees a different set of pulse spacings,
+so the response is the average of ``|H_n(f)|^2`` over the stagger cycle.
+
 ### References
 
 Richards, M. A., *Fundamentals of Radar Signal Processing*, 2nd ed.,
@@ -55,37 +60,71 @@ def apply_canceller(datacube: np.ndarray, order: int) -> np.ndarray:
     return filtered
 
 
-def frequency_response(order: int, prf: float, freqs: np.ndarray) -> np.ndarray:
+def stagger_pris(prf: float, pri_stagger: tuple[int, ...]) -> np.ndarray:
+    """One stagger cycle of PRIs [s]: ``pri_stagger * T0`` with mean PRF ``prf``."""
+    ratios = np.array(pri_stagger)
+    return ratios / (prf * ratios.mean())
+
+
+def frequency_response(
+    order: int, prf: float, freqs: np.ndarray, pri_stagger: tuple[int, ...] | None = None
+) -> np.ndarray:
     """Power response ``|H(f)|^2`` of the pulse canceller.
+
+    With a staggered PRI, output ``n`` combines pulses at times
+    ``t_n, t_(n-1), ...`` and has response
+    ``H_n(f) = sum_k h[k] exp(-j 2 pi f (t_n - t_(n-k)))``.  The returned
+    power response is ``|H_n|^2`` averaged over the stagger cycle, which is
+    the mean power gain of a long pulse train.
 
     Args:
         order: Canceller order.
-        prf: Pulse repetition frequency [Hz].
+        prf: Pulse repetition frequency [Hz]; the mean PRF with ``pri_stagger``.
         freqs: Doppler frequencies at which to evaluate the response [Hz].
+        pri_stagger: Optional PRI stagger ratios (see `Radar`).
 
     Returns:
         np.ndarray: Power gain at each frequency [linear].
     """
-    response = np.zeros(len(freqs), dtype=complex)
-    for k, h in enumerate(canceller_coefficients(order)):
-        response += h * np.exp(-2j * np.pi * freqs * k / prf)
-    return np.abs(response) ** 2
+    coeffs = canceller_coefficients(order)
+    if pri_stagger is None:
+        pris = np.array([1 / prf])
+    else:
+        pris = stagger_pris(prf, pri_stagger)
+
+    # Pulse times covering every position in the cycle plus the filter history.
+    times = np.concatenate([[0], np.cumsum(np.resize(pris, len(pris) + order - 1))])
+    power = np.zeros(len(freqs))
+    for n in range(order, order + len(pris)):
+        response = np.zeros(len(freqs), dtype=complex)
+        for k, h in enumerate(coeffs):
+            response += h * np.exp(-2j * np.pi * freqs * (times[n] - times[n - k]))
+        power += np.abs(response) ** 2
+    return power / len(pris)
 
 
-def blind_speeds(prf: float, fcar: float, n: int = 3) -> np.ndarray:
+def blind_speeds(
+    prf: float, fcar: float, n: int = 3, pri_stagger: tuple[int, ...] | None = None
+) -> np.ndarray:
     """First ``n`` non-zero blind range rates of a canceller.
 
     A target is cancelled whenever its Doppler is a multiple of the PRF,
-    i.e. at range rates ``v_k = k * c * prf / (2 * fcar)``.
+    i.e. at range rates ``v_k = k * c * prf / (2 * fcar)``.  With a staggered
+    PRI it must be a multiple of every PRF at once: ``1 / (g * T0)`` with
+    ``g = gcd(pri_stagger)``, which is ``mean(pri_stagger) / g`` times the
+    mean PRF.
 
     Args:
-        prf: Pulse repetition frequency [Hz].
+        prf: Pulse repetition frequency [Hz]; the mean PRF with ``pri_stagger``.
         fcar: Carrier frequency [Hz].
         n: Number of blind speeds to return.
+        pri_stagger: Optional PRI stagger ratios (see `Radar`).
 
     Returns:
         np.ndarray: Blind range rates ``v_1 .. v_n`` [m/s].
     """
+    if pri_stagger is not None:
+        prf = prf * np.mean(pri_stagger) / np.gcd.reduce(pri_stagger)
     return np.arange(1, n + 1) * c.C * prf / (2 * fcar)
 
 
@@ -98,7 +137,13 @@ def noise_gain(order: int) -> float:
     return float(np.sum(canceller_coefficients(order) ** 2))
 
 
-def improvement_factor(order: int, prf: float, fcar: float, range_rate_std: float) -> float:
+def improvement_factor(
+    order: int,
+    prf: float,
+    fcar: float,
+    range_rate_std: float,
+    pri_stagger: tuple[int, ...] | None = None,
+) -> float:
     """Theoretical MTI improvement factor for Gaussian-spectrum clutter.
 
     The improvement factor is the signal-to-clutter ratio out over in,
@@ -109,13 +154,15 @@ def improvement_factor(order: int, prf: float, fcar: float, range_rate_std: floa
     (always >= 0) avoids the cancellation that a tap-correlation sum suffers
     for narrow spectra, and ``|H|^2`` being PRF-periodic accounts for any
     spectral aliasing.  For order 1 this equals ``1 / (1 - rho)`` with
-    ``rho = exp(-2 * pi^2 * sigma_f^2 / prf^2)``.
+    ``rho = exp(-2 * pi^2 * sigma_f^2 / prf^2)``.  With a staggered PRI the
+    cycle-averaged response is used, so the result is the mean over outputs.
 
     Args:
         order: Canceller order.
-        prf: Pulse repetition frequency [Hz].
+        prf: Pulse repetition frequency [Hz]; the mean PRF with ``pri_stagger``.
         fcar: Carrier frequency [Hz].
         range_rate_std: Clutter range-rate standard deviation [m/s].
+        pri_stagger: Optional PRI stagger ratios (see `Radar`).
 
     Returns:
         float: Improvement factor [linear]; ``inf`` for perfectly stationary
@@ -128,5 +175,5 @@ def improvement_factor(order: int, prf: float, fcar: float, range_rate_std: floa
     freqs = np.linspace(-8, 8, 4001) * doppler_std  # +/- 8 sigma covers the spectrum
     clutter_psd = np.exp(-(freqs**2) / (2 * doppler_std**2))
     clutter_psd /= clutter_psd.sum()  # unit clutter power in
-    clutter_gain = np.sum(clutter_psd * frequency_response(order, prf, freqs))
+    clutter_gain = np.sum(clutter_psd * frequency_response(order, prf, freqs, pri_stagger))
     return noise_gain(order) / clutter_gain

@@ -1,0 +1,9 @@
+constant PRI: target 13.4 dB, 300 m/s target 0.1 dB above noise
+narrow 23:27:24:26: target 13.2 dB, 300 m/s target 4.3 dB above noise
+wide 4:5:6: target 13.6 dB, 300 m/s target 10.4 dB above noise
+
+                       first blind  gain at   improvement factor (measured vs. theory)
+                       speed [m/s]  300 m/s   order 1          order 2
+  constant PRI             300      null   27.3 vs  27.1   51.4 vs  51.1
+  narrow 23:27:24:26      7500  -11.1 dB   26.8 vs  27.0   47.3 vs  47.5
+  wide 4:5:6              1500   -3.4 dB   26.7 vs  26.9   42.0 vs  42.2

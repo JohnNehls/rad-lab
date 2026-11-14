@@ -7,6 +7,7 @@ and derives secondary quantities such as number of pulses and unambiguous range.
 
 import math
 from dataclasses import dataclass, field
+import numpy as np
 from . import constants as c
 
 
@@ -26,8 +27,16 @@ class Radar:
         sample_rate: ADC sampling rate [Hz].
         noise_factor: Receiver noise factor [linear].
         total_losses: Total two-way system losses [linear].
-        prf: Pulse repetition frequency [Hz].
+        prf: Pulse repetition frequency [Hz].  With ``pri_stagger``, the
+            mean PRF.
         dwell_time: Coherent processing interval (CPI) duration [s].
+        pri_stagger: Optional pulse-to-pulse PRI stagger as integer ratios,
+            e.g. ``(23, 27, 24, 26)``.  PRI ``i`` is ``pri_stagger[i] * T0``,
+            cycling through the ratios, with base interval
+            ``T0 = 1 / (prf * mean(pri_stagger))`` chosen so the mean PRF is
+            ``prf``.  ``T0`` must be a whole number of samples.  ``None``
+            (default) is a constant PRI.  Staggered radars are supported by
+            `rdm.gen_rtm` only (no Doppler FFT).
         n_pulses: Number of pulses per CPI, computed as
             ``ceil(dwell_time * prf)`` [dimensionless].
     """
@@ -42,11 +51,33 @@ class Radar:
     total_losses: float
     prf: float
     dwell_time: float
+    pri_stagger: tuple[int, ...] | None = None
     n_pulses: int = field(init=False)
 
     def __post_init__(self) -> None:
-        """Compute n_pulses from dwell_time and prf."""
+        """Compute n_pulses from dwell_time and prf; validate the PRI stagger."""
         self.n_pulses = int(math.ceil(self.dwell_time * self.prf))
+        if self.pri_stagger is not None:
+            base = self.sample_rate / (self.prf * np.mean(self.pri_stagger))
+            if abs(base - round(base)) > 1e-9 * base:
+                raise ValueError(
+                    f"pri_stagger base interval is {base:.4f} samples; choose prf so that "
+                    "sample_rate / (prf * mean(pri_stagger)) is a whole number"
+                )
+
+    @property
+    def stagger_pri_samples(self) -> np.ndarray:
+        """One stagger cycle of PRIs in samples, ``pri_stagger * T0``."""
+        base = round(self.sample_rate / (self.prf * np.mean(self.pri_stagger)))
+        return np.array(self.pri_stagger) * base
+
+    @property
+    def pulse_tx_times(self) -> np.ndarray:
+        """Transmit time of each pulse in the CPI [s]."""
+        if self.pri_stagger is None:
+            return np.arange(self.n_pulses) / self.prf
+        pris = np.resize(self.stagger_pri_samples, self.n_pulses - 1)
+        return np.concatenate([[0], np.cumsum(pris)]) / self.sample_rate
 
 
 def range_unambiguous(prf: float) -> float:

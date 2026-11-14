@@ -102,7 +102,7 @@ def add_skin(
         radar: Radar system parameters.
         return_magnitude: The voltage or SNR amplitude of the return for a single pulse.
     """
-    pulse_tx_times = np.arange(radar.n_pulses) / radar.prf
+    pulse_tx_times = radar.pulse_tx_times
     target_range_per_pulse = tgt_info.range + tgt_info.range_rate * pulse_tx_times
     two_way_delays = 2 * target_range_per_pulse / c.C
     pulse_return_times = pulse_tx_times + two_way_delays
@@ -138,6 +138,9 @@ def add_jammer(
         return_info: Return describing the EA platform and target parameters.
         return_magnitude: The voltage or SNR amplitude of the return.
     """
+    if radar.pri_stagger is not None:
+        raise NotImplementedError("jammer returns assume a constant PRI (pri_stagger=None)")
+
     target = return_info.target
     pulse_tx_times = np.arange(radar.n_pulses) / radar.prf
 
@@ -243,6 +246,27 @@ def gaussian_spectrum_sequence(n_pulses: int, prf: float, doppler_std: float) ->
     return np.fft.ifft(np.fft.fft(white) * amplitude_response)
 
 
+def gaussian_spectrum_factor(times: np.ndarray, doppler_std: float) -> np.ndarray:
+    """Factor ``L`` with ``L @ L^H = R`` for a Gaussian-spectrum process sampled at ``times``.
+
+    The counterpart of `gaussian_spectrum_sequence` for unevenly spaced pulses
+    (staggered PRI), where the FFT shaping does not apply.  A zero-mean
+    Gaussian PSD of standard deviation ``sigma_f`` has autocorrelation
+    ``R(tau) = exp(-2 pi^2 sigma_f^2 tau^2)``, so ``L @ w`` for unit-variance
+    white ``w`` is a unit-power sequence with that spectrum.  ``L`` comes from
+    an eigendecomposition rather than Cholesky because ``R`` is nearly
+    singular for narrow spectra (rank 1 for ``doppler_std = 0``).
+
+    Args:
+        times: Pulse times [s].
+        doppler_std: Standard deviation of the Doppler spectrum [Hz].
+    """
+    tau = times[:, None] - times[None, :]
+    covariance = np.exp(-2 * np.pi**2 * doppler_std**2 * tau**2)
+    eigvals, eigvecs = np.linalg.eigh(covariance)
+    return eigvecs * np.sqrt(np.clip(eigvals, 0, None))
+
+
 def add_clutter(
     datacube: np.ndarray,
     waveform: WaveformSample,
@@ -257,6 +281,8 @@ def add_clutter(
     a random sequence from `gaussian_spectrum_sequence` scaled by the
     range-equation voltage of the cell's constant-gamma RCS.  The random
     sequence spreads the cell's energy over the clutter Doppler spectrum.
+    With a staggered PRI the sequence comes from `gaussian_spectrum_factor`
+    at the actual pulse times instead.
 
     Args:
         datacube: 2D complex array to which the clutter is added.
@@ -271,7 +297,9 @@ def add_clutter(
 
     wavelength = c.C / radar.fcar
     doppler_std = 2 * clutter.range_rate_std / wavelength
-    pulse_tx_times = np.arange(radar.n_pulses) / radar.prf
+    pulse_tx_times = radar.pulse_tx_times
+    if radar.pri_stagger is not None:
+        stagger_factor = gaussian_spectrum_factor(pulse_tx_times, doppler_std)
 
     for cell_range in cell_ranges:
         cell_power = signal_range_eqn(
@@ -285,6 +313,11 @@ def add_clutter(
         )
         cell_voltage = np.sqrt(c.RADAR_LOAD * cell_power)
 
+        if radar.pri_stagger is None:
+            slow_time = gaussian_spectrum_sequence(radar.n_pulses, radar.prf, doppler_std)
+        else:
+            slow_time = stagger_factor @ unity_variance_complex_noise(radar.n_pulses)
+
         cell_range_per_pulse = cell_range + clutter.range_rate_mean * pulse_tx_times
         two_way_delays = 2 * cell_range_per_pulse / c.C
         pulse_return_times = pulse_tx_times + two_way_delays
@@ -293,8 +326,7 @@ def add_clutter(
             waveform.pulse_sample,
             _return_sample_indices(pulse_return_times, waveform, radar.sample_rate),
             _propagation_phase(two_way_delays, radar.fcar),
-            amplitude=cell_voltage
-            * gaussian_spectrum_sequence(radar.n_pulses, radar.prf, doppler_std),
+            amplitude=cell_voltage * slow_time,
         )
 
 
@@ -457,3 +489,33 @@ def add_returns(
         if item.platform is not None:
             amp = jammer_voltage_amplitude(item.platform, radar, item.target)
             add_jammer(datacube, waveform, radar, item, amp)
+
+
+def staggered_rtm(waveform: WaveformSample, return_list: list, radar: Radar) -> np.ndarray:
+    """Range-time matrix of the returns for a staggered-PRI radar (no noise).
+
+    Returns are injected by absolute arrival time into one continuous
+    recording, exactly as for a constant PRI, and each pulse's listening
+    window is then cut from it starting at that pulse's transmit sample.  The
+    window (range gate) is the shortest PRI, so every pulse has the same
+    number of range bins.  Echoes from beyond the gate are not modelled
+    separately: they land in a later window like any other sample.
+
+    Args:
+        waveform: WaveformSample with the sampled pulse set.
+        return_list: A list of Return and Clutter objects.
+        radar: Radar with ``pri_stagger`` set.
+
+    Returns:
+        np.ndarray: Complex RTM, shape ``(min PRI in samples, n_pulses)``.
+    """
+    tx_samples = np.round(radar.pulse_tx_times * radar.sample_rate).astype(int)
+    pris = radar.stagger_pri_samples
+    gate = pris.min()
+    # An (n, 1) array flattens to the recording itself, so the flat-buffer
+    # injection used for constant-PRI datacubes works unchanged.
+    recording = np.zeros(
+        (tx_samples[-1] + pris[(radar.n_pulses - 1) % len(pris)], 1), np.complex64
+    )
+    add_returns(recording, waveform, return_list, radar)
+    return recording[tx_samples[None, :] + np.arange(gate)[:, None], 0]
