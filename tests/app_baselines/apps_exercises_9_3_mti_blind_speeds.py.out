@@ -1,0 +1,5 @@
+first blind speed: 300.0 m/s
+SNR change from order-2 MTI (measured vs. predicted):
+     40 m/s:  -10.9 dB vs  -11.5 dB
+    120 m/s:    3.1 dB vs    3.3 dB
+    290 m/s:  -34.9 dB vs  -35.1 dB

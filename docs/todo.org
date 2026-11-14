@@ -1,19 +1,32 @@
 To improve the project and its documentation, consider these
 enhancements:
 
-*  Source document
-- *General Document:* Convert the source document to markdown and make
-  it my own-- embed our figures
-
 * Features
 - *SAR*
   - Comment that it should limit the useful SAR Aperture length per eqn 8.11
 
 - *Monopulse Study*: LFM should introduce phase defference between reciver array positions and introduce errors into monopulse -- May have looked into this already!
 
-- *CFAR Algorithms:* Implement Constant False Alarm Rate (CFAR)
-  detection (e.g., CA-CFAR, OS-CFAR) as a logical next step after RDM
-  generation.
-  
+- *Search radar, section 10 (range profiles, scanning, PPI):* follows
+  section 9 (clutter and MTI).  Range profiles get their full introduction
+  here rather than as a side figure in 9_2.
+  - 10_0 Range profiles and non-coherent integration: single pulse vs. N
+    pulses; check the integration gain against the theory in
+    =detection.py= (as 6_1 does for Pd).  The profile is the pulse-summed
+    power of the range-time matrix; with =window="none"= this equals the
+    RDM power summed over Doppler (Parseval), so a small helper may be
+    enough.
+  - 10_1 MTI on range profiles: with no Doppler FFT, the canceller is the
+    only clutter filter.  Quick test (target 120 m/s, 3 m/s clutter
+    spread, 9_2 radar): target rose from ~4 dB above the clutter
+    background to ~13-14 dB with order-1/2 MTI.  This is the motivation
+    that 9_2's RDMs lack.
+  - 10_2+ Beam scanning and PPI display: range profile per azimuth step,
+    antenna-pattern weighting from =uniform_linear_arrays=, clutter and
+    MTI on the display.  Simulate a few pulses per beam position, not a
+    full RDM, to keep the apps regression fast.
+  - Later: plot extraction and tracking (alpha-beta, then Kalman with
+    gating) on detections across scans.
+
 - *GPU Support:* For large data cubes, consider optional
   [[https://cupy.dev/][CuPy]] support for GPU-accelerated FFTs.

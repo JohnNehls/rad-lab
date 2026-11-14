@@ -6,10 +6,11 @@ from . import constants as c
 from .waveform_helpers import add_waveform_at_index
 from .utilities import phase_negpi_pospi
 from .range_equation import signal_range_eqn, signal_range_eqn_one_way
+from .noise import unity_variance_complex_noise
 from . import vbm
 from .pulse_doppler_radar import Radar
 from .waveform import WaveformSample
-from .returns import Target, EaPlatform, Return
+from .returns import Target, EaPlatform, Return, Clutter
 
 
 def _propagation_phase(delays: np.ndarray, fcar: float) -> np.ndarray:
@@ -203,6 +204,100 @@ def add_jammer(
                 add_waveform_at_index(flat, pulse, return_sample_indices[i])
 
 
+def clutter_cell_rcs(clutter: Clutter, range: float, range_spacing: float) -> float:
+    """Constant-gamma RCS of one clutter cell [m^2].
+
+    ``sigma = gamma * sin(psi) * A`` with illuminated area
+    ``A = R * theta_az * dR / cos(psi)``.
+
+    Args:
+        clutter: Clutter band parameters.
+        range: Range to the cell [m].
+        range_spacing: Range extent of the cell [m] (the datacube sample spacing).
+    """
+    psi = clutter.grazing_angle
+    area = range * clutter.azimuth_beamwidth * range_spacing / np.cos(psi)
+    return clutter.gamma * np.sin(psi) * area
+
+
+def gaussian_spectrum_sequence(n_pulses: int, prf: float, doppler_std: float) -> np.ndarray:
+    """Unit-power complex Gaussian slow-time sequence with a Gaussian Doppler spectrum.
+
+    White complex noise is shaped in the frequency domain by the square root of
+    a zero-mean Gaussian PSD with standard deviation ``doppler_std``, then
+    normalised so the expected power per pulse is 1.  ``doppler_std = 0`` gives
+    a perfectly stationary cell: one random complex amplitude for every pulse.
+
+    Args:
+        n_pulses: Sequence length.
+        prf: Pulse repetition frequency [Hz].
+        doppler_std: Standard deviation of the Doppler spectrum [Hz].
+    """
+    if doppler_std == 0:
+        return np.full(n_pulses, unity_variance_complex_noise(1)[0])
+
+    freqs = np.fft.fftfreq(n_pulses, d=1 / prf)
+    amplitude_response = np.exp(-(freqs**2) / (4 * doppler_std**2))  # sqrt of Gaussian PSD
+    amplitude_response /= np.sqrt(np.mean(amplitude_response**2))  # unit expected power
+    white = unity_variance_complex_noise(n_pulses)
+    return np.fft.ifft(np.fft.fft(white) * amplitude_response)
+
+
+def add_clutter(
+    datacube: np.ndarray,
+    waveform: WaveformSample,
+    clutter: Clutter,
+    radar: Radar,
+) -> None:
+    """Adds distributed surface clutter to the datacube.
+
+    The clutter band is split into one cell per range sample.  Each cell is
+    injected like a skin return moving at ``clutter.range_rate_mean`` (same
+    stop-and-hop delay and phase as `add_skin`), but its per-pulse amplitude is
+    a random sequence from `gaussian_spectrum_sequence` scaled by the
+    range-equation voltage of the cell's constant-gamma RCS.  The random
+    sequence spreads the cell's energy over the clutter Doppler spectrum.
+
+    Args:
+        datacube: 2D complex array to which the clutter is added.
+        waveform: WaveformSample containing pulse data and parameters.
+        clutter: Clutter band parameters.
+        radar: Radar system parameters.
+    """
+    range_spacing = c.C / (2 * radar.sample_rate)
+    first_cell = int(np.ceil(clutter.range_start / range_spacing))
+    last_cell = int(np.floor(clutter.range_stop / range_spacing))
+    cell_ranges = np.arange(first_cell, last_cell + 1) * range_spacing
+
+    wavelength = c.C / radar.fcar
+    doppler_std = 2 * clutter.range_rate_std / wavelength
+    pulse_tx_times = np.arange(radar.n_pulses) / radar.prf
+
+    for cell_range in cell_ranges:
+        cell_power = signal_range_eqn(
+            radar.tx_power,
+            radar.tx_gain,
+            radar.rx_gain,
+            clutter_cell_rcs(clutter, cell_range, range_spacing),
+            wavelength,
+            cell_range,
+            radar.total_losses,
+        )
+        cell_voltage = np.sqrt(c.RADAR_LOAD * cell_power)
+
+        cell_range_per_pulse = cell_range + clutter.range_rate_mean * pulse_tx_times
+        two_way_delays = 2 * cell_range_per_pulse / c.C
+        pulse_return_times = pulse_tx_times + two_way_delays
+        _inject_pulses(
+            datacube,
+            waveform.pulse_sample,
+            _return_sample_indices(pulse_return_times, waveform, radar.sample_rate),
+            _propagation_phase(two_way_delays, radar.fcar),
+            amplitude=cell_voltage
+            * gaussian_spectrum_sequence(radar.n_pulses, radar.prf, doppler_std),
+        )
+
+
 def create_window(
     shape: tuple[int, int],
     window: str = "chebyshev",
@@ -335,6 +430,7 @@ def add_returns(
     - A skin return is added when ``target.rcs is not None``.
     - A jammer return is added when ``platform is not None``.
     Both can fire for the same Return, modelling a co-located jammer on the target.
+    Each Clutter in return_list adds a band of distributed clutter.
 
     Amplitudes are physically-based voltages at the receiver load.  The
     datacube is modified in place.
@@ -342,10 +438,14 @@ def add_returns(
     Args:
         datacube: The 2D complex datacube to modify.
         waveform: WaveformSample containing pulse data and parameters.
-        return_list: A list of Return objects.
+        return_list: A list of Return and Clutter objects.
         radar: Radar system parameters.
     """
     for item in return_list:
+        if isinstance(item, Clutter):
+            add_clutter(datacube, waveform, item, radar)
+            continue
+
         if not isinstance(item, Return):
             print(f"Return type '{type(item).__name__}' not recognized. No return added.")
             continue

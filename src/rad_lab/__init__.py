@@ -11,7 +11,7 @@ Typical usage::
 """
 
 from .pulse_doppler_radar import Radar
-from .returns import Target, EaPlatform, Return
+from .returns import Target, EaPlatform, Return, Clutter
 from .waveform import (
     WaveformType,
     WaveformSample,
@@ -24,6 +24,7 @@ from .sar_radar import SarRadar, SarTarget
 from . import ambiguity
 from . import detection
 from . import cfar
+from . import mti
 from . import rdm
 from . import sar
 from ._version import __version__
@@ -33,6 +34,7 @@ __all__ = [
     "Target",
     "EaPlatform",
     "Return",
+    "Clutter",
     "SarRadar",
     "SarTarget",
     "WaveformType",
@@ -44,6 +46,7 @@ __all__ = [
     "ambiguity",
     "detection",
     "cfar",
+    "mti",
     "rdm",
     "sar",
     "__version__",

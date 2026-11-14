@@ -1,0 +1,9 @@
+blind speeds: 300.0, 600.0 m/s
+order 1: taps [ 1. -1.], noise gain 2
+order 2: taps [ 1. -2.  1.], noise gain 6
+order 3: taps [ 1. -3.  3. -1.], noise gain 20
+
+improvement factor [dB]:
+  order 1: 36.6 dB at 1 m/s, 16.6 dB at 10 m/s
+  order 2: 70.2 dB at 1 m/s, 30.3 dB at 10 m/s
+  order 3: 102.0 dB at 1 m/s, 42.3 dB at 10 m/s

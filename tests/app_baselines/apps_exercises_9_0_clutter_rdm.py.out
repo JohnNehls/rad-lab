@@ -1,0 +1,9 @@
+range_rate_std = 0.1 m/s
+  target SNR      = 30.1 dB
+  peak clutter CNR = 54.3 dB
+range_rate_std = 3.0 m/s
+  target SNR      = 30.0 dB
+  peak clutter CNR = 50.9 dB
+range_rate_std = 10.0 m/s
+  target SNR      = 30.1 dB
+  peak clutter CNR = 46.1 dB

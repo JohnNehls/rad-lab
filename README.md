@@ -81,6 +81,7 @@ scripts in [apps/exercises](apps/exercises). Each file builds intuition for one 
 - Detection theory
 - Linear arrays and monopulse
 - Stripmap and spotlight SAR
+- Surface clutter and MTI pulse cancellers
 
 Every figure these exercises produce can be browsed in the
 [gallery](https://johnnehls.github.io/rad-lab/gallery/index.html).
@@ -119,7 +120,7 @@ over targets and pulses are intentional and should not be vectorized at the cost
 of clarity.
 
 The public API is re-exported from `src/rad_lab/__init__.py` (`Radar`, `Target`,
-`Return`, the waveform builders, `rdm`, `sar`, `stap`, ...). Modules whose names
+`Return`, the waveform builders, `rdm`, `sar`, ...). Modules whose names
 start with an underscore (e.g. `_rdm_internals.py`, `_sar_internals.py`) are
 private implementation detail. Formatting and linting are handled by ruff
 (configured in `pyproject.toml`) via the pre-commit hooks below.

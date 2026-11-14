@@ -18,6 +18,7 @@ from ._rdm_internals import add_returns, create_window
 from ._rdm_extras import noise_checks
 from .pulse_doppler_radar import Radar
 from .waveform import WaveformSample
+from . import mti
 
 
 def gen(
@@ -31,6 +32,7 @@ def gen(
     window_kwargs: dict | None = None,
     range_window: str = "none",
     range_window_kwargs: dict | None = None,
+    mti_order: int = 0,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
     """Generate a Range-Doppler Map (RDM) for a single Coherent Processing Interval (CPI).
 
@@ -49,7 +51,8 @@ def gen(
         waveform: WaveformSample created by a factory function
             (e.g. `lfm_waveform`).
         return_list: List of `Return` objects, each
-            describing one simulated target or jammer.
+            describing one simulated target or jammer, and optionally
+            `Clutter` objects, each describing a band of surface clutter.
         seed: Random number generator seed for reproducibility. Defaults to 0.
         plot: If True, plots the final RDM. Defaults to True.
         debug: If True, plots intermediate processing steps and prints
@@ -71,6 +74,11 @@ def gen(
             `range_window`.
         range_window_kwargs: Optional dict forwarded to the range-window
             function (e.g. ``{"at": 60}`` for Chebyshev).
+        mti_order: Order of the MTI pulse canceller applied along slow time
+            after the matched filter and before Doppler processing.  ``0``
+            (default) disables MTI.  An order-``n`` canceller drops the first
+            ``n`` pulses.  See `mti.apply_canceller`; pass the same value to
+            `to_snr`.
 
     Returns:
         tuple: ``(rdot_axis, r_axis, datacube)``:
@@ -116,6 +124,12 @@ def gen(
     if debug:
         plot_rtm(r_axis, datacube, "RTM: match filtered")
 
+    ########## MTI #################################################################################
+    if mti_order:
+        datacube = mti.apply_canceller(datacube, mti_order)
+        if debug:
+            plot_rtm(r_axis, datacube, f"RTM: order-{mti_order} MTI")
+
     ########### Doppler process ####################################################################
     chwin_norm_mat = create_window(
         datacube.shape, window=window, window_kwargs=window_kwargs, plot=False
@@ -136,7 +150,9 @@ def gen(
     return rdot_axis, r_axis, datacube
 
 
-def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.ndarray:
+def to_snr(
+    datacube: np.ndarray, radar: Radar, waveform: WaveformSample, mti_order: int = 0
+) -> np.ndarray:
     """Convert a Volt-domain RDM to SNR voltage ratio.
 
     Normalises so the peak magnitude equals the range-equation SNR voltage
@@ -154,17 +170,24 @@ def to_snr(datacube: np.ndarray, radar: Radar, waveform: WaveformSample) -> np.n
 
     So dividing by ``fs · sqrt(N · R·N₀·T)`` yields the SNR voltage ratio.
 
+    An order-``n`` MTI canceller leaves ``N - n`` pulses and multiplies the
+    white-noise variance by `mti.noise_gain`, so both enter the normalisation.
+
     Args:
         datacube: Processed RDM returned by `gen`, in Volts.
         radar: Same radar used to generate the RDM.
         waveform: Same waveform used to generate the RDM.
+        mti_order: Same ``mti_order`` passed to `gen`.  Defaults to 0.
 
     Returns:
         np.ndarray: RDM normalised to SNR voltage ratio.
     """
     # noise_power(B=1, F, T) = k·T·F is the one-sided PSD N₀ [W/Hz].
     n0_R = c.RADAR_LOAD * noise_power(1.0, radar.noise_factor, radar.op_temp)
-    noise_v_out = radar.sample_rate * np.sqrt(radar.n_pulses * n0_R * waveform.pulse_width)
+    n_pulses_out = radar.n_pulses - mti_order
+    noise_v_out = radar.sample_rate * np.sqrt(
+        n_pulses_out * mti.noise_gain(mti_order) * n0_R * waveform.pulse_width
+    )
     return datacube / noise_v_out
 
 

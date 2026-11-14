@@ -44,6 +44,7 @@ nav:
       - Radar: api/pulse_doppler_radar.md
       - Waveform: api/waveform.md
       - Returns: api/returns.md
+      - MTI: api/mti.md
       - Range Equation: api/range_equation.md
       - RF Datacube: api/rf_datacube.md
       - ULA: api/uniform_linear_arrays.md

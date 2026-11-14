@@ -1,8 +1,9 @@
-"""Target and electronic-attack return models.
+"""Target, electronic-attack, and clutter return models.
 
 Defines `Target` (kinematics and RCS), `EaPlatform` (DRFM
-jammer transmitter parameters), and `Return` (pairing of a target with
-an optional EA platform) used as inputs to the RDM generator.
+jammer transmitter parameters), `Return` (pairing of a target with
+an optional EA platform), and `Clutter` (distributed ground/sea clutter)
+used as inputs to the RDM generator.
 """
 
 from __future__ import annotations
@@ -85,3 +86,41 @@ class Return:
 
     target: Target
     platform: EaPlatform | None = None
+
+
+@dataclass
+class Clutter:
+    """Distributed surface clutter over a band of ranges.
+
+    Every range sample in ``[range_start, range_stop]`` gets one clutter cell.
+    The cell RCS follows the constant-gamma model,
+    ``sigma = gamma * sin(grazing_angle) * A``, with illuminated area
+    ``A = R * azimuth_beamwidth * dR / cos(grazing_angle)``.  Each cell's
+    slow-time samples are a complex Gaussian process whose Doppler spectrum is
+    Gaussian, centred on ``range_rate_mean`` with spread ``range_rate_std``
+    (internal motion such as wind-blown vegetation or sea waves).
+
+    Clutter beyond the unambiguous range folds back into the RDM, just like a
+    skin return.
+
+    Attributes:
+        range_start: Near edge of the clutter band [m].
+        range_stop: Far edge of the clutter band [m].
+        gamma: Constant-gamma reflectivity [linear], e.g. ``10**(-20/10)``
+            for farmland.
+        grazing_angle: Grazing angle, assumed constant across the band [rad].
+        azimuth_beamwidth: Azimuth beamwidth; sets the cell's cross-range
+            width [rad].
+        range_rate_mean: Mean clutter radial velocity, e.g. from wind or
+            own-ship motion [m/s].  Defaults to 0.
+        range_rate_std: Standard deviation of the clutter radial velocity
+            (spectral spread) [m/s].  Defaults to 0.1.
+    """
+
+    range_start: float
+    range_stop: float
+    gamma: float
+    grazing_angle: float
+    azimuth_beamwidth: float
+    range_rate_mean: float = 0.0
+    range_rate_std: float = 0.1
