@@ -1,23 +1,13 @@
 import numpy as np
 import pytest
 import rad_lab.pulse_doppler_radar as pdr
-from rad_lab import rdm, Radar, Target, EaPlatform, Return
+from rad_lab import rdm, Target, EaPlatform, Return
 from rad_lab import uncoded_waveform, barker_coded_waveform, random_coded_waveform, lfm_waveform
+from _radars import x_band_radar
 
 BW = 10e6
 
-RADAR = Radar(
-    fcar=10e9,
-    tx_power=1e3,
-    tx_gain=10 ** (30 / 10),
-    rx_gain=10 ** (30 / 10),
-    op_temp=0,  # noiseless: argmax finds the target peak unambiguously
-    sample_rate=2 * BW,
-    noise_factor=10 ** (8 / 10),
-    total_losses=10 ** (8 / 10),
-    prf=50e3,
-    dwell_time=2e-3,
-)
+RADAR = x_band_radar(50e3, 2e-3, op_temp=0)  # noiseless: argmax finds the peak unambiguously
 
 RETURN = Return(
     target=Target(range=8.4e3, range_rate=2.0e3),

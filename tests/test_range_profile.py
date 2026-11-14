@@ -1,25 +1,15 @@
 import dataclasses
 import numpy as np
 import pytest
-from rad_lab import rdm, Radar, Target, Return, lfm_waveform
+from rad_lab import rdm, Target, Return, lfm_waveform
 from rad_lab.range_equation import radar_snr
 from rad_lab.rf_datacube import doppler_process
+from _radars import x_band_radar
 
 BW = 10e6
 T = 1e-6
 
-RADAR = Radar(
-    fcar=10e9,
-    tx_power=1e3,
-    tx_gain=10 ** (30 / 10),
-    rx_gain=10 ** (30 / 10),
-    op_temp=290,
-    sample_rate=2 * BW,
-    noise_factor=10 ** (8 / 10),
-    total_losses=10 ** (8 / 10),
-    prf=20e3,
-    dwell_time=1.6e-3,  # 32 pulses
-)
+RADAR = x_band_radar(20e3, 1.6e-3)  # 32 pulses
 
 TARGET = Target(range=3e3, range_rate=40, rcs=1)  # 3 km is bin 399 (7.5 m bins, 1-indexed axis)
 

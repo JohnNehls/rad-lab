@@ -1,26 +1,16 @@
 import numpy as np
 import pytest
-from rad_lab import rdm, mti, Radar, Target, Return, Clutter, uncoded_waveform
+from rad_lab import rdm, mti, Target, Return, Clutter, uncoded_waveform
 from rad_lab import constants as c
 from rad_lab import pulse_doppler_radar as pdr
 from rad_lab.noise import gaussian_spectrum_factor, unity_variance_complex_noise
+from _radars import x_band_radar
 
 BW = 10e6
 PRF = 20e3
 FCAR = 10e9
 
-RADAR = Radar(
-    fcar=FCAR,
-    tx_power=1e3,
-    tx_gain=10 ** (30 / 10),
-    rx_gain=10 ** (30 / 10),
-    op_temp=290,
-    sample_rate=2 * BW,
-    noise_factor=10 ** (8 / 10),
-    total_losses=10 ** (8 / 10),
-    prf=PRF,
-    dwell_time=3.2e-3,  # 64 pulses
-)
+RADAR = x_band_radar(PRF, 3.2e-3)  # 64 pulses
 
 
 @pytest.mark.parametrize(

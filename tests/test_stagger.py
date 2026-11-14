@@ -1,28 +1,17 @@
 import dataclasses
 import numpy as np
 import pytest
-from rad_lab import rdm, mti, Radar, Target, Return, EaPlatform, lfm_waveform
+from rad_lab import rdm, mti, Target, Return, EaPlatform, lfm_waveform
 from rad_lab import pulse_doppler_radar as pdr
 from rad_lab._rdm_internals import add_returns, returns_rtm
 from rad_lab.rf_datacube import data_cube
+from _radars import x_band_radar
 
 BW = 10e6
 T = 1e-6
 STAGGER = (23, 27, 24, 26)  # base interval 40 samples at 20 MHz / 20 kHz
 
-RADAR = Radar(
-    fcar=10e9,
-    tx_power=1e3,
-    tx_gain=10 ** (30 / 10),
-    rx_gain=10 ** (30 / 10),
-    op_temp=290,
-    sample_rate=2 * BW,
-    noise_factor=10 ** (8 / 10),
-    total_losses=10 ** (8 / 10),
-    prf=20e3,
-    dwell_time=1.6e-3,  # 32 pulses
-    pri_stagger=STAGGER,
-)
+RADAR = x_band_radar(20e3, 1.6e-3, pri_stagger=STAGGER)  # 32 pulses
 
 
 def test_stagger_base_must_be_whole_samples():

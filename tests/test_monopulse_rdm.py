@@ -1,22 +1,12 @@
 import numpy as np
 import rad_lab.uniform_linear_arrays as ula
 import rad_lab.monopulse as mp
-from rad_lab import rdm, Radar, Target, Return, lfm_waveform
+from rad_lab import rdm, Target, Return, lfm_waveform
+from _radars import x_band_radar
 
 BW = 10e6
 
-RADAR = Radar(
-    fcar=10e9,
-    tx_power=1e3,
-    tx_gain=10 ** (30 / 10),
-    rx_gain=10 ** (30 / 10),
-    op_temp=290,
-    sample_rate=2 * BW,
-    noise_factor=10 ** (8 / 10),
-    total_losses=10 ** (8 / 10),
-    prf=50e3,
-    dwell_time=2e-3,
-)
+RADAR = x_band_radar(50e3, 2e-3)
 
 WAVEFORM = lfm_waveform(BW, T=10 / 40e6, chirp_up_down=1)
 TGT_ANGLE = 5  # degrees
