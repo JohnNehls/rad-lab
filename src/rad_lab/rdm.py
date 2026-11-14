@@ -321,6 +321,33 @@ def noncoherent_integrate(rtm: np.ndarray) -> np.ndarray:
     return np.sum(np.abs(rtm) ** 2, axis=1)
 
 
+def doppler_bank(rtm: np.ndarray, pulse_times: np.ndarray, freqs: np.ndarray) -> np.ndarray:
+    """Coherent Doppler filter bank for arbitrarily spaced pulses.
+
+    Computes ``y[r, f] = sum_n x[r, n] exp(-j 2 pi f t_n)``, the discrete-time
+    Fourier transform evaluated at the actual pulse times.  For evenly spaced
+    pulses and ``freqs`` on the FFT grid this equals the (unshifted) slow-time
+    FFT of `doppler_process`; with a staggered PRI it is the direct
+    replacement.  Same sign convention: a target at range rate ``v`` peaks at
+    ``f = -2 v fcar / c``.
+
+    A target at a bin's Doppler adds in phase, so the coherent gain is the
+    full ``N`` whatever the spacing, while unit-variance white noise has
+    variance ``N`` (``sum |w|^2`` if the RTM was tapered by weights ``w``).
+
+    Args:
+        rtm: 2D RTM, shape ``(n_range_bins, n_pulses)``.
+        pulse_times: Time of each RTM column [s], e.g. ``radar.pulse_tx_times``
+            (``[mti_order:]`` after an MTI canceller).
+        freqs: Doppler frequencies of the filters [Hz].
+
+    Returns:
+        np.ndarray: Complex range-Doppler map, shape ``(n_range_bins, len(freqs))``.
+    """
+    steering = np.exp(-2j * np.pi * pulse_times[:, None] * freqs[None, :])
+    return rtm @ steering
+
+
 def plot_rtm(r_axis: np.ndarray, data: np.ndarray, title: str) -> None:
     """Plots the magnitude and phase of a range-time matrix (RTM).
 

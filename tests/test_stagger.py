@@ -95,3 +95,27 @@ def test_gaussian_spectrum_factor_covariance():
     assert np.allclose(factor @ factor.conj().T, expected, atol=1e-10)
     stationary = gaussian_spectrum_factor(times, 0.0) @ np.ones(len(times))
     assert np.allclose(stationary, stationary[0])  # one amplitude for every pulse
+
+
+def test_doppler_bank_matches_fft_for_constant_pri():
+    uniform = dataclasses.replace(RADAR, pri_stagger=None)
+    rng = np.random.default_rng(0)
+    rtm = rng.standard_normal((4, uniform.n_pulses)) + 1j * rng.standard_normal((
+        4,
+        uniform.n_pulses,
+    ))
+    freqs = np.fft.fftfreq(uniform.n_pulses, 1 / uniform.prf)
+    bank = rdm.doppler_bank(rtm, uniform.pulse_tx_times, freqs)
+    assert np.allclose(bank, np.fft.fft(rtm, axis=1))
+
+
+def test_doppler_bank_full_coherent_gain_with_stagger():
+    quiet = dataclasses.replace(RADAR, op_temp=0)
+    target = Target(range=3e3, range_rate=120, rcs=1)
+    waveform = lfm_waveform(BW, T, 1)
+    r_axis, rtm = rdm.gen_rtm(quiet, waveform, [Return(target=target)])
+    i_r = np.argmin(abs(r_axis - target.range))
+    single = np.abs(rtm[i_r]) ** 2
+    doppler = np.array([-2 * target.range_rate * RADAR.fcar / c.C])
+    bank = rdm.doppler_bank(rtm[i_r : i_r + 1], quiet.pulse_tx_times, doppler)
+    assert np.abs(bank[0, 0]) ** 2 == pytest.approx(RADAR.n_pulses**2 * single.mean(), rel=1e-3)

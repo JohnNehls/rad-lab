@@ -31,7 +31,11 @@ enhancements:
     echoes from beyond the range gate, which land at a different range
     on every pulse and escape the canceller; CPI-to-CPI PRF switching
     for pulse-Doppler (RDM) blind-speed and range-ambiguity resolution.
-  - 10_3+ Beam scanning and PPI display: range profile per azimuth step,
+  - 10_3 Coherent Doppler bank on staggered pulses: done
+    (=rdm.doppler_bank=).  Stagger and random jitter keep the full
+    coherent gain but leave partial aliases near the mean PRF (and a
+    ~-23 dB floor for jitter); MTI first keeps clutter from leaking.
+  - 10_4+ Beam scanning and PPI display: range profile per azimuth step,
     antenna-pattern weighting from =uniform_linear_arrays=, clutter and
     MTI on the display.  Simulate a few pulses per beam position, not a
     full RDM, to keep the apps regression fast.
