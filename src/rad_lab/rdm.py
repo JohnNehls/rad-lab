@@ -252,7 +252,9 @@ def to_snr(
 
     Normalises so the peak magnitude equals the range-equation SNR voltage
     and the off-peak noise floor has voltage standard deviation of 1.  Use
-    `verify_snr` to verify against theory.
+    `verify_snr` to verify against theory.  With MTI the noise is no longer
+    white: its floor follows the canceller's ``|H(f)|^2`` across Doppler, so
+    the unit standard deviation holds only on average over Doppler bins.
 
     Derivation, with unit-amplitude pulse template (``|p|=1`` over duration
     ``T``, ``N_taps = T·fs`` samples) and raw (unscaled) matched filter:

@@ -4,8 +4,9 @@
 Cycle the PRI from pulse to pulse (`Radar.pri_stagger`) so a target cancelled
 by one PRI is passed by the next.  Compare a constant PRI with a narrow
 (23:27:24:26) and a wide (4:5:6) stagger, all at a 20 kHz mean PRF: the
-canceller's velocity response, MTI range profiles of the 10_1 scene with a
-target at the constant-PRI blind speed, and the clutter improvement factor.
+canceller's velocity response, MTI range profiles of the 10_1 scene (with a
+brighter, 5 m^2 target at the constant-PRI blind speed), and the clutter
+improvement factor.
 
 Notes:
   - The canceller taps are unchanged; each output simply sees different pulse
@@ -95,7 +96,8 @@ for ax, (label, stagger) in zip(axes, staggers.items()):
     r_axis, rtm = rdm.gen_rtm(staggered_radar, waveform, return_list, mti_order=order)
     n_pulses = rtm.shape[1]
     # Divide by N so the noise floor is 0 dB in every panel.
-    profile = rdm.noncoherent_integrate(rdm.rtm_to_snr(rtm, radar, waveform, order)) / n_pulses
+    snr_rtm = rdm.rtm_to_snr(rtm, staggered_radar, waveform, order)
+    profile = rdm.noncoherent_integrate(snr_rtm) / n_pulses
     i_t = np.argmin(abs(r_axis - target.range))
     i_b = np.argmin(abs(r_axis - blind_target.range))
 

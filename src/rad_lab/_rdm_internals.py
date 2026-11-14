@@ -142,7 +142,7 @@ def add_jammer(
         raise NotImplementedError("jammer returns assume a constant PRI (pri_stagger=None)")
 
     target = return_info.target
-    pulse_tx_times = np.arange(radar.n_pulses) / radar.prf
+    pulse_tx_times = radar.pulse_tx_times
 
     # Calculate timing and phase for the signal's one-way trip to the target
     target_range_per_pulse = target.range + target.range_rate * pulse_tx_times

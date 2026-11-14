@@ -58,7 +58,7 @@ class Radar:
         """Compute n_pulses from dwell_time and prf; validate the PRI stagger."""
         self.n_pulses = int(math.ceil(self.dwell_time * self.prf))
         if self.pri_stagger is not None:
-            base = self.sample_rate / (self.prf * np.mean(self.pri_stagger))
+            base = self._stagger_base_samples
             if abs(base - round(base)) > 1e-9 * base:
                 raise ValueError(
                     f"pri_stagger base interval is {base:.4f} samples; choose prf so that "
@@ -66,10 +66,14 @@ class Radar:
                 )
 
     @property
+    def _stagger_base_samples(self) -> float:
+        """Stagger base interval ``T0`` in samples (whole for a valid stagger)."""
+        return self.sample_rate / (self.prf * np.mean(self.pri_stagger))
+
+    @property
     def stagger_pri_samples(self) -> np.ndarray:
         """One stagger cycle of PRIs in samples, ``pri_stagger * T0``."""
-        base = round(self.sample_rate / (self.prf * np.mean(self.pri_stagger)))
-        return np.array(self.pri_stagger) * base
+        return np.array(self.pri_stagger) * round(self._stagger_base_samples)
 
     @property
     def pulse_tx_times(self) -> np.ndarray:
