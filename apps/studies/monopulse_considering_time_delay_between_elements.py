@@ -23,7 +23,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from rad_lab import constants as c
 import rad_lab.uniform_linear_arrays as ula
-from rad_lab.pulse_doppler_radar import Radar
+from rad_lab.pulse_doppler_radar import Radar, range_rate_from_doppler
 from rad_lab.waveform import uncoded_waveform, barker_coded_waveform, lfm_waveform
 from rad_lab.rdm import plot_rdm
 import rad_lab.monopulse as mp
@@ -125,7 +125,7 @@ for dc in rdm_list:
     f_axis, r_axis = doppler_process(dc, radar.sample_rate)
 
 # Convert frequency axis to range-rate axis
-rdot_axis = -c.C * f_axis / (2 * radar.fcar)
+rdot_axis = range_rate_from_doppler(f_axis, radar.fcar)
 
 
 ## Step 5: Compare monopulse angle estimates ##################################

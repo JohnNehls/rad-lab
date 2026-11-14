@@ -44,6 +44,7 @@ import matplotlib.pyplot as plt
 from scipy.signal import windows
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, lfm_waveform
 from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 from rad_lab.range_equation import snr_range_eqn
 
 bw = 10e6  # waveform bandwidth [Hz]
@@ -92,18 +93,14 @@ staggers = {
 }
 
 
-def to_freq(range_rate: np.ndarray) -> np.ndarray:
-    """Doppler frequency of a target at ``range_rate`` (doppler_bank convention)."""
-    return -2 * range_rate * radar.fcar / c.C
-
-
 # -- Doppler response of each pulse train (a unit target at zero Doppler) --
 range_rates = np.linspace(0, 1500, 6001)
+freqs = pdr.frequency_delta_doppler(range_rates, radar.fcar)
 fig, axes = plt.subplots(len(staggers), 1, sharex=True, sharey=True, figsize=(8, 9))
 print("strongest Doppler response, 10 m/s off the target to below the first blind speed:")
 for ax, (label, stagger) in zip(axes, staggers.items()):
     times = dataclasses.replace(radar, pri_stagger=stagger).pulse_tx_times
-    response = np.abs(rdm.doppler_bank(np.ones((1, len(times))), times, to_freq(range_rates))[0])
+    response = np.abs(rdm.doppler_bank(np.ones((1, len(times))), times, freqs)[0])
     response_db = 20 * np.log10(response / len(times))
     first_blind = mti.blind_speeds(radar.prf, radar.fcar, n=1, pri_stagger=stagger)[0]
     away = (range_rates > 10) & (range_rates < first_blind - 10)
@@ -143,9 +140,8 @@ for label, stagger in staggers.items():
     r_axis, rtm = rdm.gen_rtm(quiet, waveform, [Return(target=target)])
     snr_rtm = rdm.rtm_to_snr(rtm, radar, waveform)  # normalise by the noisy radar's noise
     i_r = np.argmin(abs(r_axis - target.range))
-    y = rdm.doppler_bank(
-        snr_rtm[i_r : i_r + 1], quiet.pulse_tx_times, to_freq(np.array([target.range_rate]))
-    )
+    target_freq = np.array([pdr.frequency_delta_doppler(target.range_rate, radar.fcar)])
+    y = rdm.doppler_bank(snr_rtm[i_r : i_r + 1], quiet.pulse_tx_times, target_freq)
     # Output SNR = |y|^2 / N (noise variance N); gain = output SNR / single-pulse SNR.
     gain = np.abs(y[0, 0]) ** 2 / radar.n_pulses / snr_1
     print(f"  {label:20s} {10 * np.log10(gain):.1f} dB")
@@ -154,6 +150,7 @@ for label, stagger in staggers.items():
 blind_target = Target(range=5002.5, range_rate=300, rcs=5)
 return_list = [Return(target=target), Return(target=blind_target), clutter]
 rdot_axis = np.arange(-600, 601, 3.0)  # ~ one Doppler resolution cell (1 / dwell) per step
+map_freqs = pdr.frequency_delta_doppler(rdot_axis, radar.fcar)
 map_staggers = ["constant PRI", "wide 4:5:6", "random jitter 20-30"]
 
 fig, axes = plt.subplots(2, 3, sharex=True, sharey=True, figsize=(13, 8))
@@ -166,9 +163,9 @@ for col, label in enumerate(map_staggers):
         r_axis, rtm = rdm.gen_rtm(staggered, waveform, return_list, mti_order=order)
         taper = windows.chebwin(rtm.shape[1], at=60)
         snr_rtm = rdm.rtm_to_snr(rtm, radar, waveform, order) * taper
-        rdm_map = rdm.doppler_bank(
-            snr_rtm, staggered.pulse_tx_times[order:], to_freq(rdot_axis)
-        ) / np.sqrt(np.sum(taper**2))  # unit noise variance
+        rdm_map = rdm.doppler_bank(snr_rtm, staggered.pulse_tx_times[order:], map_freqs) / np.sqrt(
+            np.sum(taper**2)
+        )  # unit noise variance
         snr_db = 20 * np.log10(np.abs(rdm_map) + 1e-12)
 
         i_t = np.argmin(abs(r_axis - target.range)), np.argmin(abs(rdot_axis - target.range_rate))

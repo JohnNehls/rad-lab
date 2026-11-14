@@ -18,7 +18,7 @@ from .noise import unity_variance_complex_noise
 from .utilities import zero_to_smallest_float
 from ._rdm_internals import add_returns, create_window, staggered_rtm
 from ._rdm_extras import noise_checks
-from .pulse_doppler_radar import Radar
+from .pulse_doppler_radar import Radar, range_rate_from_doppler
 from .waveform import WaveformSample
 from . import mti
 
@@ -110,8 +110,7 @@ def gen(
 
     f_axis, _ = doppler_process(datacube, radar.sample_rate)  # r_axis is unchanged
 
-    # f = -2 fc/c * Rdot -> Rdot = -c f / (2 fc)
-    rdot_axis = -c.C * f_axis / (2 * radar.fcar)
+    rdot_axis = range_rate_from_doppler(f_axis, radar.fcar)
 
     ########## Plots and checks ####################################################################
     if debug:

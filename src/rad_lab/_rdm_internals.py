@@ -8,7 +8,7 @@ from .utilities import phase_negpi_pospi
 from .range_equation import signal_range_eqn, signal_range_eqn_one_way
 from .noise import unity_variance_complex_noise
 from . import vbm
-from .pulse_doppler_radar import Radar
+from .pulse_doppler_radar import Radar, frequency_delta_doppler
 from .waveform import WaveformSample
 from .returns import Target, EaPlatform, Return, Clutter
 
@@ -153,7 +153,7 @@ def add_jammer(
     ea = return_info.platform
 
     # Doppler frequency shift for range-rate offset
-    doppler_freq_offset = 2 * radar.fcar / c.C * ea.rdot_offset
+    doppler_freq_offset = frequency_delta_doppler(ea.rdot_offset, radar.fcar)
 
     # Phase modulation for Velocity Bin Masking (VBM)
     if ea.rdot_delta is not None:
@@ -175,7 +175,7 @@ def add_jammer(
 
     # Precompute per-pulse rdot-offset phase shift vector
     pulse_indices = np.arange(radar.n_pulses)
-    rdot_phase = np.exp(-1j * pulse_indices * 2 * np.pi * doppler_freq_offset / radar.prf)
+    rdot_phase = np.exp(1j * pulse_indices * 2 * np.pi * doppler_freq_offset / radar.prf)
 
     stored_pulse = 0
     stored_angle = 0

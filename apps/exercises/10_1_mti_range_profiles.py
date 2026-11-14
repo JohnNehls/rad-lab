@@ -31,7 +31,7 @@ Notes:
 import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, mti, detection, Radar, Target, Return, Clutter, lfm_waveform
-from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 
 bw = 10e6  # waveform bandwidth [Hz]
 
@@ -83,7 +83,7 @@ for ax, order in zip(axes, [0, 1, 2]):
         & (abs(r_axis - blind_target.range) > 200)
     )
     floor = np.median(profile[background])
-    doppler = 2 * target.range_rate * radar.fcar / c.C
+    doppler = pdr.frequency_delta_doppler(target.range_rate, radar.fcar)
     target_gain = mti.frequency_response(order, radar.prf, np.array([doppler]))[0]
     print(f"MTI order {order}:")
     print(f"  clutter background / noise  = {10 * np.log10(floor):5.1f} dB")

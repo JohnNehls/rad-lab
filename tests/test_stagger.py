@@ -2,7 +2,7 @@ import dataclasses
 import numpy as np
 import pytest
 from rad_lab import rdm, mti, Radar, Target, Return, EaPlatform, lfm_waveform
-from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 from rad_lab._rdm_internals import gaussian_spectrum_factor
 
 BW = 10e6
@@ -80,7 +80,7 @@ def test_equal_ratios_match_constant_pri_response():
 def test_stagger_blind_speed():
     blind = mti.blind_speeds(20e3, 10e9, n=2, pri_stagger=STAGGER)
     assert np.allclose(blind, [7500, 15000])  # 25x the 300 m/s constant-PRI blind speed
-    doppler = 2 * np.array([300.0, blind[0]]) * 10e9 / c.C
+    doppler = pdr.frequency_delta_doppler(np.array([300.0, blind[0]]), 10e9)
     response = mti.frequency_response(1, 20e3, doppler, pri_stagger=STAGGER)
     assert response[0] > 0.1  # old blind speed is passed
     assert response[1] < 1e-20  # true blind speed is cancelled
@@ -116,6 +116,6 @@ def test_doppler_bank_full_coherent_gain_with_stagger():
     r_axis, rtm = rdm.gen_rtm(quiet, waveform, [Return(target=target)])
     i_r = np.argmin(abs(r_axis - target.range))
     single = np.abs(rtm[i_r]) ** 2
-    doppler = np.array([-2 * target.range_rate * RADAR.fcar / c.C])
+    doppler = np.array([pdr.frequency_delta_doppler(target.range_rate, RADAR.fcar)])
     bank = rdm.doppler_bank(rtm[i_r : i_r + 1], quiet.pulse_tx_times, doppler)
     assert np.abs(bank[0, 0]) ** 2 == pytest.approx(RADAR.n_pulses**2 * single.mean(), rel=1e-3)

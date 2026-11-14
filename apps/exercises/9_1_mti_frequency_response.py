@@ -20,11 +20,10 @@ Notes:
 import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import mti
-from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 
 fcar = 10e9  # carrier frequency [Hz]
 prf = 20e3  # pulse repetition frequency [Hz]
-wavelength = c.C / fcar
 orders = [1, 2, 3]
 
 blind = mti.blind_speeds(prf, fcar, n=2)
@@ -35,7 +34,7 @@ for order in orders:
 
 # -- Frequency response vs. range rate --
 range_rates = np.linspace(-blind[1], blind[1], 2001)
-freqs = 2 * range_rates / wavelength  # Doppler of a receding target, magnitude only
+freqs = pdr.frequency_delta_doppler(range_rates, fcar)  # |H|^2 is symmetric in Doppler
 
 fig, ax = plt.subplots()
 for order in orders:

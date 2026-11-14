@@ -17,7 +17,7 @@ Notes:
 import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, mti, Radar, Target, Return, lfm_waveform
-from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 
 bw = 10e6  # waveform bandwidth [Hz]
 order = 2  # MTI canceller order
@@ -55,9 +55,8 @@ for mti_order in [0, order]:
 
     snr_db[mti_order] = []
     for t in targets:
-        # Doppler of each target after aliasing into [-prf/2, prf/2)
-        f_alias = (2 * t.range_rate * radar.fcar / c.C + radar.prf / 2) % radar.prf - radar.prf / 2
-        rdot_alias = c.C * f_alias / (2 * radar.fcar)
+        # Range rate of each target after Doppler aliasing into [-prf/2, prf/2]
+        rdot_alias = pdr.range_rate_aliased_prf_f0(t.range_rate, radar.prf, radar.fcar)
         i_r = np.argmin(abs(r_axis - t.range))
         i_v = np.argmin(abs(rdot_axis - rdot_alias))
         snr_db[mti_order].append(20 * np.log10(abs(snr_dc[i_r, i_v])))
@@ -67,7 +66,7 @@ for mti_order in [0, order]:
 
 print(f"SNR change from order-{order} MTI (measured vs. predicted):")
 for t, before, after in zip(targets, snr_db[0], snr_db[order]):
-    doppler = 2 * t.range_rate * radar.fcar / c.C
+    doppler = pdr.frequency_delta_doppler(t.range_rate, radar.fcar)
     response = mti.frequency_response(order, radar.prf, np.array([doppler]))[0]
     pulse_ratio = (radar.n_pulses - order) / radar.n_pulses
     predicted = 10 * np.log10(response / mti.noise_gain(order) * pulse_ratio)

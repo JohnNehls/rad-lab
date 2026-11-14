@@ -34,7 +34,7 @@ import dataclasses
 import numpy as np
 import matplotlib.pyplot as plt
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, lfm_waveform
-from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 
 bw = 10e6  # waveform bandwidth [Hz]
 
@@ -75,7 +75,7 @@ order = 1
 fig, axes = plt.subplots(2, 1, figsize=(8, 7))
 for ax, v_max in zip(axes, [1600, 8000]):
     range_rates = np.linspace(0, v_max, 4001)
-    freqs = 2 * range_rates * radar.fcar / c.C
+    freqs = pdr.frequency_delta_doppler(range_rates, radar.fcar)
     for label, stagger in staggers.items():
         response = mti.frequency_response(order, radar.prf, freqs, stagger) / mti.noise_gain(order)
         with np.errstate(divide="ignore"):
@@ -131,7 +131,7 @@ print("                       speed [m/s]  300 m/s   order 1          order 2")
 for label, stagger in staggers.items():
     first_blind = mti.blind_speeds(radar.prf, radar.fcar, n=1, pri_stagger=stagger)[0]
     gain_300 = mti.frequency_response(
-        1, radar.prf, np.array([2 * blind_speed * radar.fcar / c.C]), stagger
+        1, radar.prf, np.array([pdr.frequency_delta_doppler(blind_speed, radar.fcar)]), stagger
     )[0] / mti.noise_gain(1)
     gain_300_db = f"{10 * np.log10(gain_300):5.1f} dB" if gain_300 > 1e-10 else "null"
     line = f"  {label:20s} {first_blind:7.0f}  {gain_300_db:>8s}"

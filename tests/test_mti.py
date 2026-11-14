@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, uncoded_waveform
 from rad_lab import constants as c
+from rad_lab import pulse_doppler_radar as pdr
 from rad_lab._rdm_internals import gaussian_spectrum_sequence
 
 BW = 10e6
@@ -60,7 +61,7 @@ def test_blind_speeds_are_multiples_of_half_wavelength_times_prf():
     assert np.allclose(
         mti.blind_speeds(PRF, FCAR, n=3), [1, 2, 3] * np.array(wavelength * PRF / 2)
     )
-    blind_doppler = 2 * mti.blind_speeds(PRF, FCAR, n=3) / wavelength
+    blind_doppler = pdr.frequency_delta_doppler(mti.blind_speeds(PRF, FCAR, n=3), FCAR)
     assert np.allclose(mti.frequency_response(2, PRF, blind_doppler), 0, atol=1e-20)
 
 

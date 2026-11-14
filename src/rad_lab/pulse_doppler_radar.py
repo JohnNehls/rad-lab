@@ -138,6 +138,20 @@ def frequency_delta_doppler(range_rate: float, f0: float) -> float:
     return f0 * (-2 * range_rate / c.C)
 
 
+def range_rate_from_doppler(freq: float, f0: float) -> float:
+    """
+    Calculate the range rate that produces a Doppler shift (inverse of `frequency_delta_doppler`).
+
+    Args:
+        freq (float): Doppler frequency shift [Hz]
+        f0 (float): Carrier frequency of the radar pulse [Hz]
+
+    Returns:
+        float: Target range rate (radial velocity) [m/s]
+    """
+    return -c.C * freq / (2 * f0)
+
+
 def frequency_aliased(freq: float, fs: float) -> float:
     """
     Calculate the apparent frequency after aliasing into the Nyquist interval [-fs/2, fs/2].
