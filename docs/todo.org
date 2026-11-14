@@ -22,11 +22,10 @@ enhancements:
     baseline and makes moving targets slide smoothly across bins
     (affects the 8_x RCMC and 6_0 keystone exercises).  Then add a
     straddle exercise (SNR loss vs. sub-bin target offset).
-  - 10_1 MTI on range profiles: with no Doppler FFT, the canceller is the
-    only clutter filter.  Quick test (target 120 m/s, 3 m/s clutter
-    spread, 9_2 radar): target rose from ~4 dB above the clutter
-    background to ~13-14 dB with order-1/2 MTI.  This is the motivation
-    that 9_2's RDMs lack.
+  - 10_1 MTI on range profiles: done.  Follow-up: the canceller
+    correlates noise across pulses, so the chi-squared NCI threshold is
+    too low (measured Pfa 5x design for order 1, 12x for order 2).  A CFAR
+    exercise on MTI'd range profiles is the natural fix.
   - 10_2+ Beam scanning and PPI display: range profile per azimuth step,
     antenna-pattern weighting from =uniform_linear_arrays=, clutter and
     MTI on the display.  Simulate a few pulses per beam position, not a

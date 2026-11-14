@@ -1,0 +1,21 @@
+MTI order 0:
+  clutter background / noise  =  12.2 dB
+  target / background         =   1.9 dB
+  blind target / background   =  -2.1 dB
+  target gain vs noise, theory =   0.0 dB
+MTI order 1:
+  clutter background / noise  =   0.2 dB
+  target / background         =  13.0 dB
+  blind target / background   =   0.0 dB
+  target gain vs noise, theory =   2.6 dB
+MTI order 2:
+  clutter background / noise  =  -0.1 dB
+  target / background         =  14.1 dB
+  blind target / background   =   0.3 dB
+  target gain vs noise, theory =   3.4 dB
+
+measured Pfa on noise only (design 1e-03, 20 trials):
+  order   every pulse   every (order+1)-th pulse
+  0       9.50e-04      9.50e-04
+  1       5.50e-03      8.50e-04
+  2       1.21e-02      7.50e-04

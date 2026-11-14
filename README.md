@@ -82,7 +82,7 @@ scripts in [apps/exercises](apps/exercises). Each file builds intuition for one 
 - Linear arrays and monopulse
 - Stripmap and spotlight SAR
 - Surface clutter and MTI pulse cancellers
-- Range profiles and non-coherent integration
+- Range profiles, non-coherent integration, and MTI on profiles
 
 Every figure these exercises produce can be browsed in the
 [gallery](https://johnnehls.github.io/rad-lab/gallery/index.html).
