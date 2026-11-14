@@ -1,7 +1,8 @@
 """Complex Gaussian noise generation.
 
 Provides unity-variance complex noise arrays and thermal noise power
-calculations used to populate the receiver noise floor in the datacube.
+calculations used to populate the receiver noise floor in the datacube, and
+`gaussian_spectrum_factor` for correlated slow-time processes such as clutter.
 """
 
 import numpy as np
@@ -128,3 +129,28 @@ def gaussian_complex_noise(
         return _unit_magnitude(noise)
 
     return noise
+
+
+def gaussian_spectrum_factor(times: np.ndarray, doppler_std: float) -> np.ndarray:
+    """Factor ``L`` with ``L @ L^H = R`` for a Gaussian-spectrum process sampled at ``times``.
+
+    Works for any pulse spacing (constant or staggered PRI).  Sampling the
+    continuous-time autocorrelation, rather than shaping an FFT, also aliases
+    a spectrum wider than the PRF correctly and avoids a circular (periodic)
+    sequence.
+
+    A zero-mean Gaussian PSD of standard deviation ``sigma_f`` has
+    autocorrelation ``R(tau) = exp(-2 pi^2 sigma_f^2 tau^2)``, so ``L @ w``
+    for unit-variance white ``w`` is a unit-power sequence with that
+    spectrum.  ``L`` comes from
+    an eigendecomposition rather than Cholesky because ``R`` is nearly
+    singular for narrow spectra (rank 1 for ``doppler_std = 0``).
+
+    Args:
+        times: Pulse times [s].
+        doppler_std: Standard deviation of the Doppler spectrum [Hz].
+    """
+    tau = times[:, None] - times[None, :]
+    covariance = np.exp(-2 * np.pi**2 * doppler_std**2 * tau**2)
+    eigvals, eigvecs = np.linalg.eigh(covariance)
+    return eigvecs * np.sqrt(np.clip(eigvals, 0, None))

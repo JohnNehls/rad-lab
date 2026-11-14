@@ -6,7 +6,7 @@ from .waveform_helpers import add_waveform_at_index
 from .rf_datacube import taper
 from .utilities import phase_negpi_pospi
 from .range_equation import radar_signal_voltage, signal_range_eqn_one_way
-from .noise import unity_variance_complex_noise
+from .noise import unity_variance_complex_noise, gaussian_spectrum_factor
 from . import vbm
 from .pulse_doppler_radar import Radar, frequency_delta_doppler
 from .waveform import WaveformSample
@@ -221,29 +221,6 @@ def clutter_cell_rcs(clutter: Clutter, range: float, range_spacing: float) -> fl
     psi = clutter.grazing_angle
     area = range * clutter.azimuth_beamwidth * range_spacing / np.cos(psi)
     return clutter.gamma * np.sin(psi) * area
-
-
-def gaussian_spectrum_factor(times: np.ndarray, doppler_std: float) -> np.ndarray:
-    """Factor ``L`` with ``L @ L^H = R`` for a Gaussian-spectrum process sampled at ``times``.
-
-    Works for any pulse spacing (constant or staggered PRI).  Sampling the
-    continuous-time autocorrelation, rather than shaping an FFT, also aliases
-    a spectrum wider than the PRF correctly and avoids a circular (periodic)
-    sequence.  A zero-mean Gaussian PSD of standard deviation ``sigma_f`` has
-    autocorrelation
-    ``R(tau) = exp(-2 pi^2 sigma_f^2 tau^2)``, so ``L @ w`` for unit-variance
-    white ``w`` is a unit-power sequence with that spectrum.  ``L`` comes from
-    an eigendecomposition rather than Cholesky because ``R`` is nearly
-    singular for narrow spectra (rank 1 for ``doppler_std = 0``).
-
-    Args:
-        times: Pulse times [s].
-        doppler_std: Standard deviation of the Doppler spectrum [Hz].
-    """
-    tau = times[:, None] - times[None, :]
-    covariance = np.exp(-2 * np.pi**2 * doppler_std**2 * tau**2)
-    eigvals, eigvecs = np.linalg.eigh(covariance)
-    return eigvecs * np.sqrt(np.clip(eigvals, 0, None))
 
 
 def add_clutter(

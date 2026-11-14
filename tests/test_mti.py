@@ -3,8 +3,7 @@ import pytest
 from rad_lab import rdm, mti, Radar, Target, Return, Clutter, uncoded_waveform
 from rad_lab import constants as c
 from rad_lab import pulse_doppler_radar as pdr
-from rad_lab._rdm_internals import gaussian_spectrum_factor
-from rad_lab.noise import unity_variance_complex_noise
+from rad_lab.noise import gaussian_spectrum_factor, unity_variance_complex_noise
 
 BW = 10e6
 PRF = 20e3
