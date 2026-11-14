@@ -7,8 +7,8 @@ the figures). Run before `mkdocs build`; the output directory is gitignored.
 
 Figure filenames follow the pattern produced by the apps regression:
     apps_<category>_<script_stem>.py_fig<N>.png
-e.g. apps_exercises_1_0_range_equation.py_fig0.png comes from
-apps/exercises/1_0_range_equation.py.
+e.g. apps_exercises_01_0_range_equation.py_fig0.png comes from
+apps/exercises/01_0_range_equation.py.
 """
 
 import ast

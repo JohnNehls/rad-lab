@@ -3,7 +3,7 @@ from rad_lab.geometry import range_and_rangerate
 
 
 def test_problem6_geometry():
-    # Example from 4_6_calc_r_and_rdot_from_positions.py
+    # Example from 04_6_calc_r_and_rdot_from_positions.py
     # Platform at [0, 0, 3048] moving at [300, 0, 0]
     # Target at [5e3, 0, 3048] moving at [-300, 0, 0]
     # Same altitude → R_vec = [5000, 0, 0], R_mag = 5000, R_dot = -600 (closing)
