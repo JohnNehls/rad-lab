@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Monopulse angle estimation: time-domain vs frequency-domain comparison.
 
-Extend the basic monopulse SNR test (7_5) to show that monopulse angle
+Extend the basic monopulse SNR test (07_3) to show that monopulse angle
 estimation works identically in both domains. Compare four methods:
 
   1. Time-domain monopulse ratio (sum/difference of element signals)

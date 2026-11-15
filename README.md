@@ -77,12 +77,12 @@ scripts in [apps/exercises](apps/exercises). Each file builds intuition for one 
 - Waveforms and cross-correlation
 - Ambiguity function
 - Datacube processing and windowing
-- Keystone formatting
 - Detection theory
 - Linear arrays and monopulse
-- Stripmap and spotlight SAR
 - Surface clutter and MTI pulse cancellers
 - Range profiles, non-coherent integration, MTI, staggered PRI, and Doppler banks
+- Stripmap and spotlight SAR
+- Keystone formatting
 
 Every figure these exercises produce can be browsed in the
 [gallery](https://johnnehls.github.io/rad-lab/gallery/index.html).

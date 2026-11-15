@@ -3,7 +3,7 @@
 
 Generate an RDM with three targets at different ranges and velocities, then
 apply Cell-Averaging CFAR (CA-CFAR) to detect them.  The matched filter is
-Taylor-weighted for range-sidelobe control (see exercise 6_4), so the LFM's
+Taylor-weighted for range-sidelobe control (see exercise 06_3), so the LFM's
 ~-13.2 dB range sidelobes stay below the CFAR threshold and do not clutter the
 map with spurious detections -- isolating the behaviour of the CFAR variants
 themselves.  The exercise produces four figures:
@@ -42,7 +42,7 @@ bw = 10e6  # Hz
 waveform = lfm_waveform(bw, T=1.0e-6, chirp_up_down=1)
 
 # Taylor weighting on the matched-filter replica, to suppress the LFM range
-# sidelobes (see exercise 6_4).  Applied to every RDM generated below.
+# sidelobes (see exercise 06_3).  Applied to every RDM generated below.
 RANGE_WINDOW = "taylor"
 RANGE_WINDOW_KWARGS = {"nbar": 5, "sll": 35}
 

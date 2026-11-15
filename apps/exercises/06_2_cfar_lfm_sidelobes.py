@@ -7,7 +7,7 @@ the local noise floor and knows nothing of pulse shape, so around a strong
 target it fires not just on the mainlobe but on the sidelobes too -- a column
 of spurious "targets" in range where there is really one.
 
-This is the problem.  Exercise 6_4 (LFM range windowing) is the fix, and 6_5
+This is the problem.  Exercise 06_3 (LFM range windowing) is the fix, and 06_4
 carries the fix into the CFAR-variant comparison.
 """
 
@@ -19,7 +19,7 @@ from rad_lab.waveform import lfm_waveform
 from rad_lab.returns import Target, Return
 from rad_lab.cfar import cfar_2d, plot_cfar
 
-# -- Waveform: 1 us LFM at 40 MHz (TB = T*B = 40); shared with exercise 6_4 --
+# -- Waveform: 1 us LFM at 40 MHz (TB = T*B = 40); shared with exercise 06_3 --
 bw = 40e6  # Hz
 waveform = lfm_waveform(bw, T=1.0e-6, chirp_up_down=1)
 
@@ -68,7 +68,7 @@ n_spurious = int((dets & ~mainlobe_box).sum())
 
 print("## CA-CFAR on an unweighted LFM RDM ##")
 print(f"  {int(dets.sum())} detections total, {n_spurious} on range sidelobes")
-print("  -> exercise 6_4 suppresses these by weighting the matched filter")
+print("  -> exercise 06_3 suppresses these by weighting the matched filter")
 
 plot_cfar(
     rdot_axis,

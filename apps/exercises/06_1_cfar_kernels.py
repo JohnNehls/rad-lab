@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """CFAR kernels in 1-D: how CA, GOCA, and SOCA differ.
 
-The applied CFAR exercise (6_3) runs on a 2-D range-Doppler map, where the
+The applied CFAR exercise (06_2) runs on a 2-D range-Doppler map, where the
 detection threshold is a surface you cannot see directly.  Strip the problem
 down to a single range profile so the threshold is a *line* drawn on top of
 the signal, making the kernel arithmetic visible:

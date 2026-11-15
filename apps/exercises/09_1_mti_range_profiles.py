@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """MTI on range profiles.
 
-Non-coherently integrate the 9_2 clutter scene into range profiles with 0-,
+Non-coherently integrate the 08_2 clutter scene into range profiles with 0-,
 1-, and 2-pulse cancellers.  With no Doppler FFT, the canceller is the only
 clutter filter.  Then measure the false-alarm rate of the NCI threshold on
 noise-only MTI output.
@@ -9,7 +9,7 @@ noise-only MTI output.
 Notes:
   - Without MTI the clutter-to-noise ratio (CNR) falls from ~30 dB at 1 km
     to ~7 dB at 6 km (median ~12 dB) and buries a 1 m^2 target that the
-    RDMs of 9_2 showed clearly.  The canceller drops the clutter to the
+    RDMs of 08_2 showed clearly.  The canceller drops the clutter to the
     noise floor and the target emerges.
   - Residual clutter after MTI is CNR minus the improvement factor (27 dB
     order 1, 51 dB order 2).  Over most of the band that is below the

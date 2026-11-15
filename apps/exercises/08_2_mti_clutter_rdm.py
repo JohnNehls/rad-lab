@@ -2,7 +2,7 @@
 """MTI on a cluttered range-Doppler map.
 
 Apply 0-, 1-, and 2-pulse cancellers to the same clutter scene as exercise
-9_0 and compare the RDMs.  Then measure the improvement factor on a noiseless,
+08_0 and compare the RDMs.  Then measure the improvement factor on a noiseless,
 clutter-only datacube and compare it to `mti.improvement_factor`.
 
 Notes:

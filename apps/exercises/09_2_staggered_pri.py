@@ -4,7 +4,7 @@
 Cycle the PRI from pulse to pulse (`Radar.pri_stagger`) so a target cancelled
 by one PRI is passed by the next.  Compare a constant PRI with a narrow
 (23:27:24:26) and a wide (4:5:6) stagger, all at a 20 kHz mean PRF: the
-canceller's velocity response, MTI range profiles of the 10_1 scene (with a
+canceller's velocity response, MTI range profiles of the 09_1 scene (with a
 brighter, 5 m^2 target at the constant-PRI blind speed), and the clutter
 improvement factor.
 

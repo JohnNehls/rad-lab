@@ -3,9 +3,9 @@
 
 The slow-time FFT needs evenly spaced pulses, but coherent integration does
 not: `rdm.doppler_bank` phase-aligns and sums the pulses at their actual
-transmit times.  Compare a constant PRI, the 10_2 narrow and wide staggers,
+transmit times.  Compare a constant PRI, the 09_2 narrow and wide staggers,
 and a random PRI jitter: their Doppler responses, the coherent gain, and
-range-Doppler maps of the 10_2 scene with and without MTI first.
+range-Doppler maps of the 09_2 scene with and without MTI first.
 
 Notes:
   - The coherent gain is the full N (20 dB for 100 pulses) for every pulse
@@ -133,7 +133,7 @@ for label, stagger in staggers.items():
     gain = np.abs(y[0, 0]) ** 2 / radar.n_pulses / snr_1
     print(f"  {label:20s} {10 * np.log10(gain):.1f} dB")
 
-# -- Range-Doppler maps of the 10_2 scene, without and with MTI --
+# -- Range-Doppler maps of the 09_2 scene, without and with MTI --
 blind_target = Target(range=5002.5, range_rate=300, rcs=5)
 return_list = [Return(target=target), Return(target=blind_target), clutter]
 rdot_axis = np.arange(-600, 601, 3.0)  # ~ one Doppler resolution cell (1 / dwell) per step

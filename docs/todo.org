@@ -9,8 +9,8 @@ enhancements:
 
 - *Search radar, section 10 (range profiles, scanning, PPI):* follows
   section 9 (clutter and MTI).  Range profiles get their full introduction
-  here rather than as a side figure in 9_2.
-  - 10_0 Range profiles and non-coherent integration: done
+  here rather than as a side figure in 08_2.
+  - 09_0 Range profiles and non-coherent integration: done
     (=rdm.gen_rtm=, =rdm.rtm_to_snr=, =rdm.noncoherent_integrate=).
   - Range straddle loss: not yet possible.  =_return_sample_indices=
     rounds each return delay to the nearest sample, so every target
@@ -20,22 +20,22 @@ enhancements:
     skin, jammer and clutter returns.  Make it opt-in first (=Radar=
     field or =gen= kwarg); switching the default shifts every RDM
     baseline and makes moving targets slide smoothly across bins
-    (affects the 8_x RCMC and 6_0 keystone exercises).  Then add a
+    (affects the 10_x RCMC and 10_5 keystone exercises).  Then add a
     straddle exercise (SNR loss vs. sub-bin target offset).
-  - 10_1 MTI on range profiles: done.  Follow-up: the canceller
+  - 09_1 MTI on range profiles: done.  Follow-up: the canceller
     correlates noise across pulses, so the chi-squared NCI threshold is
     too low (measured Pfa 5x design for order 1, 12x for order 2).  A CFAR
     exercise on MTI'd range profiles is the natural fix.
-  - 10_2 Staggered PRI: done (=Radar.pri_stagger=, =gen_rtm= only).
+  - 09_2 Staggered PRI: done (=Radar.pri_stagger=, =gen_rtm= only).
     Follow-ups: jammer returns under stagger (=add_jammer= raises);
     echoes from beyond the range gate, which land at a different range
     on every pulse and escape the canceller; CPI-to-CPI PRF switching
     for pulse-Doppler (RDM) blind-speed and range-ambiguity resolution.
-  - 10_3 Coherent Doppler bank on staggered pulses: done
+  - 09_3 Coherent Doppler bank on staggered pulses: done
     (=rdm.doppler_bank=).  Stagger and random jitter keep the full
     coherent gain but leave partial aliases near the mean PRF (and a
     ~-23 dB floor for jitter); MTI first keeps clutter from leaking.
-  - 10_4+ Beam scanning and PPI display: range profile per azimuth step,
+  - 09_4+ Beam scanning and PPI display: range profile per azimuth step,
     antenna-pattern weighting from =uniform_linear_arrays=, clutter and
     MTI on the display.  Simulate a few pulses per beam position, not a
     full RDM, to keep the apps regression fast.

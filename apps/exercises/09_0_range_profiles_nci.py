@@ -15,7 +15,7 @@ Notes:
     directly.
   - The NCI gain is less than the factor of N that coherent integration
     gives, and the gap (the NCI loss) grows with N; compare the table at the
-    end with exercise 6_1.
+    end with exercise 06_0.
   - Targets sit on range-bin centres and are spaced by one pulse length (20
     samples), so their matched-filter outputs do not overlap.  The simulator
     rounds return delays to the nearest sample, so there is no straddle loss
